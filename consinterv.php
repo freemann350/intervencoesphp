@@ -22,7 +22,7 @@
             <div id="sidebar" class="nav-collapse">
                 <ul class="sidebar-menu" id="nav-accordion">
 
-                  <p class="centered"><a href="settings.php"><img src="assets/img/ui-sam.jpg" class="img-circle" width="60"></p>
+                  <p class="centered"><a href="settings.php"><img src="assets/img/user/ui-sam.jpg" class="img-circle" width="60"></p>
                   <h5 class="centered">Admin</h5></a>
 
                     <li class="mt">
@@ -110,29 +110,10 @@
                                 <br>
                                 <form>
                                 <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por dias</h4>
-                                <div class="form-inline"><label style="font-size: 14px;"><b>Dia inicial</b></label>
-                                    <div class="form-group">
-                                        <div class="col-sm-10">
-                                            <div class="input-group">
-                                                <div class="input-group-addon">
-                                                    <i class="fa fa-calendar"></i>
-                                                </div>
-                                                <input class="form-control" id="date" name="date" placeholder="DD/MM/YYYY" type="text">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <label style="font-size: 14px;"><b>Dia final</b></label>
-                                    <div class="form-group">
-                                        <div class="col-sm-10">
-                                            <div class="input-group">
-                                                <div class="input-group-addon">
-                                                    <i class="fa fa-calendar"></i>
-                                                </div>
-                                                <input class="form-control" id="date" name="date" placeholder="DD/MM/YYYY" type="text">
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div class="input-group input-daterange">
+                                    <input type="text" class="form-control" placeholder="DD-MM-AAAA">
+                                    <div class="input-group-addon">to</div>
+                                    <input type="text" class="form-control" placeholder="DD-MM-AAAA">
                                 </div>
                                 <br>
 
@@ -223,6 +204,7 @@
                         </div>
                     </div>
                 </div>
+                <br><br><br>
             </section>
             <!-- /MAIN CONTENT -->
 

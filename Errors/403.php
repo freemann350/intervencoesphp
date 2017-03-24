@@ -2,25 +2,25 @@
 <html lang="en">
 
 <?php #HEADER INCLUDE
-      include '/intervencoesphp/Shared/Head.php'
+      include 'Shared/Head.php'
 ?>
 
 <body>
 
     <section id="container">
       <?php #HEADER INCLUDE
-            include '/intervencoesphp/Shared/Header-Erros.php'
+            include 'Shared/Header-Erros.php'
       ?>
 
         <!--MAIN CONTENT-->
-        <section id="">
+        <section>
             <section class="wrapper site-min-height" id="wrapping">
 
                 <h3><i class="fa fa-angle-right"></i> 403: Acesso Negado</h3>
 
                 <div class="row mt">
-                    <p style="margin-left:2.5%; font-size: 14px">Você não tem acesso a esta página.
-                        <br><a href="index.php">Voltar à página inicial.</a>
+                    <p style="margin-left:2.5%; font-size: 14px">Você não tem acesso a esta página. Irá ser redirecionado para a página inicial.
+                    <p style="margin-left:2.5%; font-size: 14px">Caso não aconteça nada,<a href="index.php">Carregue aqui</a>.</p>
                     </p>
                 </div>
             </section>
@@ -40,9 +40,13 @@
     </section>
 
     <?php #HEADER INCLUDE
-          include '/intervencoesphp/Shared/Scripts.php'
+          include 'Shared/Scripts.php'
     ?>
-
+    <script>
+    setTimeout(function(){
+      window.location = "Index.php";
+    }, 2800);
+    </script>
 </body>
 
 </html>

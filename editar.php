@@ -23,7 +23,7 @@
             <div id="sidebar" class="nav-collapse">
                 <ul class="sidebar-menu" id="nav-accordion">
 
-                  <p class="centered"><a href="settings.php"><img src="assets/img/ui-sam.jpg" class="img-circle" width="60"></p>
+                  <p class="centered"><a href="settings.php"><img src="assets/img/user/ui-sam.jpg" class="img-circle" width="60"></p>
                   <h5 class="centered">Admin</h5></a>
 
                     <li class="mt">

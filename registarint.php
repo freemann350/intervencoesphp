@@ -1,5 +1,5 @@
 <?php
-  $titulo = "Registar Intervenção"
+  $titulo = "Registar Intervenção";
   $timepickerInclude = true;
   $datepickerInclude = true;
 ?>
@@ -20,7 +20,7 @@
             <div id="sidebar" class="nav-collapse">
                 <ul class="sidebar-menu" id="nav-accordion">
 
-                  <p class="centered"><a href="settings.php"><img src="assets/img/ui-sam.jpg" class="img-circle" width="60"></p>
+                  <p class="centered"><a href="settings.php"><img src="assets/img/user/ui-sam.jpg" class="img-circle" width="60"></p>
                   <h5 class="centered">Admin</h5></a>
 
                     <li class="mt">
@@ -111,12 +111,12 @@
 
                                 <label class="col-sm-2 control-label">Data</label>
                                 <div class="col-sm-10">
-                                    <div class="input-group">
-                                        <div class="input-group-addon">
-                                            <i class="fa fa-calendar"></i>
-                                        </div>
-                                        <input class="form-control" id="date" name="date" placeholder="DD/MM/YYYY" type="text">
-                                    </div>
+                                  <div class="input-group">
+                                      <div class="input-group-addon">
+                                          <i class="fa fa-calendar"></i>
+                                      </div>
+                                      <input class="form-control" id="datepicker-registos" name="date" placeholder="DD/MM/YYYY" type="text">
+                                  </div>
                                     <br>
                                 </div>
 

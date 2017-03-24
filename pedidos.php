@@ -1,5 +1,7 @@
 <?php
   $titulo = "Registar Pedido";
+  $datepickerInclude = true;
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,7 +21,7 @@
             <div id="sidebar" class="nav-collapse">
                 <ul class="sidebar-menu" id="nav-accordion">
 
-                  <p class="centered"><a href="settings.php"><img src="assets/img/ui-sam.jpg" class="img-circle" width="60"></p>
+                  <p class="centered"><a href="settings.php"><img src="assets/img/user/ui-sam.jpg" class="img-circle" width="60"></p>
                   <h5 class="centered">Admin</h5></a>
 
                     <li class="mt">
@@ -139,7 +141,7 @@
                                         <div class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
                                         </div>
-                                        <input class="form-control" id="date" name="date" placeholder="DD/MM/YYYY" type="text">
+                                        <input class="form-control" id="datepicker-registos" name="date" placeholder="DD/MM/YYYY" type="text">
                                     </div>
                                     <br>
                                 </div>
@@ -181,18 +183,9 @@
         </section>
     </section>
 
-    <script src="assets/js/jquery.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/jquery-ui-1.9.2.custom.min.js"></script>
-    <script src="assets/js/jquery.ui.touch-punch.min.js"></script>
-    <script class="include" type="text/javascript" src="assets/js/jquery.dcjqaccordion.2.7.js"></script>
-    <script src="assets/js/jquery.scrollTo.min.js"></script>
-    <script src="assets/js/jquery.nicescroll.js" type="text/javascript"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.0.3/jquery-confirm.min.js"></script>
-    <script src="assets/js/jquery.confirm.js"></script>
-    <script src="assets/js/jquery.datepicker.js"></script>
-    <script src="assets/js/jquery.datepicker.min.js"></script>
-    <script src="assets/js/common-scripts.js"></script>
+    <?php
+      include 'Shared/Scripts.php'
+    ?>
 </body>
 
 </html>

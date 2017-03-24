@@ -1,3 +1,4 @@
+
   <script src="assets\libs\jquery\dist\jquery.min.js"></script>
   <script src="assets\libs\bootstrap\dist\css\bootstrap.min.css"></script>
 
@@ -15,8 +16,8 @@
     if (isset($datepickerInclude) && ($datepickerInclude = true)) {
   ?>
   <script src="assets\libs\bootstrap-datepicker\dist\js\bootstrap-datepicker.js"></script>
-  <script src="assets\libs\bootstrap-datepicker\dist\js\jquery.datepicker.js"></script>
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+  <script src="assets\libs\bootstrap-datepicker\dist\locales\bootstrap-datepicker.pt.min.js"></script>
+  <script src="assets\libs\template\js\jquery.datepicker.js"></script>
   <?php };?>
 
   <?php
@@ -53,7 +54,7 @@
   ?>
   <script type="text/javascript" src="assets\libs\jquery-backstretch\jquery.backstretch.min.js"></script>
   <script>
-      $.backstretch("assets/img/aesm.jpg");
+      $.backstretch("assets/img/login/aesm.jpg");
   </script>
   <?php };?>
 

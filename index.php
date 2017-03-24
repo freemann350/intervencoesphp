@@ -19,7 +19,7 @@
             <div id="sidebar" class="nav-collapse">
                 <ul class="sidebar-menu" id="nav-accordion">
 
-                  <p class="centered"><a href="settings.php"><img src="assets/img/ui-sam.jpg" class="img-circle" width="60"></p>
+                  <p class="centered"><a href="settings.php"><img src="assets/img/User/ui-sam.jpg" class="img-circle" width="60"></p>
                   <h5 class="centered">Admin</h5></a>
 
                     <li class="mt">
@@ -140,7 +140,7 @@
 
                     <div class="col-md-2 col-sm-2 col-md-offset-2 box0 ">
                         <div class="box1">
-                            <img class="imagesIndex" src="assets/img/pc.png" height="160" width="130" style='max-width: 110%; max-height: 110%' draggable='false' ondragstart="return false;">
+                            <img class="imagesIndex" src="assets/img/Items/pc.png" height="160" width="130" style='max-width: 110%; max-height: 110%' draggable='false' ondragstart="return false;">
                             <h3>5</h3>
                         </div>
                         <p class="unselectable">Total de intervenções feitas em Computadores</p>
@@ -150,7 +150,7 @@
 
                     <div class="col-md-2 col-sm-2 box0 ">
                         <div class="box1">
-                            <img class="imagesIndex" src="assets/img/projetor.png" height="160" width="150" style='max-width: 110%; max-height: 110%' draggable='false' ondragstart="return false;">
+                            <img class="imagesIndex" src="assets/img/Items/projetor.png" height="160" width="150" style='max-width: 110%; max-height: 110%' draggable='false' ondragstart="return false;">
                             <h3>5</h3>
                         </div>
                         <p class="unselectable">Total de intervenções feitas em Projetores</p>
@@ -160,7 +160,7 @@
 
                     <div class="col-md-2 col-sm-2 box0 ">
                         <div class="box1">
-                            <img class="imagesIndex" src="assets/img/qi.png" height="160" width="160" style='max-width: 110%; max-height: 110%' draggable='false' ondragstart="return false;">
+                            <img class="imagesIndex" src="assets/img/Items/qi.png" height="160" width="160" style='max-width: 110%; max-height: 110%' draggable='false' ondragstart="return false;">
                             <h3>5</h3>
                         </div>
                         <p class="unselectable">Total de intervenções feitas em Quadros Interativos</p>
@@ -182,18 +182,26 @@
           </section>
         </section>
 
-    <script src="assets/js/jquery.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/jquery-ui-1.9.2.custom.min.js"></script>
-    <script src="assets/js/jquery.ui.touch-punch.min.js"></script>
-    <script class="include" type="text/javascript" src="assets/js/jquery.dcjqaccordion.2.7.js"></script>
-    <script src="assets/js/jquery.scrollTo.min.js"></script>
-    <script src="assets/js/jquery.nicescroll.js" type="text/javascript"></script>
-    <script src="assets/js/jquery.nicescroll.js" type="text/javascript"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.0.3/jquery-confirm.min.js"></script>
-    <script src="assets/js/jquery.confirm.js"></script>
-    <script src="assets/js/common-scripts.js"></script>
+    <?php
+      include 'Shared/Scripts.php';
+    ?>
+    <script>
+    $('#logout').click(function(){
+    $.confirm({
+    title: 'Sair',
+    content: 'Tem a certeza que pretende sair?',
+    buttons: {
+    Sim: function () {
+    window.location.href = "login.php";
+    },
+    Não: function () {
 
+    },
+
+    }
+    });
+    });
+</script>
 </body>
 
 </html>

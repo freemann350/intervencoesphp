@@ -17,11 +17,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.0.3/jquery-confirm.min.css">
 
     <?php
-      #FILE INPUT
+      #DATEPICKER
       if (isset($datepickerInclude) && ($datepickerInclude = true)) {
     ?>
-    <link rel="stylesheet" href="assets/css/datepicker.min.css">
-    <link rel="stylesheet" href="assets/css/bootstrap-datepicker3.css">
+    <link rel="stylesheet" href="assets\libs\bootstrap-datepicker\dist\css\bootstrap-datepicker3.min.css">
     <?php };?>
 
     <?php
