@@ -1,0 +1,93 @@
+SEMPRE QUE SE EDITAR O SITE, FAVOR DE SE EDITAR ESTA NOTA COM AS ALTERA��ES FEITAS, E AGRADECIA-SE QUE SE PUSESSEM TODAS AS
+ALTERA��ES AQUI.
+
+TODOS N�S OS 3 AGRADECEMOS
+
+PS: 1 - NUNCA APAGUEM AS NOTAS E OS DIAS DAS EDI��ES, PODEM SER �TEIS PARA ENCONTRAR CERTOS BUGS E AFINS.
+    2 - N�O APAGUEM AS P�GINAS, MOVAM-NAS PARA A PASTA "unused"
+--------------------------------------------------------------------------------------------------------------------------
+
+�LTIMA EDI��O: 10/02/017
+
+--------------------------------------------------------------------------------------------------------------------------
+
+EDI��O DIA 06/02/017
+EDITOR: ALEXANDRE GASPAR
+
+ - ADICIONOU-SE JQUERY PARA CONFIRMA��O DE SA�DA;
+ - IMAGENS E ALGUM TEXTO DO INDEX EDITADAS PARA N�O SEREM ARRASTADAS/SELECIONADAS;
+ - BACKSTRETCH COM NOVAS IMAGENS: PRECISA DE MELHOR QUALIDADE DE IMAGEM, AGORA PASSA IMAGENS POR TEMPO;
+ - ADI��O DE 2 NOVAS P�GINAS - EDI��O E VISUALIZA��O DE "AS MINHAS INTERVEN��ES";
+ - TEXTO "INTERVEN��ES AESM" E DA SIDEBAR J� N�O � MAIS SELECION�VEL AO FAZER DUPLO CLIQUE NO TOGGLE DO MENU.
+
+--------------------------------------------------------------------------------------------------------------------------
+
+EDI��O DIA 07/02/017
+
+ - REPAROU-SE O ARRASTAR DOS SUBMENUS E APARECER MAL A SOMBRA A SUA SOMBRA;
+ - OUTRAS ALTERA��ES MENORES RELACIONADAS COM FONTS E AFINS.
+
+--------------------------------------------------------------------------------------------------------------------------
+
+EDI��O DIA 09/02/017
+EDITOR: ALEXANDRE GASPAR
+
+ - REFORMULA��O DAS CONSULTAS: AGORA S�O ACEDIDAS NA SIDEBAR, EMBORA PRECISEM DE CADA P�GINA EDITADA, P�GINA "CONSULTAS"
+   � INEXISTENTE (APENAS ACEDIDA PELO FICHEIROS E N�O POR LINKS);
+ - ADI��O DE 5 P�GINAS (CONSULTAS): CONSULTA ENTRE DIAS (consdias.html), CONSULTA DE PROFESSOR (consprof.html), CONSULTA DOS
+   �LTIMOS 7 DIAS (consemana.html), CONSULTA DE EQUIPAMENTO (consequip.html), TODAS AS INTERVEN��ES (constotal.html)
+ - NOVA IMAGEM DE QUADRO INTERATIVO;
+
+--------------------------------------------------------------------------------------------------------------------------
+
+EDI��O DIA 10/02/017
+EDITOR: ALEXANDRE GASPAR
+
+ - REMO��O DO FICHEIRO .DS_STORE
+ - CONSULTAS: FORMATA��O DAS "COMBO BOXES" PARA TEREM O NOME DO OBJETO A CONSULTAR (APENAS EST�TICO);
+ - MUDAN�A DE POSI��O DA P�GINA DE CONSULTA "�LTIMA SEMANA" PARA 1 POSI��O ATR�S DE "TODAS AS INTERVEN��ES".
+
+--------------------------------------------------------------------------------------------------------------------------
+
+EDI��O DIA 17/02/2017
+EDITOR: FRANCISCO CANEIRA
+
+ - ADI��O DE UM NOVO M�TODO DE CALEND�RIO PARA CASOS EM QUE O FIREFOX/OUTROS BROWSERS N�O DETETEM O TYPE="DATE".
+
+--------------------------------------------------------------------------------------------------------------------------
+
+EDI��O DIA 20/02/017
+EDITOR: ALEXANDRE GASPAR
+
+ - REPARA��O DA FORMATA��O DO DATEPICKER PARA P�GINAS QUE PRECISEM DE DATA (novoequip.HTML N�O EDITADO, MUDAR PARA FORM CORRETO)
+
+--------------------------------------------------------------------------------------------------------------------------
+EDI��O DIA 20/02/017
+EDITOR: FRANCISCO CANEIRA
+
+ - ADI��O DO ICON DO CALEND�RIO NAS INTERVEN��ES
+ - CORRE��O DO GO-TOP DO FOOTER DAS CONSULTAS
+ - ELIMINA��O DA "�LTIMA SEMANA" DAS CONSULTAS
+ - CORRE��O DA P�GINA DE LOGIN NO MICROSOFT EDGE
+
+--------------------------------------------------------------------------------------------------------------------------
+EDI��O DIA 21/02/017
+EDITOR: ALEXANDRE GASPAR
+
+ - REMO��O DE V�RIOS FICHEIROS CSS/JS QUE N�O ERAM USADOS PARA TORNAR AS PASTAS MAIS LEVES A COMPACTA
+ - ADI��O DE TIMEPICKER PARA CASOS EM QUE ALGUNS BROWSERS N�O DETETAVAM A PROPRIEDADE TYPE="TIME"
+
+--------------------------------------------------------------------------------------------------------------------------
+EDI��O DIA 02/03/017
+
+ - REMO��O DE CERTAS LINHAS DE COMENT�RIO E IDENTA��O DO PROGRAMA
+ - ADI��O DA P�GINA settings.HTML, onde o utilizador pode fazer
+
+ --------------------------------------------------------------------------------------------------------------------------
+ EDIÇÃO DIA 09/03/017
+
+  - ADIÇÃO DE PÁGINAS DE CONSULTAS COM FILTROS NAS PRÓPRIAS PÁGINAS (conspedidos.html, consinterv.html) E ADIÇÃO DE FILTROS NAS MINHAS INTERVENÇÕES;
+  - REESTRUTURAÇÃO DO feedback.html E DO settings.html;
+  - LIGEIRA ALTERAÇÃO DA POSIÇÃO DO FORM DO LOGIN;
+  - FIX DE OUTROS VÁRIOS PROBLEMAS;
+  - ATUALIZAÇÃO PARA BOOTSTRAP 3.3.7;

@@ -1,0 +1,40 @@
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Dashboard">
+    <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
+    <link rel="icon" href="assets/img/favicon.ico">
+    <title>Intervenções AESM - <?php  echo $titulo?></title>
+
+    <?php
+      #COMMON LINKS
+    ?>
+    <link href="assets\libs\bootstrap\dist\css\bootstrap.min.css" rel="stylesheet">
+    <link href="assets\libs\font-awesome\css\font-awesome.min.css" rel="stylesheet" />
+    <link href="assets\libs\template\css\style.css" rel="stylesheet">
+    <link href="assets\libs\template\css\style-responsive.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.0.3/jquery-confirm.min.css">
+
+    <?php
+      #FILE INPUT
+      if (isset($datepickerInclude) && ($datepickerInclude = true)) {
+    ?>
+    <link rel="stylesheet" href="assets/css/datepicker.min.css">
+    <link rel="stylesheet" href="assets/css/bootstrap-datepicker3.css">
+    <?php };?>
+
+    <?php
+      #TIMEPICKER
+      if (isset($timepickerInclude) && ($timepickerInclude = true)) {
+    ?>
+    <link rel="stylesheet" href="assets\libs\jt.timepicker\jquery.timepicker.css">
+    <?php };?>
+
+    <?php
+      #FILE INPUT
+      if (isset($fileInclude) && ($fileInclude = true)) {
+    ?>
+    <link href="assets\libs\template\css\fileinput.css" rel="stylesheet">
+    <?php };?>
+</head>
