@@ -16,78 +16,9 @@
             include 'Shared/Header.php'
       ?>
 
-        <aside>
-            <div id="sidebar" class="nav-collapse">
-                <ul class="sidebar-menu" id="nav-accordion">
-
-                  <p class="centered"><a href="settings.php"><img src="assets/img/user/ui-sam.jpg" class="img-circle" width="60"></p>
-                  <h5 class="centered">Admin</h5></a>
-
-                    <li class="mt">
-                        <a href="index.php">
-                            <i class="fa fa-home"></i>
-                            <span>Página inicial</span>
-                        </a>
-                    </li>
-
-                    <li class="sub-menu">
-                        <a href="javascript:;">
-                            <i class="fa fa-user"></i>
-                            <span>Administração</span>
-                        </a>
-                        <ul class="sub">
-                            <li><a href="utilizadores.php" style="background: transparent;">Utilizadores</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="sub-menu">
-                        <a class="active" href="javascript:;">
-                            <i class="fa fa-pencil-square-o"></i>
-                            <span>Registos</span>
-                        </a>
-                        <ul class="sub">
-                            <li><a href="pedidos.php" style="background: transparent;">Pedido de intervenção</a></li>
-                            <li class="active"><a href="registarint.php" style="background: transparent;">Intervenções</a></li>
-                            <li><a href="atualizaequip.php" style="background: transparent;">Atualizar equipamento</a></li>
-                            <li><a href="registarnovoequip.php" style="background: transparent;">Novo equipamento</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="sub-menu">
-                        <a href="javascript:;">
-                            <i class="fa fa-book"></i>
-                            <span>Os meus registos</span>
-                        </a>
-                        <ul class="sub">
-                            <li><a href="minhasinterv.php" style="background: transparent;">Intervenções</a></li>
-                            <li><a href="meusped.php" style="background: transparent;">Pedidos</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="sub-menu">
-                        <a href="javascript:;">
-                            <i class="fa fa-search"></i>
-                            <span>Consultas</span>
-                        </a>
-                        <ul class="sub">
-                            <li><a href="consinterv.php" style="background: transparent;">Intervenções</a></li>
-                            <li><a href="conspedidos.php" style="background: transparent;">Pedidos</a></li>
-                            <li> <a href="consequip.php"style="background: transparent;">Equipamento</a></li>
-                        </ul>
-                    </li>
-                </ul>
-
-                <ul class="sidebar-menu" id="logoutbtn">
-                    <li class="sub-menu">
-                        <a id="logout" style="cursor: pointer;">
-                            <i class="fa fa-sign-out"></i>
-                            <span>Sair</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </aside>
-
+      <?php #SIDEBAR INCLUDE
+            include 'Shared/Sidebar.php'
+      ?>
 
         <!--MAIN CONTENT-->
         <section id="main-content">

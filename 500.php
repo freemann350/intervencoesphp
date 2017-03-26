@@ -2,7 +2,7 @@
 <html lang="en">
 
 <?php #HEADER INCLUDE
-      Include 'Shared/Head.php'
+      include 'Shared/Head.php'
 ?>
 
 <body>
@@ -16,11 +16,11 @@
         <section>
             <section class="wrapper site-min-height" id="wrapping">
 
-                <h3><i class="fa fa-angle-right"></i> 404: Página não existente</h3>
+                <h3><i class="fa fa-angle-right"></i> 500: Erro interno</h3>
 
                 <div class="row mt">
-                    <p style="margin-left:2.5%; font-size: 14px">A página que procura não existe. Irá ser redirecionado para a página inicial.
-                    <p style="margin-left:2.5%; font-size: 14px">Caso não aconteça nada,<a href="index.php">Carregue aqui</a>.</p>
+                    <p style="margin-left:2.5%; font-size: 14px">Ocorreu um problema da nossa parte, pedimos desculpa. Irá ser redirecionado para a página inicial.
+                    <p style="margin-left:2.5%; font-size: 14px">Caso não aconteça nada,<a href="Inicial.php">Carregue aqui</a>.</p>
                     </p>
                 </div>
             </section>
@@ -46,7 +46,7 @@
     setTimeout(function(){
       window.location = "Index.php";
     }, 2800);
-</script>
+    </script>
 </body>
 
 </html>
