@@ -1,14 +1,14 @@
 <?php
-  $titulo = "Consultar Equipamento";
+  $titulo = "Minhas Intervenções";
   $datepickerInclude = true;
-  $removeInclude =  true;
-  $filtrosInclude =  true;
-  $PcpActive = true;
+  $filtrosInclude = true;
+  $removeInclude = true;
+  $PmiActive = true;
 ?>
 <!DOCTYPE html>
 <html lang="en">
 
-<?php #LINKS INCLUDE
+<?php #HEADER INCLUDE
       include 'Shared/Head.php'
 ?>
 
@@ -23,12 +23,10 @@
             include 'Shared/Sidebar.php'
       ?>
 
-
         <!--MAIN CONTENT-->
         <section id="main-content">
-            <section class="wrapper site-min-height" id="wrapping">
-
-                <h3><i class="fa fa-angle-right"></i> Todas as intervenções</h3>
+            <section class="wrapper site-min-height">
+                <h3><i class="fa fa-angle-right"></i> As minhas intervenções</h3>
 
                 <div class="row mt">
                     <br><br>
@@ -42,41 +40,34 @@
                             <div class="col-lg-12" id="filtrosdiv" style="display: none;">
                                 <br>
                                 <form>
-                                <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por dias</h4>
-                                <div class="input-group input-daterange">
-                                    <input type="text" class="form-control" placeholder="DD-MM-AAAA">
-                                    <div class="input-group-addon">to</div>
-                                    <input type="text" class="form-control" placeholder="DD-MM-AAAA">
-                                </div>
-                                <br>
+                                    <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por dias</h4>
+                                    <div class="input-group input-daterange">
+                                        <input type="text" class="form-control" placeholder="DD/MM/AAAA">
+                                        <div class="input-group-addon">Até</div>
+                                        <input type="text" class="form-control" placeholder="DD/MM/AAAA">
+                                    </div>
+                                    <br>
 
-                                <br>
-                                <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por equipamento</h4>
-                                <div class="form-group">
+                                    <br>
+                                    <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por equipamento</h4>
                                     <div class="form-group">
-                                      <select class="form-control">
+                                        <div class="form-group">
+                                        <select class="form-control">
                                         <option selected disabled hidden>Escolha um equipamento...</option>
                                         <option>Computador</option>
                                         <option>Projetor</option>
                                         <option>Quadro interativo</option>
                                         <option>Outros</option>
                                       </select>
+                                        </div>
                                     </div>
-                                </div>
-                                <br>
+                                    <br>
 
-                                <br>
-                                <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por professor</h4>
-                                <div class="form-group">
-                                  <input type="text" class="form-control" placeholder="Escreva aqui o nome do professor...">
-                                </div>
-                                <br>
-
-                                <br>
-                                <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por problema</h4>
-                                <div class="form-group">
+                                    <br>
+                                    <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por tipo de problema</h4>
                                     <div class="form-group">
-                                      <select class="form-control">
+                                        <div class="form-group">
+                                            <select class="form-control">
                                         <option selected disabled hidden>Escolha um tipo de problema...</option>
                                         <option>Problema 1</option>
                                         <option>Problema 2</option>
@@ -84,10 +75,10 @@
                                         <option>Problema 4</option>
                                         <option>Problema 5</option>
                                       </select>
+                                        </div>
                                     </div>
-                                </div>
-                                <br>
-                                <input type="submit" class="btn btn-primary" value="Procurar">
+                                    <br>
+                                    <input type="submit" class="btn btn-primary" value="Procurar">
                                 </form>
                                 <hr>
                                 <br>
@@ -110,8 +101,8 @@
                                         <td>Projetor</td>
                                         <td>00-00-0000</td>
                                         <td>00:00</td>
-                                        <td>&nbsp;
-                                            <a href="verificar.php"> <i title="Ver todas as informações" class="fa fa-eye fa-lg" aria-hidden="true"></i></a> <a href= "registarint.php"><i title="Registar intervenção" class="fa fa-pencil-square" aria-hidden="true"></i></a>
+                                        <td><a href="Editar"><i title="Editar" class="fa fa-pencil fa-lg" aria-hidden="true"></i>  <a href="Verificar"> <i title="Ver todas as informações" class="fa fa-eye fa-lg" aria-hidden="true"></i></a>
+                                            <a href="#"><i title="Eliminar" class="fa fa-times fa-lg deleteRecord" aria-hidden="true"></i></a>
                                         </td>
                                     </tr>
                                     <tr>
@@ -119,8 +110,8 @@
                                         <td>Computador</td>
                                         <td>00-00-0000</td>
                                         <td>00:00</td>
-                                        <td>&nbsp;
-                                            <a href="verificar.php"> <i title="Ver todas as informações" class="fa fa-eye fa-lg" aria-hidden="true"></i></a> <a href= "registarint.php"><i title="Registar intervenção" class="fa fa-pencil-square" aria-hidden="true"></i></a>
+                                        <td><a href="Editar"><i title="Editar" class="fa fa-pencil fa-lg" aria-hidden="true"></i>  <a href="Verificar"> <i title="Ver todas as informações" class="fa fa-eye fa-lg" aria-hidden="true"></i></a>
+                                            <a href="#"><i title="Eliminar" class="fa fa-times fa-lg deleteRecord" aria-hidden="true"></i></a>
                                         </td>
                                     </tr>
                                     <tr>
@@ -128,9 +119,10 @@
                                         <td>Quadro Interativo</td>
                                         <td>00-00-0000</td>
                                         <td>00:00</td>
-                                        <td>&nbsp;
-                                            <a href="verificar.php"> <i title="Ver todas as informações" class="fa fa-eye fa-lg" aria-hidden="true"></i></a> <a href= "registarint.php"><i title="Registar intervenção" class="fa fa-pencil-square" aria-hidden="true"></i></a>
-                                        </td>
+                                        <td>
+                                          <a href="Editar"><i title="Editar" class="fa fa-pencil fa-lg" aria-hidden="true"></i></a>
+                                          <a href="Verificar"> <i title="Ver todas as informações" class="fa fa-eye fa-lg" aria-hidden="true"></i></a>
+                                          <a href="#"><i title="Eliminar" class="fa fa-times fa-lg deleteRecord" aria-hidden="true"></i></a></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -146,13 +138,13 @@
                     <a href="#" class="go-top">
                         <i class="fa fa-angle-up"></i>
                     </a><br>
-                    <span><u><a href="feedback.php" class="support">Feedback/Suporte</a></u></span>
+                    <span><u><a href="feedback" class="support">Feedback/Suporte</a></u></span>
                 </div>
             </footer>
         </section>
     </section>
 
-    <?php #LINKS INCLUDE
+    <?php #HEADER INCLUDE
           include 'Shared/Scripts.php'
     ?>
 </body>

@@ -1,16 +1,17 @@
 <?php
-  $titulo = "Registar Intervenção";
-  $timepickerInclude = true;
+  $titulo = "Registar Pedido";
   $datepickerInclude = true;
+  $PrpActive = true;
 ?>
 <!DOCTYPE html>
 <html lang="en">
 
 <?php #HEADER INCLUDE
-      Include 'Shared/Head.php'
+      include 'Shared/Head.php'
 ?>
 
 <body>
+
     <section id="container">
       <?php #HEADER INCLUDE
             include 'Shared/Header.php'
@@ -23,12 +24,37 @@
         <!--MAIN CONTENT-->
         <section id="main-content">
             <section class="wrapper site-min-height">
-                <h3><i class="fa fa-angle-right"></i> Registo de intervenções</h3>
+                <h3><i class="fa fa-angle-right"></i> Registo de pedidos</h3>
                 <div class="row mt">
                     <div class="form-panel">
                         <form class="form-horizontal style-form" method="get">
                             <div class="form-group">
                                 <br>
+
+                                <label class="col-sm-2 col-sm-2 control-label">Bloco</label>
+                                <div class="col-sm-10">
+                                    <select class="form-control">
+                                      <option>A</option>
+                                      <option>B</option>
+                                      <option>C</option>
+                                      <option>D</option>
+                                      <option>E</option>
+                                    </select>
+                                    <br>
+                                </div>
+
+                                <label class="col-sm-2 col-sm-2 control-label">Sala</label>
+                                <div class="col-sm-10">
+                                    <select class="form-control">
+                                      <option>1</option>
+                                      <option>2</option>
+                                      <option>3</option>
+                                      <option>4</option>
+                                      <option>5</option>
+                                    </select>
+                                    <br>
+                                </div>
+
                                 <label class="col-sm-2 col-sm-2 control-label">Equipamento</label>
                                 <div class="col-sm-10">
                                     <select class="form-control">
@@ -42,24 +68,12 @@
 
                                 <label class="col-sm-2 control-label">Data</label>
                                 <div class="col-sm-10">
-                                  <div class="input-group">
-                                      <div class="input-group-addon">
-                                          <i class="fa fa-calendar"></i>
-                                      </div>
-                                      <input class="form-control" id="datepicker-registos" name="date" placeholder="DD/MM/YYYY" type="text">
-                                  </div>
-                                    <br>
-                                </div>
-
-                                <label class="col-sm-2 col-sm-2 control-label">Hora</label>
-                                <div class="col-sm-10">
                                     <div class="input-group">
                                         <div class="input-group-addon">
-                                            <i class="fa fa-clock-o"></i>
+                                            <i class="fa fa-calendar"></i>
                                         </div>
-                                        <input type="text" class="form-control" id="timepicker" name="timepicker" placeholder="HH:MM">
+                                        <input class="form-control" id="datepicker-registos" name="date" placeholder="DD/MM/AAAA" type="text">
                                     </div>
-                                    <span class="help-block">Pode ser escrito à mão.</span>
                                     <br>
                                 </div>
 
@@ -94,16 +108,15 @@
                     <a href="#" class="go-top">
                         <i class="fa fa-angle-up"></i>
                     </a><br>
-                    <span><u><a href="feedback.php" class="support">Feedback/Suporte</a></u></span>
+                    <span><u><a href="feedback" class="support">Feedback/Suporte</a></u></span>
                 </div>
             </footer>
         </section>
     </section>
 
-    <?php #HEADER INCLUDE
-          include 'Shared/Scripts.php'
+    <?php
+      include 'Shared/Scripts.php'
     ?>
-
 </body>
 
 </html>

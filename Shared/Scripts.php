@@ -57,11 +57,15 @@
       $.backstretch("assets/img/login/aesm.jpg");
   </script>
   <?php };?>
-
+  <?php
+    #BACKSTRETCH PLUGIN
+    if (isset($timepickerInclude) && ($timepickerInclude = true)) {
+  ?>
+  <script src="assets\libs\clockpicker\dist\bootstrap-clockpicker.js"></script>
   <script type="text/javascript">
       $('#timepicker').timepicker();
   </script>
-
+<?php };?>
   <script>
     function goBack() {
         window.history.back();

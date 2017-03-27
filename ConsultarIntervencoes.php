@@ -1,7 +1,9 @@
 <?php
   $titulo = "Consultar Equipamento";
-  $removeInclude = true;
+  $datepickerInclude = true;
+  $removeInclude =  true;
   $filtrosInclude =  true;
+  $PciActive = true; 
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -25,7 +27,7 @@
         <section id="main-content">
             <section class="wrapper site-min-height" id="wrapping">
 
-                <h3><i class="fa fa-angle-right"></i> Todos os equipamentos</h3>
+                <h3><i class="fa fa-angle-right"></i> Todas as intervenções</h3>
 
                 <div class="row mt">
                     <br><br>
@@ -39,13 +41,20 @@
                             <div class="col-lg-12" id="filtrosdiv" style="display: none;">
                                 <br>
                                 <form>
+                                <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por dias</h4>
+                                <div class="input-group input-daterange">
+                                    <input type="text" class="form-control" placeholder="DD/MM/AAAA">
+                                    <div class="input-group-addon">Até</div>
+                                    <input type="text" class="form-control" placeholder="DD/MM/AAAA">
+                                </div>
+                                <br>
 
                                 <br>
-                                <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por tipo de equipamento</h4>
+                                <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por equipamento</h4>
                                 <div class="form-group">
                                     <div class="form-group">
                                       <select class="form-control">
-                                        <option selected disabled hidden>Escolha um tipo de equipamento...</option>
+                                        <option selected disabled hidden>Escolha um equipamento...</option>
                                         <option>Computador</option>
                                         <option>Projetor</option>
                                         <option>Quadro interativo</option>
@@ -56,48 +65,23 @@
                                 <br>
 
                                 <br>
-                                <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por marca</h4>
+                                <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por professor</h4>
                                 <div class="form-group">
-                                    <div class="form-group">
-                                      <select class="form-control">
-                                        <option selected disabled hidden>Escolha a marca do equipamento...</option>
-                                        <option>Marca 1</option>
-                                        <option>Marca 2</option>
-                                        <option>Marca 3</option>
-                                        <option>Marca 4</option>
-                                        <option>Marca 5</option>
-                                      </select>
-                                    </div>
+                                  <input type="text" class="form-control" placeholder="Escreva aqui o nome do professor...">
                                 </div>
                                 <br>
 
                                 <br>
-                                <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por bloco</h4>
+                                <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por problema</h4>
                                 <div class="form-group">
                                     <div class="form-group">
                                       <select class="form-control">
-                                        <option selected disabled hidden>Escolha o bloco...</option>
-                                        <option>Bloco A</option>
-                                        <option>Bloco B</option>
-                                        <option>Bloco C</option>
-                                        <option>Bloco D</option>
-                                        <option>Bloco E</option>
-                                      </select>
-                                    </div>
-                                </div>
-                                <br>
-
-                                <br>
-                                <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por localização do equipamento</h4>
-                                <div class="form-group">
-                                    <div class="form-group">
-                                      <select class="form-control">
-                                        <option selected disabled hidden>Escolha a sala onde se encontra o equipamento...</option>
-                                        <option>Sala 1</option>
-                                        <option>Sala 2</option>
-                                        <option>Sala 3</option>
-                                        <option>Sala 4</option>
-                                        <option>Sala 5</option>
+                                        <option selected disabled hidden>Escolha um tipo de problema...</option>
+                                        <option>Problema 1</option>
+                                        <option>Problema 2</option>
+                                        <option>Problema 3</option>
+                                        <option>Problema 4</option>
+                                        <option>Problema 5</option>
                                       </select>
                                     </div>
                                 </div>
@@ -125,8 +109,8 @@
                                         <td>Projetor</td>
                                         <td>00-00-0000</td>
                                         <td>00:00</td>
-                                        <td><a href="editar.php"><i title="Editar" class="fa fa-pencil fa-lg" aria-hidden="true"></i>  <a href="verificar.php"> <i title="Ver todas as informações" class="fa fa-eye fa-lg" aria-hidden="true"></i></a>
-                                            <a href="#"><i title="Eliminar" class="fa fa-times fa-lg deleteRecord" aria-hidden="true"></i></a>
+                                        <td>&nbsp;
+                                            <a href="Verificar"> <i title="Ver todas as informações" class="fa fa-eye fa-lg" aria-hidden="true"></i></a>
                                         </td>
                                     </tr>
                                     <tr>
@@ -134,8 +118,8 @@
                                         <td>Computador</td>
                                         <td>00-00-0000</td>
                                         <td>00:00</td>
-                                        <td><a href="editar.php"><i title="Editar" class="fa fa-pencil fa-lg" aria-hidden="true"></i>  <a href="verificar.php"> <i title="Ver todas as informações" class="fa fa-eye fa-lg" aria-hidden="true"></i></a>
-                                            <a href="#"><i title="Eliminar" class="fa fa-times fa-lg deleteRecord" aria-hidden="true"></i></a>
+                                        <td>&nbsp;
+                                            <a href="Verificar"> <i title="Ver todas as informações" class="fa fa-eye fa-lg" aria-hidden="true"></i></a>
                                         </td>
                                     </tr>
                                     <tr>
@@ -143,8 +127,8 @@
                                         <td>Quadro Interativo</td>
                                         <td>00-00-0000</td>
                                         <td>00:00</td>
-                                        <td><a href="editar.php"><i title="Editar" class="fa fa-pencil fa-lg" aria-hidden="true"></i>  <a href="verificar.php"> <i title="Ver todas as informações" class="fa fa-eye fa-lg" aria-hidden="true"></i></a>
-                                            <a href="#"><i title="Eliminar" class="fa fa-times fa-lg deleteRecord" aria-hidden="true"></i></a>
+                                        <td>&nbsp;
+                                            <a href="Verificar"> <i title="Ver todas as informações" class="fa fa-eye fa-lg" aria-hidden="true"></i></a>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -152,6 +136,7 @@
                         </div>
                     </div>
                 </div>
+                <br><br><br>
             </section>
             <!-- /MAIN CONTENT -->
 
@@ -161,13 +146,13 @@
                     <a href="#" class="go-top">
                         <i class="fa fa-angle-up"></i>
                     </a><br>
-                    <span><u><a href="feedback.php" class="support">Feedback/Suporte</a></u></span>
+                    <span><u><a href="feedback" class="support">Feedback/Suporte</a></u></span>
                 </div>
             </footer>
         </section>
     </section>
 
-    <?php #SCRIPTS INCLUDE
+    <?php #LINKS INCLUDE
           include 'Shared/Scripts.php'
     ?>
 </body>

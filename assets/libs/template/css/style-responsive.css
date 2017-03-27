@@ -31,7 +31,7 @@
         overflow: hidden;
         position: absolute;
         width: 100%;
-        z-index: 1001;
+        z-index: 4;
     }
 
 
@@ -75,7 +75,7 @@
         background: transparent !important ;
     }
     #sidebar > ul > li > ul.sub > li > a:hover {
-        
+
     }
 
 
@@ -289,7 +289,3 @@
     }
 
 }
-
-
-
-

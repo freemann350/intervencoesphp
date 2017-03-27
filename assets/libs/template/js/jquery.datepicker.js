@@ -4,8 +4,8 @@ $('#datepicker-registos').datepicker({
   language: "pt",
   autoclose: true,
   todayHighlight: true,
-  startDate: "today",
-  daysOfWeekDisabled: "0,6"
+  daysOfWeekDisabled: "0,6",
+  daysOfWeekHighlighted: "0,6"
 });
 
 $('.input-daterange').datepicker({

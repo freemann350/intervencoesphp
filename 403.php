@@ -1,3 +1,6 @@
+<?php
+    $titulo = "403";
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -20,7 +23,7 @@
 
                 <div class="row mt">
                     <p style="margin-left:2.5%; font-size: 14px">Você não tem acesso a esta página. Irá ser redirecionado para a página inicial.
-                    <p style="margin-left:2.5%; font-size: 14px">Caso não aconteça nada,<a href="Inicial.php">Carregue aqui</a>.</p>
+                    <p style="margin-left:2.5%; font-size: 14px">Caso não aconteça nada,<a href="Inicial">Carregue aqui</a>.</p>
                     </p>
                 </div>
             </section>
@@ -33,7 +36,7 @@
                         <i class="fa fa-angle-up"></i>
                     </a>
                     <br>
-                    <span><u><a href="feedback.php" class="support">Feedback/Suporte</a></u></span>
+                    <span><u><a href="feedback" class="support">Feedback/Suporte</a></u></span>
                 </div>
             </footer>
         </section>
@@ -44,7 +47,7 @@
     ?>
     <script>
     setTimeout(function(){
-      window.location = "Index.php";
+      window.location = "Inicial";
     }, 2800);
     </script>
 </body>

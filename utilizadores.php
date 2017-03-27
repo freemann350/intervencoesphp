@@ -82,21 +82,21 @@
                                         <td>1</td>
                                         <td>Professor A</td>
                                         <td>Admin</td>
-                                        <td><a href="editar.php"><i title="Editar" class="fa fa-pencil fa-lg" aria-hidden="true"></i></a>
+                                        <td><a href="Editar"><i title="Editar" class="fa fa-pencil fa-lg" aria-hidden="true"></i></a>
                                         <a href="#"><i title="Eliminar" class="fa fa-times fa-lg deleteRecord" aria-hidden="true"></i></a></td>
                                     </tr>
                                     <tr>
                                         <td>2</td>
                                         <td>Professor B</td>
                                         <td>Técnico</td>
-                                        <td><a href="editar.php"><i title="Editar" class="fa fa-pencil fa-lg" aria-hidden="true"></i></a>
+                                        <td><a href="Editar"><i title="Editar" class="fa fa-pencil fa-lg" aria-hidden="true"></i></a>
                                         <a href="#"><i title="Eliminar" class="fa fa-times fa-lg deleteRecord" aria-hidden="true"></i></a></td>
                                     </tr>
                                     <tr>
                                         <td>3</td>
                                         <td>Professor C</td>
                                         <td>Professor</td>
-                                        <td><a href="editar.php"><i title="Editar" class="fa fa-pencil fa-lg" aria-hidden="true"></i></a>
+                                        <td><a href="Editar"><i title="Editar" class="fa fa-pencil fa-lg" aria-hidden="true"></i></a>
                                         <a href="#"><i title="Eliminar" class="fa fa-times fa-lg deleteRecord" aria-hidden="true"></i></a></td>
                                     </tr>
                                 </tbody>
@@ -115,7 +115,7 @@
                 <a href="#" class="go-top">
                     <i class="fa fa-angle-up"></i>
                 </a><br>
-                <span><u><a href="feedback.php" class="support">Feedback/Suporte</a></u></span>
+                <span><u><a href="feedback" class="support">Feedback/Suporte</a></u></span>
             </div>
         </footer>
     </section>

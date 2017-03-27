@@ -32,7 +32,7 @@
 
     <?php
       #FILE INPUT
-      if (isset($fileInclude) && ($fileInclude = true)) {
+      if (isset($fileinputInclude) && ($fileinputInclude = true)) {
     ?>
     <link href="assets\libs\template\css\fileinput.css" rel="stylesheet">
     <?php };?>

@@ -51,7 +51,7 @@
                                         <div class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
                                         </div>
-                                        <input class="form-control" id="date" name="date" placeholder="DD/MM/YYYY" type="text">
+                                        <input class="form-control" id="date" name="date" placeholder="DD/MM/AAAA" type="text">
                                     </div>
                                     <br>
                                 </div>
@@ -104,7 +104,7 @@
                       <a href="#" class="go-top">
                           <i class="fa fa-angle-up"></i>
                       </a><br>
-                      <span><u><a href="feedback.php" class="support">Feedback/Suporte</a></u></span>
+                      <span><u><a href="feedback" class="support">Feedback/Suporte</a></u></span>
                     </div>
                 </footer>
               </section>
