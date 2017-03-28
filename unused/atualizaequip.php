@@ -2,7 +2,7 @@
 $titulo = "Atualização de equipamento"
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt">
 
 <?php #HEADER INCLUDE
       include 'Shared/Head.php'

@@ -258,7 +258,7 @@ ul.top-menu>li>.logout {
     height: 100%;
     position: fixed;
     background: #0d4c7c;
-    z-index: 2;
+    z-index: 4;
 }
 
 #sidebar h5 {
@@ -2426,10 +2426,11 @@ label {
     right: 0;
     bottom: 0;
     left: 0;
-    padding: 1rem;z
+    padding: 1rem;
     text-align: center;
     color: white;
     position: fixed;
+    z-index: 3;
 }
 
 .go-top {

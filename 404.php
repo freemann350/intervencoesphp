@@ -2,7 +2,7 @@
   $titulo = "404";
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt">
 
 <?php #HEADER INCLUDE
       Include 'Shared/Head.php'

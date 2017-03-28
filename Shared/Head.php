@@ -4,7 +4,7 @@
     <meta name="description" content="">
     <meta name="author" content="Dashboard">
     <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
-    <link rel="icon" href="assets/img/favicon.ico">
+    <link rel="icon" href="assets\img\favicon.ico">
     <title>Intervenções AESM - <?php  echo $titulo?></title>
 
     <?php

@@ -6,7 +6,7 @@
   $PmiActive = true;
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt">
 
 <?php #HEADER INCLUDE
       include 'Shared/Head.php'
@@ -88,7 +88,7 @@
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
-                                        <th>#</th>
+                                         
                                         <th>Equipamento</th>
                                         <th>Data</th>
                                          
@@ -97,7 +97,7 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>1</td>
+                                         
                                         <td>Projetor</td>
                                         <td>00-00-0000</td>
                                          
@@ -106,7 +106,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>2</td>
+                                         
                                         <td>Computador</td>
                                         <td>00-00-0000</td>
                                          
@@ -115,7 +115,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>3</td>
+                                         
                                         <td>Quadro Interativo</td>
                                         <td>00-00-0000</td>
                                          

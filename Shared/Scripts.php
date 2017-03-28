@@ -1,6 +1,6 @@
 
   <script src="assets\libs\jquery\dist\jquery.min.js"></script>
-  <script src="assets\libs\bootstrap\dist\css\bootstrap.min.css"></script>
+  <script src="assets\libs\bootstrap\dist\js\bootstrap.min.js"></script>
 
   <script src="assets\libs\template\js\jquery-ui-1.9.2.custom.min.js"></script>
   <script src="assets\libs\template\js\jquery.ui.touch-punch.min.js"></script>

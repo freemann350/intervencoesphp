@@ -5,7 +5,7 @@
   $PuActive = true;
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt">
 
 <?php #HEADER INCLUDE
       include 'Shared/Head.php'
@@ -71,7 +71,7 @@
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
-                                        <th>#</th>
+                                         
                                         <th>Nome</th>
                                         <th>Tipo de utilizador</th>
                                         <th>Ação</th>
@@ -79,21 +79,21 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>1</td>
+                                         
                                         <td>Professor A</td>
                                         <td>Admin</td>
                                         <td><a href="Editar"><i title="Editar" class="fa fa-pencil fa-lg" aria-hidden="true"></i></a>
                                         <a href="#"><i title="Eliminar" class="fa fa-times fa-lg deleteRecord" aria-hidden="true"></i></a></td>
                                     </tr>
                                     <tr>
-                                        <td>2</td>
+                                         
                                         <td>Professor B</td>
                                         <td>Técnico</td>
                                         <td><a href="Editar"><i title="Editar" class="fa fa-pencil fa-lg" aria-hidden="true"></i></a>
                                         <a href="#"><i title="Eliminar" class="fa fa-times fa-lg deleteRecord" aria-hidden="true"></i></a></td>
                                     </tr>
                                     <tr>
-                                        <td>3</td>
+                                         
                                         <td>Professor C</td>
                                         <td>Professor</td>
                                         <td><a href="Editar"><i title="Editar" class="fa fa-pencil fa-lg" aria-hidden="true"></i></a>
