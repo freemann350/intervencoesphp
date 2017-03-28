@@ -21,13 +21,6 @@
   <?php };?>
 
   <?php
-    #TIMEPICKER PLUGIN
-    if (isset($timepickerInclude) && ($timepickerInclude = true)) {
-  ?>
-  <script src="assets\libs\jt.timepicker\jquery.timepicker.js"></script>
-  <?php };?>
-
-  <?php
     #FILE INPUT PLUGIN
     if (isset($fileinputInclude) && ($fileinputInclude = true)) {
   ?>
@@ -61,9 +54,14 @@
     #BACKSTRETCH PLUGIN
     if (isset($timepickerInclude) && ($timepickerInclude = true)) {
   ?>
+  <script src="assets\libs\clockpicker\dist\jquery-clockpicker.min.js"></script>
   <script src="assets\libs\clockpicker\dist\bootstrap-clockpicker.js"></script>
   <script type="text/javascript">
-      $('#timepicker').timepicker();
+    $('.clockpicker').clockpicker({
+      default: 'now',
+      donetext: 'Feito',
+      vibrate: true
+  });
   </script>
 <?php };?>
   <script>

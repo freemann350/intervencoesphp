@@ -27,7 +27,7 @@
       #TIMEPICKER
       if (isset($timepickerInclude) && ($timepickerInclude = true)) {
     ?>
-    <link rel="stylesheet" href="assets\libs\jt.timepicker\jquery.timepicker.css">
+    <link href="assets\libs\clockpicker\dist\jquery-clockpicker.min.css" rel="stylesheet">
     <?php };?>
 
     <?php

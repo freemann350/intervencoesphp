@@ -37,7 +37,7 @@
 
                                   <label class="col-sm-2 col-sm-2 control-label">Imagem</label>
                                   <div class="col-sm-10">
-                                    <img src="assets/img/Users/profile_img.jpg" style="width:20%; height:20%;"><br><br>
+                                    <img src="assets\img\User\profile_img.png" style="width:20%; height:20%;"><br><br>
                                     <div class="input-group">
                                       <span class="input-group-btn">
                                       <span class="btn btn-default btn-file">

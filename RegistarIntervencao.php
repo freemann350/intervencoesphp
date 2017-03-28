@@ -4,7 +4,7 @@
   $datepickerInclude = true;
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt">
 
 <?php #HEADER INCLUDE
       Include 'Shared/Head.php'
@@ -46,20 +46,19 @@
                                       <div class="input-group-addon">
                                           <i class="fa fa-calendar"></i>
                                       </div>
-                                      <input class="form-control" id="datepicker-registos" name="date" placeholder="DD/MM/AAAA" type="text">
+                                      <input class="form-control" id="datepicker-registos" name="date" value="<?php echo date('d/m/Y', strtotime('-1 hour')); ?>" type="text">
                                   </div>
                                     <br>
                                 </div>
 
                                 <label class="col-sm-2 col-sm-2 control-label">Hora</label>
                                 <div class="col-sm-10">
-                                    <div class="input-group">
-                                        <div class="input-group-addon">
-                                            <i class="fa fa-clock-o"></i>
-                                        </div>
-                                        <input type="text" class="form-control" id="timepicker" name="timepicker" placeholder="HH:MM">
-                                    </div>
-                                    <span class="help-block">Pode ser escrito à mão.</span>
+                                  <div class="input-group clockpicker">
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-time"></span>
+                                    </span>
+                                  <input type="text" class="form-control" value="<?php echo date('h:i', strtotime('-1 hour')); ?>" style="cursor: text;">
+                                  </div>
                                     <br>
                                 </div>
 

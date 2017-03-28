@@ -100,7 +100,7 @@
                                         <th>#</th>
                                         <th>Equipamento</th>
                                         <th>Data</th>
-                                        <th>Hora</th>
+                                         
                                         <th>Ação</th>
                                     </tr>
                                 </thead>
@@ -109,8 +109,8 @@
                                         <td>1</td>
                                         <td>Projetor</td>
                                         <td>00-00-0000</td>
-                                        <td>00:00</td>
-                                        <td>&nbsp;
+                                         
+                                        <td>
                                             <a href="Verificar"> <i title="Ver todas as informações" class="fa fa-eye fa-lg" aria-hidden="true"></i></a> <a href= "RegistarIntervencao"><i title="Registar intervenção" class="fa fa-wrench" aria-hidden="true"></i></a>
                                         </td>
                                     </tr>
@@ -118,9 +118,9 @@
                                         <td>2</td>
                                         <td>Computador</td>
                                         <td>00-00-0000</td>
-                                        <td>00:00</td>
-                                        <td>&nbsp;
-                                            <a href="Verificar"> <i title="Ver todas as informações" class="fa fa-eye fa-lg" aria-hidden="true"></i></a>
+                                         
+                                        <td>
+                                            <a href="Verificar"> <i title="Ver todas as informações" class="fa fa-eye fa-lg" aria-hidden="true"></i> </a>
                                             <a href= "RegistarIntervencao"><i title="Registar intervenção" class="fa fa-wrench" aria-hidden="true"></i></a>
                                         </td>
                                     </tr>
@@ -128,8 +128,8 @@
                                         <td>3</td>
                                         <td>Quadro Interativo</td>
                                         <td>00-00-0000</td>
-                                        <td>00:00</td>
-                                        <td>&nbsp;
+                                         
+                                        <td>
                                             <a href="Verificar"> <i title="Ver todas as informações" class="fa fa-eye fa-lg" aria-hidden="true"></i></a> <a href= "RegistarIntervencao"><i title="Registar intervenção" class="fa fa-wrench" aria-hidden="true"></i></a>
                                         </td>
                                     </tr>

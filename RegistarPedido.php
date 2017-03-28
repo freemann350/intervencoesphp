@@ -68,12 +68,12 @@
 
                                 <label class="col-sm-2 control-label">Data</label>
                                 <div class="col-sm-10">
-                                    <div class="input-group">
-                                        <div class="input-group-addon">
-                                            <i class="fa fa-calendar"></i>
-                                        </div>
-                                        <input class="form-control" id="datepicker-registos" name="date" placeholder="DD/MM/AAAA" type="text">
-                                    </div>
+                                  <div class="input-group">
+                                      <div class="input-group-addon">
+                                          <i class="fa fa-calendar"></i>
+                                      </div>
+                                      <input class="form-control" id="datepicker-registos" name="date" value="<?php echo date('d/m/Y', strtotime('-1 hour')); ?>" type="text">
+                                  </div>
                                     <br>
                                 </div>
 
