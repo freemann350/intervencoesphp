@@ -42,8 +42,8 @@
         </section>
     </section>
 
-    <?php #HEADER INCLUDE
-          include 'Shared/Scripts.php'
+    <?php #FOOTER INCLUDE
+      include 'Shared\Footer.php';
     ?>
     <script>
     setTimeout(function(){

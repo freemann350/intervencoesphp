@@ -29,7 +29,7 @@
                 <h3><i class="fa fa-angle-right"></i> As minhas intervenções</h3>
 
                 <div class="row mt">
-                    <br><br>
+                    <br>
                     <div class="col-lg-12">
                         <div class="form-panel">
                             <div class="col-lg-12" id="filtrosheader">
@@ -88,37 +88,37 @@
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
-                                         
+
                                         <th>Equipamento</th>
                                         <th>Data</th>
-                                         
+
                                         <th>Ação</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                         
+
                                         <td>Projetor</td>
                                         <td>00-00-0000</td>
-                                         
+
                                         <td><a href="Editar"><i title="Editar" class="fa fa-pencil fa-lg" aria-hidden="true"></i>  <a href="Verificar"> <i title="Ver todas as informações" class="fa fa-eye fa-lg" aria-hidden="true"></i></a>
                                             <a href="#"><i title="Eliminar" class="fa fa-times fa-lg deleteRecord" aria-hidden="true"></i></a>
                                         </td>
                                     </tr>
                                     <tr>
-                                         
+
                                         <td>Computador</td>
                                         <td>00-00-0000</td>
-                                         
+
                                         <td><a href="Editar"><i title="Editar" class="fa fa-pencil fa-lg" aria-hidden="true"></i>  <a href="Verificar"> <i title="Ver todas as informações" class="fa fa-eye fa-lg" aria-hidden="true"></i></a>
                                             <a href="#"><i title="Eliminar" class="fa fa-times fa-lg deleteRecord" aria-hidden="true"></i></a>
                                         </td>
                                     </tr>
                                     <tr>
-                                         
+
                                         <td>Quadro Interativo</td>
                                         <td>00-00-0000</td>
-                                         
+
                                         <td>
                                           <a href="Editar"><i title="Editar" class="fa fa-pencil fa-lg" aria-hidden="true"></i></a>
                                           <a href="Verificar"> <i title="Ver todas as informações" class="fa fa-eye fa-lg" aria-hidden="true"></i></a>
@@ -132,15 +132,9 @@
             </section>
             <!-- /MAIN CONTENT -->
 
-            <footer class="site-footer">
-                <div class="text-center">
-                    <span>GestiEscola&copy; 2017</span>
-                    <a href="#" class="go-top">
-                        <i class="fa fa-angle-up"></i>
-                    </a><br>
-                    <span><u><a href="feedback" class="support">Feedback/Suporte</a></u></span>
-                </div>
-            </footer>
+            <?php #FOOTER INCLUDE
+              include 'Shared\Footer.php';
+            ?>
         </section>
     </section>
 

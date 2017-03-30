@@ -2,7 +2,7 @@
     <div id="sidebar" class="nav-collapse">
         <ul class="sidebar-menu" id="nav-accordion">
 
-          <p class="centered"><a href="Perfil"><img src="assets/img/user/ui-sam.jpg" class="img-circle" width="60"></p>
+          <a href="VerPerfil"><p class="centered"><img src="assets/img/user/ui-sam.jpg" class="img-circle" width="60"></p>
           <h5 class="centered">Admin</h5></a>
 
           <li class="mt">
@@ -35,12 +35,13 @@
             </li>
 
             <li class="sub-menu">
-                <a <?php if ((isset($PmiActive) && ($PmiActive = true)) || (isset($PciActive) && ($PciActive = true))){?> class="active" <?php };?> href="javascript:;">
+                <a <?php if ((isset($PmiActive) && ($PmiActive = true)) || (isset($PciActive) && ($PciActive = true)) || (isset($PrActive) && ($PrActive = true)) ){?> class="active" <?php };?> href="javascript:;">
                     <i class="fa fa-wrench"></i>
                     <span>Intervenções</span>
                 </a>
                 <ul class="sub">
                     <!--<li><a href="RegistarIntervencao" style="background: transparent;">Intervenções</a></li>-->
+                    <li <?php if (isset($PrActive) && ($PrActive = true)){?> class="active" <?php };?>><a href="ResolverPedidos" style="background: transparent;">Resolver Pedidos</a></li>
                     <li <?php if (isset($PmiActive) && ($PmiActive = true)){?> class="active" <?php };?>><a href="MinhasIntervencoes" style="background: transparent;">As Minhas Intervenções</a></li>
                     <li <?php if (isset($PciActive) && ($PciActive = true)){?> class="active" <?php };?>><a href="ConsultarIntervencoes" style="background: transparent;">Consultar Intervenções</a></li>
                 </ul>

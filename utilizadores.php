@@ -71,7 +71,7 @@
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
-                                         
+
                                         <th>Nome</th>
                                         <th>Tipo de utilizador</th>
                                         <th>Ação</th>
@@ -79,28 +79,56 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                         
+
                                         <td>Professor A</td>
                                         <td>Admin</td>
-                                        <td><a href="Editar"><i title="Editar" class="fa fa-pencil fa-lg" aria-hidden="true"></i></a>
-                                        <a href="#"><i title="Eliminar" class="fa fa-times fa-lg deleteRecord" aria-hidden="true"></i></a></td>
+                                        <td>
+                                          <a href="Editar">
+                                            <i title="Editar" class="fa fa-pencil fa-lg" aria-hidden="true"></i>
+                                          </a>
+                                          <a href="VerPerfil">
+                                            <i title="Ver Perfil de Utilizador" class="fa fa-eye fa-lg" aria-hidden="true"></i>
+                                          </a>
+                                          <a href="#">
+                                            <i title="Eliminar" class="fa fa-times fa-lg deleteRecord" aria-hidden="true"></i>
+                                          </a>
+                                      </td>
                                     </tr>
                                     <tr>
-                                         
+
                                         <td>Professor B</td>
                                         <td>Técnico</td>
-                                        <td><a href="Editar"><i title="Editar" class="fa fa-pencil fa-lg" aria-hidden="true"></i></a>
-                                        <a href="#"><i title="Eliminar" class="fa fa-times fa-lg deleteRecord" aria-hidden="true"></i></a></td>
+                                        <td>
+                                          <a href="Editar">
+                                            <i title="Editar" class="fa fa-pencil fa-lg" aria-hidden="true"></i>
+                                          </a>
+                                          <a href="VerPerfil">
+                                            <i title="Ver Perfil de Utilizador" class="fa fa-eye fa-lg" aria-hidden="true"></i>
+                                          </a>
+                                          <a href="#">
+                                            <i title="Eliminar" class="fa fa-times fa-lg deleteRecord" aria-hidden="true"></i>
+                                          </a>
+                                      </td>
                                     </tr>
                                     <tr>
-                                         
+
                                         <td>Professor C</td>
                                         <td>Professor</td>
-                                        <td><a href="Editar"><i title="Editar" class="fa fa-pencil fa-lg" aria-hidden="true"></i></a>
-                                        <a href="#"><i title="Eliminar" class="fa fa-times fa-lg deleteRecord" aria-hidden="true"></i></a></td>
+                                        <td>
+                                          <a href="Editar">
+                                            <i title="Editar" class="fa fa-pencil fa-lg" aria-hidden="true"></i>
+                                          </a>
+                                          <a href="VerPerfil">
+                                            <i title="Ver Perfil de Utilizador" class="fa fa-eye fa-lg" aria-hidden="true"></i>
+                                          </a>
+                                        <a href="#">
+                                          <i title="Eliminar" class="fa fa-times fa-lg deleteRecord" aria-hidden="true"></i>
+                                        </a>
+                                      </td>
                                     </tr>
                                 </tbody>
                             </table>
+                            <a href="NovoUtilizador">+ Registar novo Utilizador</a>
                         </div>
                     </div>
                 </div>
@@ -109,15 +137,9 @@
         </section>
         <!-- /MAIN CONTENT -->
 
-        <footer class="site-footer">
-            <div class="text-center">
-                <span>GestiEscola&copy; 2017</span>
-                <a href="#" class="go-top">
-                    <i class="fa fa-angle-up"></i>
-                </a><br>
-                <span><u><a href="feedback" class="support">Feedback/Suporte</a></u></span>
-            </div>
-        </footer>
+        <?php #FOOTER INCLUDE
+          include 'Shared\Footer.php';
+        ?>
     </section>
 
     <?php #HEADER INCLUDE

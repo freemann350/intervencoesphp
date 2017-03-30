@@ -47,7 +47,7 @@
   ?>
   <script type="text/javascript" src="assets\libs\jquery-backstretch\jquery.backstretch.min.js"></script>
   <script>
-      $.backstretch("assets/img/login/aesm.jpg");
+      $.backstretch("assets/img/login/aesm.jpg", {speed: 500}) ;
   </script>
   <?php };?>
   <?php

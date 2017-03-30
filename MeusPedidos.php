@@ -26,10 +26,10 @@
         <!--MAIN CONTENT-->
         <section id="main-content">
             <section class="wrapper site-min-height">
-                <h3><i class="fa fa-angle-right"></i> As minhas intervenções</h3>
+                <h3><i class="fa fa-angle-right"></i> Os meus Pedidos</h3>
 
                 <div class="row mt">
-                    <br><br>
+                    <br>
                     <div class="col-lg-12">
                         <div class="form-panel">
                             <div class="col-lg-12" id="filtrosheader">
@@ -100,7 +100,7 @@
 
                                         <td>Projetor</td>
                                         <td>00-00-0000</td>
-                                         
+
                                         <td><a href="Editar"><i title="Editar" class="fa fa-pencil fa-lg" aria-hidden="true"></i>  <a href="Verificar"> <i title="Ver todas as informações" class="fa fa-eye fa-lg" aria-hidden="true"></i></a>
                                             <a href="#"><i title="Eliminar" class="fa fa-times fa-lg deleteRecord" aria-hidden="true"></i></a>
                                         </td>
@@ -130,15 +130,9 @@
             </section>
             <!-- /MAIN CONTENT -->
 
-            <footer class="site-footer">
-                <div class="text-center">
-                    <span>GestiEscola&copy; 2017</span>
-                    <a href="#" class="go-top">
-                        <i class="fa fa-angle-up"></i>
-                    </a><br>
-                    <span><u><a href="feedback" class="support">Feedback/Suporte</a></u></span>
-                </div>
-            </footer>
+            <?php #FOOTER INCLUDE
+              include 'Shared\Footer.php';
+            ?>
         </section>
     </section>
 

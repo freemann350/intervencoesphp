@@ -7,17 +7,17 @@
 <html lang="pt">
 
 <?php #HEADER INCLUDE
-      Include 'Shared/Head.php'
+      Include 'Shared/Head.php';
 ?>
 
 <body>
     <section id="container">
       <?php #HEADER INCLUDE
-            include 'Shared/Header.php'
+            include 'Shared/Header.php';
       ?>
 
       <?php #SIDEBAR INCLUDE
-            include 'Shared/Sidebar.php'
+            include 'Shared/Sidebar.php';
       ?>
 
         <!--MAIN CONTENT-->
@@ -87,15 +87,9 @@
             </section>
             <!-- /MAIN CONTENT -->
 
-            <footer class="site-footer">
-                <div class="text-center">
-                    <span>GestiEscola&copy; 2017</span>
-                    <a href="#" class="go-top">
-                        <i class="fa fa-angle-up"></i>
-                    </a><br>
-                    <span><u><a href="feedback" class="support">Feedback/Suporte</a></u></span>
-                </div>
-            </footer>
+            <?php #FOOTER INCLUDE
+              include 'Shared\Footer.php';
+            ?>
         </section>
     </section>
 

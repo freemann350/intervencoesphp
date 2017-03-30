@@ -1,5 +1,5 @@
 <?php
-  $titulo = "Consultar Equipamento";
+  $titulo = "Consultar Pedidos";
   $datepickerInclude = true;
   $removeInclude =  true;
   $filtrosInclude =  true;
@@ -28,10 +28,10 @@
         <section id="main-content">
             <section class="wrapper site-min-height" id="wrapping">
 
-                <h3><i class="fa fa-angle-right"></i> Todas as intervenções</h3>
+                <h3><i class="fa fa-angle-right"></i> Todos os pedidos</h3>
 
                 <div class="row mt">
-                    <br><br>
+                    <br>
                     <div class="col-lg-12">
                         <div class="form-panel">
                             <div class="col-lg-12" id="filtrosheader">
@@ -97,40 +97,36 @@
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
-                                         
+
                                         <th>Equipamento</th>
                                         <th>Data</th>
-                                         
+
                                         <th>Ação</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                         
+
                                         <td>Projetor</td>
                                         <td>00-00-0000</td>
-                                         
-                                        <td>
-                                            <a href="Verificar"> <i title="Ver todas as informações" class="fa fa-eye fa-lg" aria-hidden="true"></i></a> <a href= "RegistarIntervencao"><i title="Registar intervenção" class="fa fa-wrench" aria-hidden="true"></i></a>
+                                        <td>&nbsp;
+                                            <a href="Verificar"> <i title="Ver todas as informações" class="fa fa-eye fa-lg" aria-hidden="true"></i></a>
                                         </td>
                                     </tr>
                                     <tr>
-                                         
+
                                         <td>Computador</td>
                                         <td>00-00-0000</td>
-                                         
-                                        <td>
-                                            <a href="Verificar"> <i title="Ver todas as informações" class="fa fa-eye fa-lg" aria-hidden="true"></i> </a>
-                                            <a href= "RegistarIntervencao"><i title="Registar intervenção" class="fa fa-wrench" aria-hidden="true"></i></a>
+                                        <td>&nbsp;
+                                            <a href="Verificar"> <i title="Ver todas as informações" class="fa fa-eye fa-lg" aria-hidden="true"></i></a>
                                         </td>
                                     </tr>
                                     <tr>
-                                         
+
                                         <td>Quadro Interativo</td>
                                         <td>00-00-0000</td>
-                                         
-                                        <td>
-                                            <a href="Verificar"> <i title="Ver todas as informações" class="fa fa-eye fa-lg" aria-hidden="true"></i></a> <a href= "RegistarIntervencao"><i title="Registar intervenção" class="fa fa-wrench" aria-hidden="true"></i></a>
+                                        <td>&nbsp;
+                                            <a href="Verificar"> <i title="Ver todas as informações" class="fa fa-eye fa-lg" aria-hidden="true"></i></a>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -141,15 +137,9 @@
             </section>
             <!-- /MAIN CONTENT -->
 
-            <footer class="site-footer">
-                <div class="text-center">
-                    <span>GestiEscola&copy; 2017</span>
-                    <a href="#" class="go-top">
-                        <i class="fa fa-angle-up"></i>
-                    </a><br>
-                    <span><u><a href="feedback" class="support">Feedback/Suporte</a></u></span>
-                </div>
-            </footer>
+            <?php #FOOTER INCLUDE
+              include 'Shared\Footer.php';
+            ?>
         </section>
     </section>
 

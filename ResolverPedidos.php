@@ -1,9 +1,9 @@
 <?php
-  $titulo = "Consultar Equipamento";
+  $titulo = "Consultar Pedidos";
   $datepickerInclude = true;
   $removeInclude =  true;
   $filtrosInclude =  true;
-  $PciActive = true;
+  $PrActive = true;
 ?>
 <!DOCTYPE html>
 <html lang="pt">
@@ -23,11 +23,12 @@
             include 'Shared/Sidebar.php'
       ?>
 
+
         <!--MAIN CONTENT-->
         <section id="main-content">
             <section class="wrapper site-min-height" id="wrapping">
 
-                <h3><i class="fa fa-angle-right"></i> Todas as intervenções</h3>
+                <h3><i class="fa fa-angle-right"></i> Todos os pedidos</h3>
 
                 <div class="row mt">
                     <br>
@@ -96,8 +97,10 @@
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
+
                                         <th>Equipamento</th>
                                         <th>Data</th>
+
                                         <th>Ação</th>
                                     </tr>
                                 </thead>
@@ -107,24 +110,44 @@
                                         <td>Projetor</td>
                                         <td>00-00-0000</td>
 
-                                        <td>&nbsp;
-                                            <a href="Verificar"> <i title="Ver todas as informações" class="fa fa-eye fa-lg" aria-hidden="true"></i></a>
+                                        <td>
+                                            <a href="Verificar">
+                                              <i title="Ver todas as informações" class="fa fa-eye fa-lg" aria-hidden="true"></i>
+                                            </a><!--
+                                            -->&nbsp;<!--
+                                            --><a href= "RegistarIntervencao">
+                                              <i title="Registar intervenção" class="fa fa-wrench" aria-hidden="true"></i>
+                                            </a>
                                         </td>
                                     </tr>
                                     <tr>
 
                                         <td>Computador</td>
                                         <td>00-00-0000</td>
-                                        <td>&nbsp;
-                                            <a href="Verificar"> <i title="Ver todas as informações" class="fa fa-eye fa-lg" aria-hidden="true"></i></a>
+
+                                        <td>
+                                            <a href="Verificar">
+                                              <i title="Ver todas as informações" class="fa fa-eye fa-lg" aria-hidden="true"></i>
+                                            </a><!--
+                                            -->&nbsp;<!--
+                                            --><a href= "RegistarIntervencao">
+                                              <i title="Registar intervenção" class="fa fa-wrench" aria-hidden="true"></i>
+                                            </a>
                                         </td>
                                     </tr>
                                     <tr>
 
                                         <td>Quadro Interativo</td>
                                         <td>00-00-0000</td>
-                                        <td>&nbsp;
-                                            <a href="Verificar"> <i title="Ver todas as informações" class="fa fa-eye fa-lg" aria-hidden="true"></i></a>
+
+                                        <td>
+                                            <a href="Verificar">
+                                              <i title="Ver todas as informações" class="fa fa-eye fa-lg" aria-hidden="true"></i>
+                                            </a><!--
+                                            -->&nbsp;<!--
+                                            --><a href= "RegistarIntervencao">
+                                              <i title="Registar intervenção" class="fa fa-wrench" aria-hidden="true"></i>
+                                            </a>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -132,7 +155,6 @@
                         </div>
                     </div>
                 </div>
-                <br><br><br>
             </section>
             <!-- /MAIN CONTENT -->
 
