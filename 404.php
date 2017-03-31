@@ -5,14 +5,14 @@
 <html lang="pt">
 
 <?php #HEADER INCLUDE
-      Include '/Shared/Head.php'
+      Include 'Shared/Head.php'
 ?>
 
 <body>
 
     <section id="container">
       <?php #HEADER INCLUDE
-            include '/Shared/Header-Erros.php'
+            include 'Shared/Header-Erros.php'
       ?>
 
         <!--MAIN CONTENT-->
@@ -30,13 +30,13 @@
             <!-- /MAIN CONTENT -->
 
             <?php #FOOTER INCLUDE
-              include '/Shared\Footer.php';
+              include 'Shared\Footer.php';
             ?>
         </section>
     </section>
 
     <?php #HEADER INCLUDE
-          include '/Shared/Scripts.php'
+          include 'Shared/Scripts.php'
     ?>
     <script>
     setTimeout(function(){

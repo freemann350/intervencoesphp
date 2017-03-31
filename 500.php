@@ -5,14 +5,14 @@
 <html lang="pt">
 
 <?php #HEADER INCLUDE
-      include '/Shared/Head.php'
+      include 'Shared/Head.php'
 ?>
 
 <body>
 
     <section id="container">
       <?php #HEADER INCLUDE
-            include '/Shared/Header-Erros.php'
+            include 'Shared/Header-Erros.php'
       ?>
 
         <!--MAIN CONTENT-->
@@ -43,7 +43,7 @@
     </section>
 
     <?php #FOOTER INCLUDE
-      include '/Shared\Footer.php';
+      include 'Shared\Footer.php';
     ?>
     <script>
     setTimeout(function(){

@@ -5,18 +5,18 @@
 <html lang="pt">
 
 <?php #HEADER INCLUDE
-      include '/Shared/Head.php'
+      include 'Shared/Head.php'
 ?>
 
 <body>
 
     <section id="container">
       <?php #HEADER INCLUDE
-            include '/Shared/Header.php'
+            include 'Shared/Header.php'
       ?>
 
       <?php #SIDEBAR INCLUDE
-            include '/Shared/Sidebar.php'
+            include 'Shared/Sidebar.php'
       ?>
 
         <!--MAIN CONTENT-->
@@ -83,7 +83,7 @@
     </section>
 
     <?php #HEADER INCLUDE
-          include '/Shared/Scripts.php'
+          include 'Shared/Scripts.php'
     ?>
 </body>
 
