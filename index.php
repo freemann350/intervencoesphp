@@ -23,7 +23,7 @@ $backstretchInclude = True;
                             <button class="btn btn-theme btn-block" href="Inicial" type="submit"><i class="fa fa-lock"></i> Entrar</button>
                         </div>
                         <hr>
-                        <p style="text-align: center; color: #FF0000">Utilizador/Palavra-Passe inválida<?php echo phpversion() ?></p>
+                        <p style="text-align: center; color: #FF0000">Utilizador/Palavra-Passe inválida</p>
                     </div>
                 </form>
             </div>
