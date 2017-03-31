@@ -101,7 +101,7 @@
                                         <td>Projetor</td>
                                         <td>00-00-0000</td>
 
-                                        <td><a href="Editar"><i title="Editar" class="fa fa-pencil fa-lg" aria-hidden="true"></i>  <a href="Verificar"> <i title="Ver todas as informações" class="fa fa-eye fa-lg" aria-hidden="true"></i></a>
+                                        <td><a href="EditarPedido"><i title="Editar" class="fa fa-pencil fa-lg" aria-hidden="true"></i>  <a href="Verificar"> <i title="Ver todas as informações" class="fa fa-eye fa-lg" aria-hidden="true"></i></a>
                                             <a href="#"><i title="Eliminar" class="fa fa-times fa-lg deleteRecord" aria-hidden="true"></i></a>
                                         </td>
                                     </tr>
@@ -110,7 +110,7 @@
                                         <td>Computador</td>
                                         <td>00-00-0000</td>
 
-                                        <td><a href="Editar"><i title="Editar" class="fa fa-pencil fa-lg" aria-hidden="true"></i>  <a href="Verificar"> <i title="Ver todas as informações" class="fa fa-eye fa-lg" aria-hidden="true"></i></a>
+                                        <td><a href="EditarPedido"><i title="Editar" class="fa fa-pencil fa-lg" aria-hidden="true"></i>  <a href="Verificar"> <i title="Ver todas as informações" class="fa fa-eye fa-lg" aria-hidden="true"></i></a>
                                             <a href="#"><i title="Eliminar" class="fa fa-times fa-lg deleteRecord" aria-hidden="true"></i></a>
                                         </td>
                                     </tr>
@@ -119,7 +119,7 @@
                                         <td>Quadro Interativo</td>
                                         <td>00-00-0000</td>
 
-                                        <td><a href="Editar"><i title="Editar" class="fa fa-pencil fa-lg" aria-hidden="true"></i></a>
+                                        <td><a href="EditarPedido"><i title="Editar" class="fa fa-pencil fa-lg" aria-hidden="true"></i></a>
                                             <a href="Verificar"> <i title="Ver todas as informações" class="fa fa-eye fa-lg" aria-hidden="true"></i></a> <a href="#"><i title="Eliminar" class="fa fa-times fa-lg deleteRecord" aria-hidden="true"></i></a></td>
                                     </tr>
                                 </tbody>

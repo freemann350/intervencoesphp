@@ -1,5 +1,5 @@
 <?php
-  $titulo = "Perfil de [Nome de utilizador]";
+  $titulo = "O Meu Perfil - Editar";
   $fileinputInclude =  true;
 ?>
 <!DOCTYPE html>
@@ -25,41 +25,52 @@
         <section id="main-content">
             <section class="wrapper site-min-height" id="wrapping">
 
-                <h3><i class="fa fa-angle-right"></i> Ver perfil</h3>
+                <h3><i class="fa fa-angle-right"></i> Editar perfil</h3>
 
                 <div class="row mt">
                     <div class="col-lg-12">
                         <div class="form-panel">
+                            <br>
                             <form class="form-horizontal style-form" method="get">
-                              <div class="form-group">
-                                  <br>
+                                <div class="form-group">
+
                                   <label class="col-sm-2 col-sm-2 control-label">Imagem</label>
                                   <div class="col-sm-10">
                                     <img src="assets\img\User\profile_img.png" style="width:20%; height:20%;"><br><br>
+                                    <div class="input-group">
+                                      <span class="input-group-btn">
+                                      <span class="btn btn-default btn-file">
+                                          Procurar… <input type="file" id="imgInp">
+                                      </span>
+                                    </span>
+                                        <input type="text" class="form-control" disabled>
+                                    </div><br>
                                   </div>
-                                  <br>
+
 
                                   <label class="col-sm-2 col-sm-2 control-label">Nome</label>
                                   <div class="col-sm-10">
-                                      <p class="form-control-static">Professor</p>
-                                      <br>
+                                    <input type="text" class="form-control">
+                                    <br>
                                   </div>
+                                  <br>
+
+                                  <label class="col-sm-2 col-sm-2 control-label">Apelido</label>
+                                  <div class="col-sm-10">
+                                    <input type="text" class="form-control">
+                                    <br>
+                                  </div>
+                                  <br>
 
                                   <label class="col-sm-2 col-sm-2 control-label">Email</label>
                                   <div class="col-sm-10">
-                                      <p class="form-control-static">ProfessorA@mail.com</p>
-                                      <br>
+                                    <input type="text" class="form-control">
+                                    <br>
+                                    <input type="submit" class="btn btn-primary" value="Submeter">
                                   </div>
-
-                                  <label class="col-sm-2 col-sm-2 control-label">Último Acesso</label>
-                                  <div class="col-sm-10">
-                                      <p class="form-control-static">00/00/0000 00:00</p>
-                                      <br>
-                                          <input type="button" class="btn btn-primary" value="Voltar" onclick="goBack()">
-                                          <input type="button" class="btn btn-primary" value="Editar" onclick="location.href='Perfil'">
-                                  </div>
-                              </div>
-
+                                    <br>
+                            </form>
+                          </div>
                     </div>
                 </div>
               </div>

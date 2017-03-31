@@ -83,10 +83,10 @@
                                         <td>Professor A</td>
                                         <td>Admin</td>
                                         <td>
-                                          <a href="Editar">
-                                            <i title="Editar" class="fa fa-pencil fa-lg" aria-hidden="true"></i>
+                                          <a href="EditarUtilizador">
+                                            <i title="Editar Utilizador" class="fa fa-pencil fa-lg" aria-hidden="true"></i>
                                           </a>
-                                          <a href="VerPerfil">
+                                          <a href="Perfil">
                                             <i title="Ver Perfil de Utilizador" class="fa fa-eye fa-lg" aria-hidden="true"></i>
                                           </a>
                                           <a href="#">
@@ -99,10 +99,10 @@
                                         <td>Professor B</td>
                                         <td>Técnico</td>
                                         <td>
-                                          <a href="Editar">
-                                            <i title="Editar" class="fa fa-pencil fa-lg" aria-hidden="true"></i>
+                                          <a href="EditarUtilizador">
+                                            <i title="Editar Utilizador" class="fa fa-pencil fa-lg" aria-hidden="true"></i>
                                           </a>
-                                          <a href="VerPerfil">
+                                          <a href="Perfil">
                                             <i title="Ver Perfil de Utilizador" class="fa fa-eye fa-lg" aria-hidden="true"></i>
                                           </a>
                                           <a href="#">
@@ -115,10 +115,10 @@
                                         <td>Professor C</td>
                                         <td>Professor</td>
                                         <td>
-                                          <a href="Editar">
-                                            <i title="Editar" class="fa fa-pencil fa-lg" aria-hidden="true"></i>
+                                          <a href="EditarUtilizador">
+                                            <i title="Editar Utilizador" class="fa fa-pencil fa-lg" aria-hidden="true"></i>
                                           </a>
-                                          <a href="VerPerfil">
+                                          <a href="Perfil">
                                             <i title="Ver Perfil de Utilizador" class="fa fa-eye fa-lg" aria-hidden="true"></i>
                                           </a>
                                         <a href="#">
