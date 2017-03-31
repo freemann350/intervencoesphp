@@ -45,12 +45,6 @@
                                       <br>
                                   </div>
 
-                                  <label class="col-sm-2 col-sm-2 control-label">Hora</label>
-                                  <div class="col-sm-10">
-                                      <p class="form-control-static">00:00</p>
-                                      <br>
-                                  </div>
-
                                   <label class="col-sm-2 col-sm-2 control-label">Email</label>
                                   <div class="col-sm-10">
                                       <p class="form-control-static">ProfessorA@mail.com</p>
