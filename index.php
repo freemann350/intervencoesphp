@@ -6,7 +6,7 @@ $backstretchInclude = True;
 <html lang="pt">
 
 <?php #HEADER INCLUDE
-      include 'Shared/Head.php'
+      include '/Shared/Head.php'
 ?>
 
 <body>
@@ -30,7 +30,7 @@ $backstretchInclude = True;
     </section>
 
     <?php #HEADER INCLUDE
-          include 'Shared/Scripts.php'
+          include '/Shared/Scripts.php'
     ?>
 </body>
 

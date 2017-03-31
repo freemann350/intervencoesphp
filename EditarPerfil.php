@@ -6,19 +6,19 @@
 <html lang="pt">
 
 <?php #HEADER INCLUDE
-      include 'Shared/Head.php'
+      include '/Shared/Head.php'
 ?>
 
 <body>
 
     <section id="container">
       <?php #HEADER INCLUDE
-            include 'Shared/Header.php'
+            include '/Shared/Header.php'
       ?>
 
 
       <?php #SIDEBAR INCLUDE
-            include 'Shared/Sidebar.php'
+            include '/Shared/Sidebar.php'
       ?>
 
         <!--MAIN CONTENT-->
@@ -36,7 +36,7 @@
 
                                   <label class="col-sm-2 col-sm-2 control-label">Imagem</label>
                                   <div class="col-sm-10">
-                                    <img src="assets\img\User\profile_img.png" style="width:20%; height:20%;"><br><br>
+                                    <img src="/assets\img\User\profile_img.png" style="width:20%; height:20%;"><br><br>
                                     <div class="input-group">
                                       <span class="input-group-btn">
                                       <span class="btn btn-default btn-file">
@@ -78,13 +78,13 @@
             <!-- /MAIN CONTENT -->
 
             <?php #FOOTER INCLUDE
-              include 'Shared\Footer.php';
+              include '/Shared\Footer.php';
             ?>
         </section>
     </section>
 
     <?php #HEADER INCLUDE
-          include 'Shared/Scripts.php'
+          include '/Shared/Scripts.php'
     ?>
 </body>
 

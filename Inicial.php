@@ -6,18 +6,18 @@
 <html lang="pt">
 
 <?php #HEADER INCLUDE
-      include 'Shared/Head.php'
+      include '/Shared/Head.php'
 ?>
 
 <body>
 
     <section id="container">
       <?php #HEADER INCLUDE
-            include 'Shared/Header.php'
+            include '/Shared/Header.php'
       ?>
 
       <?php #SIDEBAR INCLUDE
-            include 'Shared/Sidebar.php'
+            include '/Shared/Sidebar.php'
       ?>
 
         <!--MAIN CONTENT-->
@@ -73,7 +73,7 @@
 
                     <div class="col-md-2 col-sm-6 col-md-offset-2 box0 ">
                         <div class="box1">
-                            <img class="imagesIndex" src="assets/img/Items/pc.png" height="160" width="130" style='max-width: 110%; max-height: 110%' draggable='false' ondragstart="return false;">
+                            <img class="imagesIndex" src="/assets/img/Items/pc.png" height="160" width="130" style='max-width: 110%; max-height: 110%' draggable='false' ondragstart="return false;">
                             <h3>5</h3>
                         </div>
                         <p class="unselectable">Total de intervenções feitas em Computadores</p>
@@ -83,7 +83,7 @@
 
                     <div class="col-md-2 col-sm-6 box0 ">
                         <div class="box1">
-                            <img class="imagesIndex" src="assets/img/Items/projetor.png" height="160" width="150" style='max-width: 110%; max-height: 110%' draggable='false' ondragstart="return false;">
+                            <img class="imagesIndex" src="/assets/img/Items/projetor.png" height="160" width="150" style='max-width: 110%; max-height: 110%' draggable='false' ondragstart="return false;">
                             <h3>5</h3>
                         </div>
                         <p class="unselectable">Total de intervenções feitas em Projetores</p>
@@ -93,7 +93,7 @@
 
                     <div class="col-md-2 col-sm-12 box0 ">
                         <div class="box1">
-                            <img class="imagesIndex" src="assets/img/Items/qi.png" height="160" width="160" style='max-width: 110%; max-height: 110%' draggable='false' ondragstart="return false;">
+                            <img class="imagesIndex" src="/assets/img/Items/qi.png" height="160" width="160" style='max-width: 110%; max-height: 110%' draggable='false' ondragstart="return false;">
                             <h3>5</h3>
                         </div>
                         <p class="unselectable" style="margin-bottom:7%">Total de intervenções feitas em Quadros Interativos</p>
@@ -103,13 +103,13 @@
             <!-- /MAIN CONTENT -->
 
             <?php #FOOTER INCLUDE
-              include 'Shared\Footer.php';
+              include '/Shared\Footer.php';
             ?>
           </section>
         </section>
 
     <?php
-      include 'Shared/Scripts.php';
+      include '/Shared/Scripts.php';
     ?>
 </body>
 
