@@ -4,6 +4,8 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME}\.php -f
 RewriteRule ^(.*)$ $1.php
 
+RewriteRule ^Perfil/(.*)$ Perfil.php?utilizador=$1 [QSA]
+
 ErrorDocument 403 /intervencoesphp/403.php
 ErrorDocument 404 /intervencoesphp/404.php
 ErrorDocument 500 /intervencoesphp/500.php
