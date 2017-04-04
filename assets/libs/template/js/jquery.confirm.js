@@ -4,7 +4,7 @@ title: 'Sair',
 content: 'Tem a certeza que pretende sair?',
 buttons: {
 Sim: function () {
-window.location.href = "Index";
+window.location.href = "Logout";
 },
 Não: function () {
 

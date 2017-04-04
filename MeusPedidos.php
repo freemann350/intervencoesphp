@@ -4,6 +4,9 @@
   $removeInclude = true;
   $filtrosInclude = true;
   $PmpActive = true;
+  
+  require 'Shared/conn.php';
+  require 'Shared/Restrict.php';
 ?>
 <!DOCTYPE html>
 <html lang="pt">

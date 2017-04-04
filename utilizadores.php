@@ -3,6 +3,16 @@
   $removeInclude = true;
   $filtrosInclude = true;
   $PuActive = true;
+
+  require 'Shared/conn.php';
+  require 'Shared/Restrict.php';
+
+  $stmt = $con->prepare("SELECT concat_ws(' ', nome, apelido) nome, email, professores.id, roles.role FROM professores inner join roles on professores.idrole = roles.id/* where ativo = 1*/");
+
+  $stmt->execute();
+
+  $result = $stmt->get_result();
+
 ?>
 <!DOCTYPE html>
 <html lang="pt">
@@ -68,6 +78,7 @@
                             </div>
 
                             <br><br><br>
+                            <a href="NovoUtilizador" style="float: right;">+ Registar novo Utilizador</a>
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
@@ -78,57 +89,28 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                  <?php
+                                    while ($row = $result->fetch_assoc()) {
+                                  ?>
                                     <tr>
-
-                                        <td>Professor A</td>
-                                        <td>Admin</td>
-                                        <td>
-                                          <a href="EditarUtilizador">
-                                            <i title="Editar Utilizador" class="fa fa-pencil fa-lg" aria-hidden="true"></i>
-                                          </a>
-                                          <a href="Perfil">
-                                            <i title="Ver Perfil de Utilizador" class="fa fa-eye fa-lg" aria-hidden="true"></i>
-                                          </a>
-                                          <a href="#">
-                                            <i title="Eliminar" class="fa fa-times fa-lg deleteRecord" aria-hidden="true"></i>
-                                          </a>
-                                      </td>
-                                    </tr>
-                                    <tr>
-
-                                        <td>Professor B</td>
-                                        <td>Técnico</td>
-                                        <td>
-                                          <a href="EditarUtilizador">
-                                            <i title="Editar Utilizador" class="fa fa-pencil fa-lg" aria-hidden="true"></i>
-                                          </a>
-                                          <a href="Perfil">
-                                            <i title="Ver Perfil de Utilizador" class="fa fa-eye fa-lg" aria-hidden="true"></i>
-                                          </a>
-                                          <a href="#">
-                                            <i title="Eliminar" class="fa fa-times fa-lg deleteRecord" aria-hidden="true"></i>
-                                          </a>
-                                      </td>
-                                    </tr>
-                                    <tr>
-
-                                        <td>Professor C</td>
-                                        <td>Professor</td>
-                                        <td>
-                                          <a href="EditarUtilizador">
-                                            <i title="Editar Utilizador" class="fa fa-pencil fa-lg" aria-hidden="true"></i>
-                                          </a>
-                                          <a href="Perfil">
-                                            <i title="Ver Perfil de Utilizador" class="fa fa-eye fa-lg" aria-hidden="true"></i>
-                                          </a>
+                                      <td><?= $row["nome"] ?></td>
+                                      <td><?= $row["role"] ?></td>
+                                      <td>
+                                        <a href="EditarUtilizador">
+                                          <i title="Editar Utilizador" class="fa fa-pencil fa-lg" aria-hidden="true"></i>
+                                        </a>
+                                        <a href="Perfil">
+                                          <i title="Ver Perfil de Utilizador" class="fa fa-eye fa-lg" aria-hidden="true"></i>
+                                        </a>
                                         <a href="#">
                                           <i title="Eliminar" class="fa fa-times fa-lg deleteRecord" aria-hidden="true"></i>
                                         </a>
-                                      </td>
                                     </tr>
+                                  <?php } ?>
                                 </tbody>
                             </table>
-                            <a href="NovoUtilizador">+ Registar novo Utilizador</a>
+                            <a href="NovoUtilizador" style="float: right;">+ Registar novo Utilizador</a>
+                            <br>
                         </div>
                     </div>
                 </div>

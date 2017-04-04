@@ -1,5 +1,8 @@
 <?php
   $titulo = "Verificar Dados";
+
+  require 'Shared/conn.php';
+  require 'Shared/Restrict.php';
 ?>
 <!DOCTYPE html>
 <html lang="pt">

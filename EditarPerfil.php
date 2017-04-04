@@ -1,6 +1,9 @@
 <?php
   $titulo = "O Meu Perfil - Editar";
   $fileinputInclude =  true;
+
+  require 'Shared/conn.php';
+  require 'Shared/Restrict.php';
 ?>
 <!DOCTYPE html>
 <html lang="pt">
@@ -50,21 +53,21 @@
 
                                   <label class="col-sm-2 col-sm-2 control-label">Nome</label>
                                   <div class="col-sm-10">
-                                    <input type="text" class="form-control">
+                                    <input type="text" class="form-control" value="<?= $primeiroNome?>">
                                     <br>
                                   </div>
                                   <br>
 
                                   <label class="col-sm-2 col-sm-2 control-label">Apelido</label>
                                   <div class="col-sm-10">
-                                    <input type="text" class="form-control">
+                                    <input type="text" class="form-control" value="<?= $apelido?>">
                                     <br>
                                   </div>
                                   <br>
 
                                   <label class="col-sm-2 col-sm-2 control-label">Email</label>
                                   <div class="col-sm-10">
-                                    <input type="text" class="form-control">
+                                    <input type="email" class="form-control" value="<?= $email?>">
                                     <br>
                                     <input type="submit" class="btn btn-primary" value="Submeter">
                                   </div>

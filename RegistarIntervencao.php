@@ -2,6 +2,9 @@
   $titulo = "Registar Intervenção";
   $timepickerInclude = true;
   $datepickerInclude = true;
+
+  require 'Shared/conn.php';
+  require 'Shared/Restrict.php';
 ?>
 <!DOCTYPE html>
 <html lang="pt">

@@ -4,6 +4,9 @@
   $removeInclude =  true;
   $filtrosInclude =  true;
   $PciActive = true;
+
+  require 'Shared/conn.php';
+  require 'Shared/Restrict.php';
 ?>
 <!DOCTYPE html>
 <html lang="pt">
