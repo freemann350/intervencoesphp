@@ -4,7 +4,8 @@
   require_once 'Shared/conn.php';
   require_once 'Shared/Restrict.php';
 
-  $titulo = "Perfil de "  . $nome ;
+  $titulo = "Perfil de "  . $LoggedNome ;
+
 ?>
 <!DOCTYPE html>
 <html lang="pt">
@@ -46,7 +47,7 @@
                                   <label class="col-sm-2 col-sm-2 control-label"><b>Nome</b></label>
                                   <div class="col-sm-10">
                                       <p class="form-control-static">
-                                        <?= $nome ?>
+                                        <?= $LoggedNome ?>
                                       </p>
                                       <br>
                                   </div>

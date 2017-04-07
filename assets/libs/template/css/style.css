@@ -2497,3 +2497,7 @@ label {
 textarea {
     resize: vertical;
 }
+
+.time-get-color {
+  background: white;
+}

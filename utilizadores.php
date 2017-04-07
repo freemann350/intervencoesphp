@@ -74,7 +74,6 @@
                                     <input type="submit" class="btn btn-primary" value="Procurar">
                                 </form>
                                 <hr>
-                                <br>
                             </div>
 
                             <br><br><br>
@@ -82,7 +81,6 @@
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
-
                                         <th>Nome</th>
                                         <th>Tipo de utilizador</th>
                                         <th>Ação</th>

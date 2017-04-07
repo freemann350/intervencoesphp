@@ -32,6 +32,9 @@
                         <form class="form-horizontal style-form" method="get">
                             <div class="form-group">
                                 <br>
+
+                                <input type="hidden" value="<?php echo $LoggedNome;?>" name="Nome">
+
                                 <label class="col-sm-2 col-sm-2 control-label">Equipamento</label>
                                 <div class="col-sm-10">
                                     <select class="form-control">
@@ -43,46 +46,35 @@
                                     <br>
                                 </div>
 
-                                <label class="col-sm-2 control-label">Data</label>
-                                <div class="col-sm-10">
-                                  <div class="input-group">
-                                      <div class="input-group-addon">
-                                          <i class="fa fa-calendar"></i>
-                                      </div>
-                                      <input class="form-control" id="datepicker-registos" name="date" value="<?php echo date('d/m/Y', strtotime('-1 hour')); ?>" type="text">
+                                <label class="col-sm-2 col-sm-2 control-label">Data</label>
+                                <div class="col-sm-10" id="datepicker-registos">
+                                  <div class="input-group date">
+                                    <span class="input-group-addon time-get-color">
+                                      <i class="glyphicon glyphicon-th"></i>
+                                    </span>
+                                    <input type="text" class="form-control" value="<?php echo date('d/m/Y'); ?>" name="Data" readonly>
                                   </div>
-                                    <br>
+                                  <br>
                                 </div>
 
                                 <label class="col-sm-2 col-sm-2 control-label">Hora</label>
                                 <div class="col-sm-10">
                                   <div class="input-group clockpicker">
-                                    <span class="input-group-addon">
+                                    <span class="input-group-addon time-get-color">
                                         <span class="glyphicon glyphicon-time"></span>
                                     </span>
-                                  <input type="text" class="form-control" value="<?php echo date('h:i', strtotime('-1 hour')); ?>" style="cursor: text;">
+                                  <input type="text" class="form-control" value="<?php echo date('h:i', strtotime('-1 hour')); ?>" name="Hora"
+                                  readonly required>
                                   </div>
                                     <br>
                                 </div>
+
 
                                 <label class="col-sm-2 col-sm-2 control-label">Descrição</label>
                                 <div class="col-sm-10">
                                     <textarea type="text" class="form-control" rows="7"></textarea>
                                     <span class="help-block">Tente ser o mais breve possível.</span>
                                     <br>
-                                </div>
-
-                                <label class="col-sm-2 col-sm-2 control-label">Problema</label>
-                                <div class="col-sm-10">
-                                    <select class="form-control">
-                                      <option>1</option>
-                                      <option>2</option>
-                                      <option>3</option>
-                                      <option>4</option>
-                                      <option>5</option>
-                                    </select>
-                                    <br>
-                                    <input type="submit" class="btn btn-primary" value="Submeter">
                                 </div>
                         </form>
                         </div>

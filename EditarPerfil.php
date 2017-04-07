@@ -46,7 +46,7 @@
                                           Procurar… <input type="file" id="imgInp">
                                       </span>
                                     </span>
-                                        <input type="text" class="form-control" disabled>
+                                        <input type="text" class="form-control" readonly>
                                     </div><br>
                                   </div>
 

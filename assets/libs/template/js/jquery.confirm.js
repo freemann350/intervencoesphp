@@ -13,3 +13,16 @@ Não: function () {
 }
 });
 });
+
+$('#submitform').click(function(){
+$.confirm({
+title: '<?= $echo $ttl;?>',
+content: 'Tem a certeza que pretende sair?',
+buttons: {
+Ok: function () {
+
+},
+
+}
+});
+});
