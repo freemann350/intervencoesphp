@@ -83,17 +83,7 @@
                                 <label class="col-sm-2 col-sm-2 control-label">Sala</label>
                                 <div class="col-sm-10">
                                   <select id="sala" disabled class="form-control" name="Sala" required>
-                                    <option value="0" selected disabled hidden>Escolha a Sala...</option>
-                                    <?php /*
-                                      $stmt = $con->prepare("SELECT * FROM salas");
-
-                                      $stmt->execute();
-                                      $result = $stmt->get_result();
-
-                                      while ($row = $result->fetch_assoc()) {
-                                    ?>
-                                      <option value="<?= $row['Id'] ?>"><?= $row["Sala"] ?></option>
-                                      <?php }; */?>
+                                    <option value="0" selected disabled hidden>Escolha a Sala...</option>                                    
                                   </select>
                                     <br>
                                 </div>
@@ -149,6 +139,7 @@
                         </form>
                         </div>
                     </div>
+                  </div>
             </section>
             <!-- /MAIN CONTENT -->
 

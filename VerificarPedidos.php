@@ -23,7 +23,7 @@
 
   $result = $stmt->get_result();
 
-  $row = $result->fetch_assoc()
+  $row = $result->fetch_assoc();
 ?>
 <!DOCTYPE html>
 <html lang="pt">
@@ -56,6 +56,11 @@
 
                                 <label class="col-sm-2 col-sm-2 control-label"><b>Professor</b></label>
                                 <div class="col-sm-10"> <p class="form-control-static"><?=$row["NomeTodo"]?></p>
+                                    <br>
+                                </div>
+
+                                <label class="col-sm-2 col-sm-2 control-label"><b>Sala</b></label>
+                                <div class="col-sm-10"> <p class="form-control-static"><?=$row["Sala"]?></p>
                                     <br>
                                 </div>
 

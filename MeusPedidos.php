@@ -38,6 +38,9 @@
         <!--MAIN CONTENT-->
         <section id="main-content">
             <section class="wrapper site-min-height">
+              <br>
+              <div class="alert alert-success"><b>Sucesso!</b> Os dados foram alterados com êxito.</div>
+
                 <h3><i class="fa fa-angle-right"></i> Os meus Pedidos</h3>
 
                 <div class="row mt">
@@ -114,7 +117,7 @@
                                         <td><?=$row["Nome"]?></td>
                                         <td><?=$row["Sala"]?></td>
                                         <td>
-                                          <a href="EditarPedido">
+                                          <a href="EditarPedido?Id=<?=$row["Id"];?>">
                                             <i title="Editar" class="fa fa-pencil fa-lg" aria-hidden="true"></i>
                                           <a href="VerificarPedidos?Id=<?=$row["Id"];?>">
                                             <i title="Ver todas as informações" class="fa fa-eye fa-lg" aria-hidden="true"></i>
