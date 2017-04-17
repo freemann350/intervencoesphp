@@ -2,7 +2,7 @@
     <div id="sidebar" class="nav-collapse">
         <ul class="sidebar-menu" id="nav-accordion">
 
-          <a href="Perfil"><p class="centered"><img src="assets/img/user/ui-sam.jpg" class="img-circle" width="60"></p>
+          <a href="Perfil?Id=<?=$LoggedID?>"><p class="centered"><img src="assets/img/user/ui-sam.jpg" class="img-circle" width="60"></p>
           <h5 class="centered"><?= $LoggedNome ?></h5></a>
 
           <li class="mt">

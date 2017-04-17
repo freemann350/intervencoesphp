@@ -1,10 +1,25 @@
 <?php
+  if (!(isset($_GET["Id"])) || (trim($_GET["Id"]) == "") || !(is_numeric($_GET["Id"]))) {
+    header("Location: Inicial");
+  }
+
   $fileinputInclude =  true;
 
   require_once 'Shared/conn.php';
   require_once 'Shared/Restrict.php';
 
-  $titulo = "Perfil de "  . $LoggedNome ;
+  $stmt = $con->prepare(
+  "SELECT concat_ws(' ', nome, apelido) Nome, Email, Imagem FROM professores WHERE  Id = ?
+  ");
+
+  $stmt->bind_param("i", $_GET['Id']);
+  $stmt->execute();
+
+  $result = $stmt->get_result();
+
+  $row = $result->fetch_assoc();
+
+  $titulo = "Perfil de "  . $row['Nome'] ;
 
 ?>
 <!DOCTYPE html>
@@ -47,14 +62,14 @@
                                   <label class="col-sm-2 col-sm-2 control-label"><b>Nome</b></label>
                                   <div class="col-sm-10">
                                       <p class="form-control-static">
-                                        <?= $LoggedNome ?>
+                                        <?=$row['Nome']?>
                                       </p>
                                       <br>
                                   </div>
 
                                   <label class="col-sm-2 col-sm-2 control-label"><b>Email</b></label>
                                   <div class="col-sm-10">
-                                      <p class="form-control-static"><?= $email ?></p>
+                                      <p class="form-control-static"><?=$row['Email']?></p>
                                       <br>
                                   </div>
                               </div>

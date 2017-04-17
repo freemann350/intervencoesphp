@@ -114,7 +114,7 @@
                                 </thead>
                                 <tbody>
                                   <?php
-                                    if (!empty($result)) {
+                                    if ($result->num_rows != 0) {
                                     while ($row = $result->fetch_assoc()) {
                                   ?>
                                     <tr>
@@ -129,8 +129,8 @@
                                   }else { ?>
                                         <tr>
                                             <td><?php echo 'Não foram encontrados nenhuns dados.'?></td>
-                                            <td></td>
-                                            <td></td>
+                                            <td>&nbsp;N/D</td>
+                                            <td>&nbsp;N/D</td>
                                         </tr>
                                       <?php };?>
                                 </tbody>

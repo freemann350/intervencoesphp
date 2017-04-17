@@ -130,8 +130,8 @@
                                     <?php }} else { ?>
                                       <tr>
                                           <td><?php echo 'Não foram encontrados nenhuns dados.'?></td>
-                                          <td> - </td>
-                                          <td> - </td>
+                                          <td>&nbsp;N/D </td>
+                                          <td>&nbsp;N/D </td>
                                       </tr>
                                     <?php };?>
                                 </tbody>

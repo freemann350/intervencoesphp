@@ -83,7 +83,7 @@
                                 <label class="col-sm-2 col-sm-2 control-label">Sala</label>
                                 <div class="col-sm-10">
                                   <select id="sala" disabled class="form-control" name="Sala" required>
-                                    <option value="0" selected disabled hidden>Escolha a Sala...</option>                                    
+                                    <option value="0" selected disabled hidden>Escolha a Sala...</option>
                                   </select>
                                     <br>
                                 </div>
@@ -123,7 +123,7 @@
                                     <span class="input-group-addon time-get-color">
                                         <span class="glyphicon glyphicon-time"></span>
                                     </span>
-                                  <input type="text" class="form-control" value="<?php echo date('h:i', strtotime('-1 hour')); ?>" name="Hora"
+                                  <input type="text" class="form-control" value="<?php echo date('H:i', strtotime('-1 hour')); ?>" name="Hora"
                                   readonly required>
                                   </div>
                                     <br>

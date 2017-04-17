@@ -7,7 +7,7 @@
   require 'Shared/conn.php';
   require 'Shared/Restrict.php';
 
-  $stmt = $con->prepare("SELECT concat_ws(' ', nome, apelido) nome, email, professores.id, roles.role FROM professores inner join roles on professores.idrole = roles.id/* where ativo = 1*/");
+  $stmt = $con->prepare("SELECT concat_ws(' ', nome, apelido) nome, email, professores.Id AS IdProf, roles.role FROM professores inner join roles on professores.idrole = roles.id/* where ativo = 1*/");
 
   $stmt->execute();
 
@@ -97,7 +97,7 @@
                                         <a href="EditarUtilizador">
                                           <i title="Editar Utilizador" class="fa fa-pencil fa-lg" aria-hidden="true"></i>
                                         </a>
-                                        <a href="Perfil">
+                                        <a href="Perfil?Id=<?=$row['IdProf']?>">
                                           <i title="Ver Perfil de Utilizador" class="fa fa-eye fa-lg" aria-hidden="true"></i>
                                         </a>
                                         <a href="#">
