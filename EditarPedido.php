@@ -53,12 +53,6 @@
     $stmt->bind_param("iisssi", $Sala, $Equipamento, $DataMySQL, $Hora, $Descricao, $Id);
 
     $stmt->execute();
-
-    $ttl='Sucesso';
-    $msg = 'Dados introduzidos com sucesso.';
-  } else {
-    $ttl='Erro';
-    $msg = 'Houve um problema com a introdução de dados.';
   };
 ?>
 <!DOCTYPE html>

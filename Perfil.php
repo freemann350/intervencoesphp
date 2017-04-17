@@ -79,8 +79,11 @@
 
                                   <label class="col-sm-2 col-sm-2 control-label"><b>Email</b></label>
                                   <div class="col-sm-10">
-                                      <p class="form-control-static"><?=$row['Email']?></p>
-                                      <br>
+                                    <p class="form-control-static"><?=$row['Email']?></p>
+                                    <br>
+                                    <?php if ($LoggedID == $_GET['Id']) {?>
+                                    <a href="EditarPerfil"><input type="button" class="btn btn-primary" value="Editar Perfil"></a>
+                                    <?php };?>
                                   </div>
                               </div>
                         </div>
