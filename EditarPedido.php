@@ -56,9 +56,6 @@
 
     $ttl='Sucesso';
     $msg = 'Dados introduzidos com sucesso.';
-  } else {
-    $ttl='Erro';
-    $msg = 'Houve um problema com a introdução de dados.';
   };
 ?>
 <!DOCTYPE html>

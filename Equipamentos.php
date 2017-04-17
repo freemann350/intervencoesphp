@@ -50,9 +50,8 @@
               ?>
                 <div class="alert alert-danger"><b>Ocorreu um erro.</b> Se tal persistir, contacte um responsável técnico.</div>
               <?php
-                  }
-
-                }
+                };
+              };
               ?>
 
                 <h3><i class="fa fa-angle-right"></i> Gestão de utilizadores</h3>

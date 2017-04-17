@@ -17,18 +17,6 @@
 
   $result = $stmt->get_result();
 
-  function deleteRecordfunction($del){
-    if ($del = true) {
-      $stmt = $con->prepare(
-      "DELETE FROM pedidos WHERE id = ?
-      ");
-
-      $stmt->bind_param("i", $LoggedID);
-      $stmt->execute();
-
-      $result = $stmt->get_result();
-    };
-  };
 ?>
 <!DOCTYPE html>
 <html lang="pt">
@@ -66,7 +54,7 @@
 
                 }
               ?>
-              
+
                 <h3><i class="fa fa-angle-right"></i> Os meus Pedidos</h3>
 
                 <div class="row mt">

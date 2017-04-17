@@ -10,7 +10,7 @@ if (!$_SESSION['Logged']) {
     die();
 }
 
-$stmt = $con->prepare("SELECT concat_ws(' ', nome, apelido) nome, email, nome AS primeiroNome, apelido, IdRole, Id as IdProf FROM professores WHERE Username = ?");
+$stmt = $con->prepare("SELECT concat_ws(' ', nome, apelido) nome, email, nome AS primeiroNome, apelido, IdRole, Id FROM professores WHERE Username = ?");
 $stmt->bind_param("s", $_SESSION["usr"]);
 
 $stmt->execute();
@@ -18,7 +18,7 @@ $stmt->execute();
 $result = $stmt->get_result();
 $query = $result->fetch_assoc();
 
-$LoggedID = $query["IdProf"];
+$LoggedID = $query["Id"];
 $LoggedNome = $query["nome"];
 $LoggedRole = $query["IdRole"];
 $email = $query["email"];
