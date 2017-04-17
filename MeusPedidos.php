@@ -16,6 +16,19 @@
   $stmt->execute();
 
   $result = $stmt->get_result();
+
+  function deleteRecordfunction($del){
+    if ($del = true) {
+      $stmt = $con->prepare(
+      "DELETE FROM pedidos WHERE id = ?
+      ");
+
+      $stmt->bind_param("i", $LoggedID);
+      $stmt->execute();
+
+      $result = $stmt->get_result();
+    };
+  };
 ?>
 <!DOCTYPE html>
 <html lang="pt">
@@ -39,7 +52,22 @@
         <section id="main-content">
             <section class="wrapper site-min-height">
               <br>
-              <div class="alert alert-success"><b>Sucesso!</b> Os dados foram alterados com êxito.</div>
+              <?php
+                if (isset($_GET["msg"])) {
+                  if ($_GET["msg"] == "1") {
+              ?>
+                <div class="alert alert-success"><b>Sucesso!</b> Os dados foram alterados com êxito.</div>
+              <?php
+                } elseif ($_GET["msg"] == "2") {
+              ?>
+                <div class="alert alert-danger"><b>Ocorreu um erro.</b> Se tal persistir, contacte um responsável técnico.</div>
+              <?php
+                  }
+
+                }
+              ?>
+
+
 
                 <h3><i class="fa fa-angle-right"></i> Os meus Pedidos</h3>
 
@@ -122,8 +150,8 @@
                                           <a href="VerificarPedidos?Id=<?=$row["Id"];?>">
                                             <i title="Ver todas as informações" class="fa fa-eye fa-lg" aria-hidden="true"></i>
                                           </a>
-                                          <a href="#">
-                                            <i title="Eliminar" class="fa fa-times fa-lg deleteRecord" aria-hidden="true"></i>
+                                          <a href="javascript:;" class="deleteRecord" data-id="<?=$row["Id"];?>">
+                                            <i title="Eliminar" class="fa fa-times fa-lg" aria-hidden="true"></i>
                                           </a>
                                         </td>
                                     </tr>
@@ -151,6 +179,34 @@
     <?php #HEADER INCLUDE
           include 'Shared/Scripts.php'
     ?>
+    <script>
+    $('.deleteRecord').click(function() {
+      let id = $(this).attr("data-id");
+      $.confirm({
+          title: 'Sair',
+          content: 'Tem a certeza que pretende eliminar este registo?',
+          buttons: {
+              Sim: function() {
+                $.ajax({
+                  method: "GET",
+                  url: "ajax/deletePedido.php?id=" + id,
+                  success: function(data) {
+                    if (data == "1") {
+                      window.location.href = location.href.split('?')[0] + "?msg=1"
+                    } else {
+                      window.location.href = location.href.split('?')[0] + "?msg=2"
+                    }
+                  }
+                });
+              },
+              Não: function() {
+
+              },
+
+          }
+      });
+    });
+    </script>
 </body>
 
 </html>

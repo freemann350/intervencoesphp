@@ -8,6 +8,16 @@
   require_once 'Shared/conn.php';
   require_once 'Shared/Restrict.php';
 
+  #verifica se o utilizador existe
+  $stmt = $con->prepare("SELECT * FROM professores WHERE Id = ?");
+
+  $stmt->bind_param("i", $_GET['Id']);
+  $stmt->execute();
+  $result = $stmt->get_result();
+  if ($result->num_rows == 0) {
+    header("Location: Inicial");
+  }
+
   $stmt = $con->prepare(
   "SELECT concat_ws(' ', nome, apelido) Nome, Email, Imagem FROM professores WHERE  Id = ?
   ");
