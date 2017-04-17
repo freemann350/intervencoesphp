@@ -7,6 +7,10 @@
   require 'Shared/conn.php';
   require 'Shared/Restrict.php';
 
+  if ($LoggedRole != "1") {
+    header("Location: 403");
+  }
+
   $stmt = $con->prepare("SELECT concat_ws(' ', nome, apelido) nome, email, professores.Id AS IdProf, roles.role FROM professores inner join roles on professores.idrole = roles.id/* where ativo = 1*/");
 
   $stmt->execute();

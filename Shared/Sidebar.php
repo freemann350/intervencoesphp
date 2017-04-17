@@ -12,6 +12,7 @@
               </a>
           </li>
 
+          <?php if ($LoggedRole == "1") { ?>
           <li class="sub-menu">
               <a <?php if ((isset($PuActive) && ($PuActive = true)) || (isset($EqActive) && ($EqActive = true))){?> class="active" <?php };?>  href="javascript:;">
                   <i class="fa fa-user"></i>
@@ -22,6 +23,7 @@
                   <li <?php if (isset($EqActive) && ($EqActive = true)){?> class="active" <?php };?>><a href="Equipamentos" style="background: transparent;">Equipamentos</a></li>
               </ul>
           </li>
+          <?php }?>
 
             <li class="sub-menu">
                 <a <?php if ((isset($PrpActive) && ($PrpActive = true)) || (isset($PmpActive) && ($PmpActive = true)) || (isset($PcpActive) && ($PcpActive = true))){?> class="active" <?php };?> href="javascript:;">
@@ -39,11 +41,12 @@
                 <a <?php if ((isset($PmiActive) && ($PmiActive = true)) || (isset($PciActive) && ($PciActive = true)) || (isset($PrActive) && ($PrActive = true)) ){?> class="active" <?php };?> href="javascript:;">
                     <i class="fa fa-wrench"></i>
                     <span>Intervenções</span>
-                </a>
+                </a>                
                 <ul class="sub">
-                    <!--<li><a href="RegistarIntervencao" style="background: transparent;">Intervenções</a></li>-->
+                  <?php if (($LoggedRole == "1") || ($LoggedRole == "2")) { ?>
                     <li <?php if (isset($PrActive) && ($PrActive = true)){?> class="active" <?php };?>><a href="ResolverPedidos" style="background: transparent;">Resolver Pedidos</a></li>
                     <li <?php if (isset($PmiActive) && ($PmiActive = true)){?> class="active" <?php };?>><a href="MinhasIntervencoes" style="background: transparent;">As Minhas Intervenções</a></li>
+                <?php };?>
                     <li <?php if (isset($PciActive) && ($PciActive = true)){?> class="active" <?php };?>><a href="ConsultarIntervencoes" style="background: transparent;">Consultar Intervenções</a></li>
                 </ul>
             </li>

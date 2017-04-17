@@ -5,6 +5,10 @@
 
   require 'Shared/conn.php';
   require 'Shared/Restrict.php';
+
+  if ($LoggedRole == "3") {
+    header("Location: 403");
+  }
 ?>
 <!DOCTYPE html>
 <html lang="pt">

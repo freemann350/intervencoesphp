@@ -7,6 +7,10 @@
 
   require 'Shared/conn.php';
   require 'Shared/Restrict.php';
+
+  if (($LoggedRole != "1") || ($LoggedRole != "2")) {
+    header("Location: 403");
+  }
 ?>
 <!DOCTYPE html>
 <html lang="pt">

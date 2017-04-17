@@ -1,7 +1,7 @@
 <?php
   $titulo = "Página Inicial";
   $PiActive = true;
-  
+
   require 'Shared/conn.php';
   require 'Shared/Restrict.php';
 ?>

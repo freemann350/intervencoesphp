@@ -66,9 +66,7 @@
 
                 }
               ?>
-
-
-
+              
                 <h3><i class="fa fa-angle-right"></i> Os meus Pedidos</h3>
 
                 <div class="row mt">

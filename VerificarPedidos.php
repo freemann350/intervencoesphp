@@ -4,16 +4,6 @@
   require 'Shared/conn.php';
   require 'Shared/Restrict.php';
 
-  /*
-  Professor
-  Equipamento
-  Sala
-  Descricao
-  Data
-  Hora
-  Resolvido
-  */
-
   $stmt = $con->prepare(
   "SELECT pedidos.Id, pedidos.descricao, pedidos.Data, pedidos.Hora, pedidos.Resolvido, equipamentos.Nome, salas.Sala, concat_ws(' ', professores.Nome, professores.Apelido) NomeTodo FROM pedidos INNER JOIN Salas ON pedidos.IdSala = salas.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id INNER JOIN professores ON pedidos.IdProfessor = professores.Id WHERE pedidos.Id = ?
   ");
