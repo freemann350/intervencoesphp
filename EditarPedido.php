@@ -53,6 +53,12 @@
     $stmt->bind_param("iisssi", $Sala, $Equipamento, $DataMySQL, $Hora, $Descricao, $Id);
 
     $stmt->execute();
+<<<<<<< HEAD
+=======
+
+    $ttl='Sucesso';
+    $msg = 'Dados introduzidos com sucesso.';
+>>>>>>> origin/master
   };
 ?>
 <!DOCTYPE html>

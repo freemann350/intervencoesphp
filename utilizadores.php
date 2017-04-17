@@ -11,7 +11,7 @@
     header("Location: 403");
   }
 
-  $stmt = $con->prepare("SELECT concat_ws(' ', nome, apelido) nome, email, professores.Id AS IdProf, roles.role FROM professores inner join roles on professores.idrole = roles.id/* where ativo = 1*/");
+  $stmt = $con->prepare("SELECT concat_ws(' ', nome, apelido) nome, email, professores.Id, roles.role FROM professores inner join roles on professores.idrole = roles.id/* where ativo = 1*/");
 
   $stmt->execute();
 
@@ -98,10 +98,10 @@
                                       <td><?= $row["nome"] ?></td>
                                       <td><?= $row["role"] ?></td>
                                       <td>
-                                        <a href="EditarUtilizador">
+                                        <a href="EditarUtilizador?Id=<?=$row['Id']?>">
                                           <i title="Editar Utilizador" class="fa fa-pencil fa-lg" aria-hidden="true"></i>
                                         </a>
-                                        <a href="Perfil?Id=<?=$row['IdProf']?>">
+                                        <a href="Perfil?Id=<?=$row['Id']?>">
                                           <i title="Ver Perfil de Utilizador" class="fa fa-eye fa-lg" aria-hidden="true"></i>
                                         </a>
                                         <a href="#">
