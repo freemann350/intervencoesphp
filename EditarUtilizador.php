@@ -1,12 +1,12 @@
 <?php
-  if (!(isset($_GET["Id"])) || (trim($_GET["Id"]) == "") || !(is_numeric($_GET["Id"]))) {
+  require 'Shared/conn.php';
+  require 'Shared/Restrict.php';
+
+  if (!(isset($_GET["Id"])) || (trim($_GET["Id"]) == "") || !(is_numeric($_GET["Id"])) || ($_GET['Id']==$LoggedID)) {
     header("Location: Inicial");
   }
 
   $titulo = "Novo Utilizador";
-
-  require 'Shared/conn.php';
-  require 'Shared/Restrict.php';
 
   if ($LoggedRole != "1") {
     header("Location: 403");

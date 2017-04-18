@@ -11,7 +11,7 @@
     header("Location: 403");
   }
 
-  $stmt = $con->prepare("SELECT concat_ws(' ', nome, apelido) nome, email, professores.Id, roles.role FROM professores inner join roles on professores.idrole = roles.id/* where ativo = 1*/");
+$stmt = $con->prepare("SELECT concat_ws(' ', nome, apelido) nome, email, professores.Id, roles.role FROM professores inner join roles on professores.idrole = roles.id WHERE Not professores.Id = " . $LoggedID);
 
   $stmt->execute();
 

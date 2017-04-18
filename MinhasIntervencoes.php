@@ -91,24 +91,18 @@
                                 <hr>
                                 <br>
                             </div>
-
-                            <br><br><br>
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
-
                                         <th>Equipamento</th>
                                         <th>Data</th>
-
                                         <th>Ação</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-
                                         <td>Projetor</td>
                                         <td>00-00-0000</td>
-
                                         <td><a href="EditarIntervencao"><i title="Editar" class="fa fa-pencil fa-lg" aria-hidden="true"></i>  <a href="Verificar"> <i title="Ver todas as informações" class="fa fa-eye fa-lg" aria-hidden="true"></i></a>
                                             <a href="#"><i title="Eliminar" class="fa fa-times fa-lg deleteRecord" aria-hidden="true"></i></a>
                                         </td>
