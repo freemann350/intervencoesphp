@@ -6,6 +6,10 @@
   require 'Shared/conn.php';
   require 'Shared/Restrict.php';
 
+  if ($LoggedRole != "1") {
+    header("Location: 403");
+  }
+
   if (isset($_POST["novo_util_submit"])) {
     // Escape user inputs for security
     $Nome = trim(mysqli_real_escape_string($con, $_POST['Nome']));

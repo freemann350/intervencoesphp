@@ -1,5 +1,8 @@
 <?php
-session_start();
+	session_start();
+	if (isset($_SESSION['usr']) && ($_SESSION['usr'] !== "")) {
+		header('Location: Inicial');
+	}
 	$titulo = "Login";
 	$backstretchInclude = True;
 	include 'Shared/conn.php';
@@ -15,7 +18,6 @@ session_start();
 		$stmt->execute();
 
 		$result = $stmt->get_result();
-    //$active = $row['active'];
 
     $count = $result->num_rows;
 
@@ -34,7 +36,7 @@ session_start();
 
 					 die();
       } else {
-         $error = "Utilizador/Palavra-Passe errada";
+         $error = true;
       };
    };
 ?>
@@ -49,8 +51,21 @@ session_start();
     <section id="container">
             <div class="container">
                 <form class="form-login" action="" method = "post">
-                    <h2 class="form-login-heading">Intervenções AESM</h2>
+                    <h2 class="form-login-heading"><b>Intervenções AESM</b></h2>
                     <div class="login-wrap">
+											<?php if (isset($error) && ($error=true)) {?>
+											  <div class="form-group form-group has-error has-feedback">
+													<input type="text" class="form-control" placeholder="Utilizador" name="username" autofocus>
+													<br>
+
+                      		<input type="password" class="form-control" placeholder="Palavra-passe" name="password">
+													<input type="hidden" name="redirurl" value="<? echo $_SERVER['HTTP_REFERER']; ?>">
+                            <br>
+                            <button class="btn btn-theme btn-block" href="Inicial" type="submit"><i class="fa fa-lock"></i> Entrar</button>
+                        </div>
+                        <hr>
+                        <p style="text-align: center; color: #FF0000"> Utilizador/Palavra-Passe Inválida</p>
+											<?php } else {?>
                         <input type="text" class="form-control" placeholder="Utilizador" name="username" autofocus>
                         <br>
                         <div class="form-group">
@@ -60,9 +75,8 @@ session_start();
                             <button class="btn btn-theme btn-block" href="Inicial" type="submit"><i class="fa fa-lock"></i> Entrar</button>
                         </div>
                         <hr>
-                        <p style="text-align: center; color: #FF0000">
-                        <?php if (isset($error)) { echo $error; };?></p>
-                    </div>
+												<?php };?>
+										</div>
                 </form>
             </div>
     </section>

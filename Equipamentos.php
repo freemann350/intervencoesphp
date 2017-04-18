@@ -1,5 +1,4 @@
 <?php
-
   $titulo = "Gerência de Equipamentos";
   $removeInclude = true;
   $EqActive = true;
@@ -44,11 +43,11 @@
                 if (isset($_GET["msg"])) {
                   if ($_GET["msg"] == "1") {
               ?>
-                <div class="alert alert-success"><b>Sucesso!</b> Os dados foram alterados com êxito.</div>
+                <div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><b>Sucesso!</b> Os dados foram alterados com êxito.</div>
               <?php
                 } elseif ($_GET["msg"] == "2") {
               ?>
-                <div class="alert alert-danger"><b>Ocorreu um erro.</b> Se tal persistir, contacte um responsável técnico.</div>
+                <div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><b>Ocorreu um erro.</b> Se tal persistir, contacte um responsável técnico.</div>
               <?php
                 };
               };
@@ -60,28 +59,38 @@
                     <br><br>
                     <div class="col-lg-12">
                         <div class="form-panel">
+                          <a href="NovoEquipamento" style="float: right;">+ Registar novo Equipamento</a>
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
                                         <th>Nome</th>
+                                        <th>Ação</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                   <?php
+                                    if ($result->num_rows != 0) {
                                     while ($row = $result->fetch_assoc()) {
                                   ?>
                                     <tr>
                                       <td><?= $row["Nome"] ?></td>
                                       <td>
-                                        <a href="EditarUtilizador">
+                                        <a href="EditarEquipamento?Id=<?=$row['Id'];?>">
                                           <i title="Editar Utilizador" class="fa fa-pencil fa-lg" aria-hidden="true"></i>
                                         </a>
-                                        <a href="javascript:;" class="deleteRecord" data-id="<?=$row["Id"];?>">
+                                        <a href="javascript:;" class="deleteRecord" data-id="<?=$row['Id'];?>">
                                           <i title="Eliminar" class="fa fa-times fa-lg" aria-hidden="true"></i>
                                     </tr>
-                                  <?php } ?>
+                                  <?php }} else { ?>
+                                    <tr>
+                                        <td><?php echo 'Não foram encontrados nenhuns dados.'?></td>
+                                        <td>&nbsp;N/D </td>
+                                    </tr>
+                                  <?php };?>
                                 </tbody>
                             </table>
+                            <a href="NovoEquipamento" style="float: right;">+ Registar novo Equipamento</a>
+                            <br>
                         </div>
                     </div>
                 </div>

@@ -11,6 +11,14 @@
   if ($LoggedRole == "3") {
     header("Location: 403");
   }
+
+  $stmt = $con->prepare(
+  "SELECT pedidos.Id, equipamentos.Nome, salas.Sala FROM pedidos INNER JOIN Salas ON pedidos.IdSala = salas.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id;
+  ");
+
+  $stmt->execute();
+
+  $result = $stmt->get_result();
 ?>
 <!DOCTYPE html>
 <html lang="pt">
@@ -106,57 +114,35 @@
                                     <tr>
 
                                         <th>Equipamento</th>
-                                        <th>Data</th>
-
+                                        <th>Sala</th>
                                         <th>Ação</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                  <?php
+                                  if ($result->num_rows != 0) {
+                                  while ($row = $result->fetch_assoc()) {
+                                  ?>
+                                  <tr>
+                                      <td><?=$row['Nome']?></td>
+                                      <td><?=$row['Sala']?></td>
+                                      <td>
+                                          <a href="VerificarPedido?Id=<?=$row['Id']?>">
+                                            <i title="Ver todas as informações" class="fa fa-eye fa-lg" aria-hidden="true"></i>
+                                          </a>
+                                          &nbsp;
+                                          <a href= "RegistarIntervencao?Id=<?=$row['Id']?>">
+                                            <i title="Registar intervenção" class="fa fa-wrench" aria-hidden="true"></i>
+                                          </a>
+                                      </td>
+                                  </tr>
+                                  <?php }} else { ?>
                                     <tr>
-
-                                        <td>Projetor</td>
-                                        <td>00-00-0000</td>
-
-                                        <td>
-                                            <a href="Verificar">
-                                              <i title="Ver todas as informações" class="fa fa-eye fa-lg" aria-hidden="true"></i>
-                                            </a><!--
-                                            -->&nbsp;<!--
-                                            --><a href= "RegistarIntervencao">
-                                              <i title="Registar intervenção" class="fa fa-wrench" aria-hidden="true"></i>
-                                            </a>
-                                        </td>
+                                        <td><?php echo 'Não foram encontrados nenhuns dados.'?></td>
+                                        <td>&nbsp;N/D </td>
+                                        <td>&nbsp;N/D </td>
                                     </tr>
-                                    <tr>
-
-                                        <td>Computador</td>
-                                        <td>00-00-0000</td>
-
-                                        <td>
-                                            <a href="Verificar">
-                                              <i title="Ver todas as informações" class="fa fa-eye fa-lg" aria-hidden="true"></i>
-                                            </a><!--
-                                            -->&nbsp;<!--
-                                            --><a href= "RegistarIntervencao">
-                                              <i title="Registar intervenção" class="fa fa-wrench" aria-hidden="true"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-
-                                        <td>Quadro Interativo</td>
-                                        <td>00-00-0000</td>
-
-                                        <td>
-                                            <a href="Verificar">
-                                              <i title="Ver todas as informações" class="fa fa-eye fa-lg" aria-hidden="true"></i>
-                                            </a><!--
-                                            -->&nbsp;<!--
-                                            --><a href= "RegistarIntervencao">
-                                              <i title="Registar intervenção" class="fa fa-wrench" aria-hidden="true"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
+                                  <?php }?>
                                 </tbody>
                             </table>
                         </div>

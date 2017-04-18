@@ -44,11 +44,11 @@
                 if (isset($_GET["msg"])) {
                   if ($_GET["msg"] == "1") {
               ?>
-                <div class="alert alert-success"><b>Sucesso!</b> Os dados foram alterados com êxito.</div>
+                <div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><b>Sucesso!</b> Os dados foram alterados com êxito.</div>
               <?php
                 } elseif ($_GET["msg"] == "2") {
               ?>
-                <div class="alert alert-danger"><b>Ocorreu um erro.</b> Se tal persistir, contacte um responsável técnico.</div>
+                <div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><b>Ocorreu um erro.</b> Se tal persistir, contacte um responsável técnico.</div>
               <?php
                   }
 
@@ -133,7 +133,7 @@
                                         <td>
                                           <a href="EditarPedido?Id=<?=$row["Id"];?>">
                                             <i title="Editar" class="fa fa-pencil fa-lg" aria-hidden="true"></i>
-                                          <a href="VerificarPedidos?Id=<?=$row["Id"];?>">
+                                          <a href="VerificarPedido?Id=<?=$row["Id"];?>">
                                             <i title="Ver todas as informações" class="fa fa-eye fa-lg" aria-hidden="true"></i>
                                           </a>
                                           <a href="javascript:;" class="deleteRecord" data-id="<?=$row["Id"];?>">

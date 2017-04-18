@@ -76,7 +76,7 @@
         <!--MAIN CONTENT-->
         <section id="main-content">
             <section class="wrapper site-min-height"><br>
-              <div class="alert alert-danger"><b>Erro!</b> Os dados não foram alterados com êxito.</div>
+              <div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><b>Erro!</b> Os dados não foram alterados com êxito.</div>
                 <h3><i class="fa fa-angle-right"></i> Registo de Pedidos - Editar</h3>
                 <div class="row mt">
                     <div class="form-panel">

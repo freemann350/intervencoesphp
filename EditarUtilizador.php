@@ -39,6 +39,8 @@
     $stmt->bind_param("sssssii", $Nome, $Apelido, $Email, $Password, $Username, $Tipo, $Id);
 
     $stmt->execute();
+
+    header('Location: Utilizadores');
     };
 };
 ?>
@@ -123,7 +125,7 @@
 
                                         while ($row = $result->fetch_assoc()) {
                                       ?>
-                                        <option value="<?= $row['Id'] ?>"<?php echo ($row["Role"] == $utilizador['IdRole'] ? "selected" : "") ?>><?= $row["Role"] ?></option>
+                                        <option value="<?= $row['Id'] ?>" <?=(($row["Id"] == $utilizador["IdRole"]) ? "selected" : "")  ?>><?=$row["Role"] ?></option>
                                       <?php } ?>
                                     </select>
                                     <br>

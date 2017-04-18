@@ -121,7 +121,7 @@
                                         <td><?=$row["Nome"];?></td>
                                         <td><?=$row["Sala"];?></td>
                                         <td>&nbsp;
-                                            <a class="Ver" href="VerificarPedidos?Id=<?=$row["Id"];?>"> <i title="Ver todas as informações" class="fa fa-eye fa-lg" aria-hidden="true"></i></a>
+                                            <a class="Ver" href="VerificarPedido?Id=<?=$row["Id"];?>"> <i title="Ver todas as informações" class="fa fa-eye fa-lg" aria-hidden="true"></i></a>
                                         </td>
                                     </tr>
 
