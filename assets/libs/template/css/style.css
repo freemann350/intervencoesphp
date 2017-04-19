@@ -2501,3 +2501,17 @@ textarea {
 .time-get-color {
   background: white;
 }
+
+.datepicker .disabled.day,
+.datepicker .disabled.month,
+.datepicker .disabled.year,
+.datepicker .disabled.decade,
+.datepicker .disabled.century,
+.datepicker .disabled.day:hover,
+.datepicker .disabled.month:hover,
+.datepicker .disabled.year:hover,
+.datepicker .disabled.decade:hover,
+.datepicker .disabled.century:hover,
+.datepicker .disabled-date.disabled {
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAIklEQVQYV2NkQAJr1679zwjjgzjBwcGMYAEYB8RmROaABADgiw8Lw5+t3QAAAABJRU5ErkJggg==) repeat !important;
+}

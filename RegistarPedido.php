@@ -112,7 +112,7 @@
                                     <span class="input-group-addon time-get-color">
                                       <i class="glyphicon glyphicon-th"></i>
                                     </span>
-                                    <input type="text" class="form-control" placeholder="DD/MM/AAAA" name="Data" readonly>
+                                    <input type="text" class="form-control" placeholder="DD/MM/AAAA" name="Data" readonly required>
                                   </div>
                                   <br>
                                 </div>
