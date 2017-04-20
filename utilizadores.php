@@ -117,7 +117,7 @@ $stmt = $con->prepare("SELECT concat_ws(' ', nome, apelido) nome, email, Ativo, 
                                         <a href="Perfil?Id=<?=$row['Id']?>">
                                           <i title="Ver Perfil de Utilizador" class="fa fa-eye fa-lg" aria-hidden="true"></i>
                                         </a>
-                                        <?php if ($row['Ativo'] == '0') {?>
+                                        <?php if ($row['Ativo'] == '1') {?>
                                         <a href="javascript:;" class="deleteRecord" data-id="<?=$row['Id'];?>">
                                           <i title="Inativar Utilizador" class="fa fa-times fa-lg" aria-hidden="true"></i>
                                         </a>
