@@ -80,6 +80,7 @@
                                         </a>
                                         <a href="javascript:;" class="deleteRecord" data-id="<?=$row['Id'];?>">
                                           <i title="Eliminar" class="fa fa-times fa-lg" aria-hidden="true"></i>
+                                        </a>
                                     </tr>
                                   <?php }} else { ?>
                                     <tr>
