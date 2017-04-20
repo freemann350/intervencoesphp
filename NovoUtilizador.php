@@ -19,7 +19,7 @@
     $Username = trim(mysqli_real_escape_string($con, $_POST['Username']));
     $Tipo = trim(mysqli_real_escape_string($con, $_POST['Tipo']));
 
-    $stmt = $con->prepare("INSERT INTO professores (Nome, Apelido, Username, Email, Password, IdRole) VALUES (?, ?, ?, ?, ?, ?)");
+    $stmt = $con->prepare("INSERT INTO professores (Nome, Apelido, Username, Email, Password, IdRole, Ativo) VALUES (?, ?, ?, ?, ?, ?, '1')");
 
     $stmt->bind_param("sssssi", $Nome, $Apelido, $Username, $Email, $Password, $Tipo);
 

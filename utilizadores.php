@@ -11,7 +11,7 @@
     header("Location: 403");
   }
 
-$stmt = $con->prepare("SELECT concat_ws(' ', nome, apelido) nome, email, professores.Id, roles.role FROM professores inner join roles on professores.idrole = roles.id WHERE Not professores.Id = " . $LoggedID . " AND ativo = 1");
+$stmt = $con->prepare("SELECT concat_ws(' ', nome, apelido) nome, email, Ativo, professores.Id, roles.role FROM professores inner join roles on professores.idrole = roles.id WHERE Not professores.Id = " . $LoggedID /*. " AND ativo = 1"*/);
 
   $stmt->execute();
 
@@ -117,9 +117,13 @@ $stmt = $con->prepare("SELECT concat_ws(' ', nome, apelido) nome, email, profess
                                         <a href="Perfil?Id=<?=$row['Id']?>">
                                           <i title="Ver Perfil de Utilizador" class="fa fa-eye fa-lg" aria-hidden="true"></i>
                                         </a>
+                                        <?php if ($row['Ativo'] == '0') {?>
                                         <a href="javascript:;" class="deleteRecord" data-id="<?=$row['Id'];?>">
-                                          <i title="Eliminar" class="fa fa-times fa-lg" aria-hidden="true"></i>
+                                          <i title="Inativar Utilizador" class="fa fa-times fa-lg" aria-hidden="true"></i>
                                         </a>
+                                      <?php } else {?>
+                                          <i title="O utilizador já está inativo." class="fa fa-times fa-lg" aria-hidden="true"></i>
+                                      <?php }?>
                                     </tr>
                                   <?php } ?>
                                 </tbody>
@@ -147,7 +151,7 @@ $stmt = $con->prepare("SELECT concat_ws(' ', nome, apelido) nome, email, profess
       let id = $(this).attr("data-id");
       $.confirm({
           title: 'Sair',
-          content: 'Tem a certeza que pretende eliminar este registo?',
+          content: 'Tem a certeza que pretende inativar este utilizador?<br><br> Poderá voltar a ativa-lo ao editar o utilizador.',
           buttons: {
               Sim: function() {
                 $.ajax({

@@ -12,7 +12,7 @@
     $usr = mysqli_real_escape_string($con, $_POST['username']);
     $pwd = mysqli_real_escape_string($con, $_POST['password']);
 
-		$stmt = $con->prepare("SELECT * FROM professores WHERE Username = ? and Password = ?");
+		$stmt = $con->prepare("SELECT * FROM professores WHERE Username = ? and Password = ? AND Ativo = '1'");
 		$stmt->bind_param("ss", $usr, $pwd);
 
 		$stmt->execute();
