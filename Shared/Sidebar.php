@@ -41,7 +41,7 @@
                 <a <?php if ((isset($PmiActive) && ($PmiActive = true)) || (isset($PciActive) && ($PciActive = true)) || (isset($PrActive) && ($PrActive = true)) ){?> class="active" <?php };?> href="javascript:;">
                     <i class="fa fa-wrench"></i>
                     <span>Intervenções</span>
-                </a>                
+                </a>
                 <ul class="sub">
                   <?php if (($LoggedRole == "1") || ($LoggedRole == "2")) { ?>
                     <li <?php if (isset($PrActive) && ($PrActive = true)){?> class="active" <?php };?>><a href="ResolverPedidos" style="background: transparent;">Resolver Pedidos</a></li>

@@ -10,7 +10,7 @@ $(function() {
         autoExpand: true,
 //        cookie: 'dcjq-accordion-1',
         classExpand: 'dcjq-current-parent'
-    });
+    }); 
 });
 
 var Script = function () {

@@ -1,7 +1,7 @@
 <?php
   if (!(isset($_GET["Id"])) || (trim($_GET["Id"]) == "") || !(is_numeric($_GET["Id"]))) {
-    header("Location: Inicial");
-  }
+  header("Location: ResolverPedidos");
+}
 
   $titulo = "Registar Intervenção";
   $timepickerInclude = true;
@@ -22,6 +22,13 @@
 
   $result = $stmt->get_result();
 
+  $row = $result->fetch_assoc();
+
+
+  if ($row["Resolvido"] == "1") {
+    Header("Location: ResolverPedidos");
+  }
+
   if (isset($_POST["registar_interv_submit"])) {
     // Escape strings para prevenção de MySQL injection
     $Id = trim(mysqli_real_escape_string($con, $_GET['Id']));
@@ -34,11 +41,17 @@
     $Date = str_replace('/', '-', $Data);
     $DataMySQL = date('Y-m-d', strtotime($Date));
 
-    $stmt = $con->prepare("INSERT INTO intervencoes (IdPedido, Data, Hora, Descricao, Resolvido) values (?, ?, ?, ?, " . $Resolvido . ")");
-
-    $stmt->bind_param("isss", $Id, $Data, $Hora, $Descricao);
-
+    $stmt = $con->prepare("INSERT INTO intervencoes (IdPedido, IdProfessor, Data, Hora, Descricao, Resolvido) values (?, ?, ?, ?, ?, " . $Resolvido . ");");
+    $stmt->bind_param("iisss", $Id, $LoggedID, $Data, $Hora, $Descricao);
     $stmt->execute();
+
+    if ($Resolvido == "1") {
+      $stmt = $con->prepare("UPDATE pedidos SET Resolvido = 1 WHERE Id = ?");
+      $stmt->bind_param("i", $Id);
+      $stmt->execute();
+    } 
+
+    header('Location: ResolverPedidos');
   };
 ?>
 <!DOCTYPE html>

@@ -13,7 +13,7 @@
   }
 
   $stmt = $con->prepare(
-  "SELECT pedidos.Id, equipamentos.Nome, salas.Sala FROM pedidos INNER JOIN Salas ON pedidos.IdSala = salas.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id;
+  "SELECT pedidos.Id, equipamentos.Nome, salas.Sala, Resolvido FROM pedidos INNER JOIN Salas ON pedidos.IdSala = salas.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id;
   ");
 
   $stmt->execute();
@@ -121,7 +121,8 @@
                                 <tbody>
                                   <?php
                                   if ($result->num_rows != 0) {
-                                  while ($row = $result->fetch_assoc()) {
+                                    while ($row = $result->fetch_assoc()) {
+                                      if ($row['Resolvido'] == '0') {
                                   ?>
                                   <tr>
                                       <td><?=$row['Nome']?></td>
@@ -136,7 +137,7 @@
                                           </a>
                                       </td>
                                   </tr>
-                                  <?php }} else { ?>
+                                  <?php }}} else { ?>
                                     <tr>
                                         <td><?php echo 'Não foram encontrados nenhuns dados.'?></td>
                                         <td>&nbsp;N/D </td>

@@ -8,10 +8,17 @@
   require 'Shared/conn.php';
   require 'Shared/Restrict.php';
 
-  #3 = professor
   if ($LoggedRole == "3") {
     header("Location: 403");
   }
+
+  $stmt = $con->prepare("SELECT intervencoes.Resolvido, intervencoes.Id, salas.Sala, equipamentos.Nome FROM intervencoes INNER JOIN pedidos ON intervencoes.IdPedido = pedidos.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id INNER JOIN salas ON pedidos.IdSala = salas.Id WHERE intervencoes.IdProfessor = ?");
+
+  $stmt->bind_param("i", $LoggedID);
+  $stmt->execute();
+
+  $result = $stmt->get_result();
+
 ?>
 <!DOCTYPE html>
 <html lang="pt">
@@ -91,41 +98,42 @@
                                 <hr>
                                 <br>
                             </div>
-                            <table class="table table-hover">
+
+                            <br><br>
+                            <table class="table table-hover" style="max-width: 15116165px; overflow: scroll;">
                                 <thead>
                                     <tr>
-                                        <th>Equipamento</th>
-                                        <th>Data</th>
-                                        <th>Ação</th>
+                                      <th>Equipamento</th>
+                                      <th>Sala</th>
+                                      <th>Ação</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                  <?php
+                                  if ($result->num_rows != 0) {
+                                  while ($row = $result->fetch_assoc()) {
+                                  ?>
                                     <tr>
-                                        <td>Projetor</td>
-                                        <td>00-00-0000</td>
-                                        <td><a href="EditarIntervencao"><i title="Editar" class="fa fa-pencil fa-lg" aria-hidden="true"></i>  <a href="Verificar"> <i title="Ver todas as informações" class="fa fa-eye fa-lg" aria-hidden="true"></i></a>
-                                            <a href="#"><i title="Eliminar" class="fa fa-times fa-lg deleteRecord" aria-hidden="true"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-
-                                        <td>Computador</td>
-                                        <td>00-00-0000</td>
-
-                                        <td><a href="EditarIntervencao"><i title="Editar" class="fa fa-pencil fa-lg" aria-hidden="true"></i>  <a href="Verificar"> <i title="Ver todas as informações" class="fa fa-eye fa-lg" aria-hidden="true"></i></a>
-                                            <a href="#"><i title="Eliminar" class="fa fa-times fa-lg deleteRecord" aria-hidden="true"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-
-                                        <td>Quadro Interativo</td>
-                                        <td>00-00-0000</td>
-
+                                        <td><?=$row["Nome"]?></td>
+                                        <td><?=$row["Sala"]?></td>
                                         <td>
-                                          <a href="EditarIntervencao"><i title="Editar" class="fa fa-pencil fa-lg" aria-hidden="true"></i></a>
-                                          <a href="Verificar"> <i title="Ver todas as informações" class="fa fa-eye fa-lg" aria-hidden="true"></i></a>
-                                          <a href="#"><i title="Eliminar" class="fa fa-times fa-lg deleteRecord" aria-hidden="true"></i></a></td>
+                                          <a href="EditarIntervencao?Id=<?=$row["Id"];?>">
+                                            <i title="Editar" class="fa fa-pencil fa-lg" aria-hidden="true"></i>
+                                          <a href="VerificarIntervencao?Id=<?=$row["Id"];?>">
+                                            <i title="Ver todas as informações" class="fa fa-eye fa-lg" aria-hidden="true"></i>
+                                          </a>
+                                          <a href="javascript:;" class="deleteRecord" data-id="<?=$row["Id"];?>">
+                                            <i title="Eliminar" class="fa fa-times fa-lg" aria-hidden="true"></i>
+                                          </a>
+                                        </td>
                                     </tr>
+                                    <?php }} else { ?>
+                                      <tr>
+                                          <td><?php echo 'Não foram encontrados nenhuns dados.'?></td>
+                                          <td>&nbsp;N/D </td>
+                                          <td>&nbsp;N/D </td>
+                                      </tr>
+                                    <?php };?>
                                 </tbody>
                             </table>
                         </div>

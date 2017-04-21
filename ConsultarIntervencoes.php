@@ -7,6 +7,12 @@
 
   require 'Shared/conn.php';
   require 'Shared/Restrict.php';
+
+  $stmt = $con->prepare("SELECT intervencoes.Resolvido, intervencoes.Id, salas.Sala, equipamentos.Nome FROM intervencoes INNER JOIN pedidos ON intervencoes.IdPedido = pedidos.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id INNER JOIN salas ON pedidos.IdSala = salas.Id");
+
+  $stmt->execute();
+
+  $result = $stmt->get_result();
 ?>
 <!DOCTYPE html>
 <html lang="pt">
@@ -95,41 +101,36 @@
                                 <br>
                             </div>
 
-                            <br><br><br>
-                            <table class="table table-hover">
+                            <br><br>
+                            <table class="table table-hover" style="max-width: 15116165px; overflow: scroll;">
                                 <thead>
                                     <tr>
-                                        <th>Equipamento</th>
-                                        <th>Data</th>
-                                        <th>Ação</th>
+                                      <th>Equipamento</th>
+                                      <th>Sala</th>
+                                      <th>Ação</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                  <?php
+                                  if ($result->num_rows != 0) {
+                                  while ($row = $result->fetch_assoc()) {
+                                  ?>
                                     <tr>
-
-                                        <td>Projetor</td>
-                                        <td>00-00-0000</td>
-
-                                        <td>&nbsp;
-                                            <a href="Verificar"> <i title="Ver todas as informações" class="fa fa-eye fa-lg" aria-hidden="true"></i></a>
+                                        <td><?=$row["Nome"]?></td>
+                                        <td><?=$row["Sala"]?></td>
+                                        <td>
+                                          <a href="VerificarIntervencao?Id=<?=$row["Id"];?>">
+                                            <i title="Ver todas as informações" class="fa fa-eye fa-lg" aria-hidden="true"></i>
+                                          </a>
                                         </td>
                                     </tr>
-                                    <tr>
-
-                                        <td>Computador</td>
-                                        <td>00-00-0000</td>
-                                        <td>&nbsp;
-                                            <a href="Verificar"> <i title="Ver todas as informações" class="fa fa-eye fa-lg" aria-hidden="true"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-
-                                        <td>Quadro Interativo</td>
-                                        <td>00-00-0000</td>
-                                        <td>&nbsp;
-                                            <a href="Verificar"> <i title="Ver todas as informações" class="fa fa-eye fa-lg" aria-hidden="true"></i></a>
-                                        </td>
-                                    </tr>
+                                    <?php }} else { ?>
+                                      <tr>
+                                          <td><?php echo 'Não foram encontrados nenhuns dados.'?></td>
+                                          <td>&nbsp;N/D </td>
+                                          <td>&nbsp;N/D </td>
+                                      </tr>
+                                    <?php };?>
                                 </tbody>
                             </table>
                         </div>

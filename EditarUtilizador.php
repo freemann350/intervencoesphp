@@ -32,11 +32,12 @@
     $Username = trim(mysqli_real_escape_string($con, $_POST['Username']));
     $Tipo = trim(mysqli_real_escape_string($con, $_POST['Tipo']));
     $Id = trim(mysqli_real_escape_string($con, $_POST['Id']));
+    $Ativo = ((isset($_POST['Ativo'])) ? "1" : "0");
 
     $stmt = $con->prepare(
-    "UPDATE professores SET Nome = ?, Apelido = ?, Email = ?, Password = ?, Username = ?, IdRole = ? WHERE Id = ?");
+    "UPDATE professores SET Nome = ?, Apelido = ?, Email = ?, Password = ?, Username = ?, IdRole = ?, Ativo = ? WHERE Id = ?");
 
-    $stmt->bind_param("sssssii", $Nome, $Apelido, $Email, $Password, $Username, $Tipo, $Id);
+    $stmt->bind_param("sssssiii", $Nome, $Apelido, $Email, $Password, $Username, $Tipo, $Ativo, $Id);
 
     $stmt->execute();
 
@@ -129,7 +130,18 @@
                                       <?php } ?>
                                     </select>
                                     <br>
-                                    <input type="submit" name="editar_util_submit" class="btn btn-primary" value="Submeter">
+                                </div>
+
+                                <label class="col-sm-2 col-sm-2 control-label">Ativo</label>
+                                <div class="col-sm-10">
+                                  <div class="checkbox">
+                                    <label>
+                                      <input style="margin-top:2px;" type="checkbox" name="Ativo"<?php if ($utilizador['Ativo'] == '1'){?> checked <?php };?>>
+                                      <p>Ativo</p>
+                                    </label>
+                                  </div>
+                                  <br>
+                                  <input type="submit" class="btn btn-primary" value="Submeter" name="editar_util_submit">
                                 </div>
                         </form>
                         </div>

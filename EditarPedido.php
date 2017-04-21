@@ -53,6 +53,8 @@
     $stmt->bind_param("iisssi", $Sala, $Equipamento, $DataMySQL, $Hora, $Descricao, $Id);
 
     $stmt->execute();
+
+    header('Location: MeusPedidos');
   };
 ?>
 <!DOCTYPE html>

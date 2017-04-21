@@ -53,7 +53,7 @@
               };
               ?>
 
-                <h3><i class="fa fa-angle-right"></i> Gestão de utilizadores</h3>
+                <h3><i class="fa fa-angle-right"></i> Gestão de equipamentos</h3>
 
                 <div class="row mt">
                     <br><br>

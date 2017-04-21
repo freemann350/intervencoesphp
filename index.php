@@ -55,7 +55,7 @@
                     <div class="login-wrap">
 											<?php if (isset($error) && ($error=true)) {?>
 											  <div class="form-group form-group has-error has-feedback">
-													<input type="text" class="form-control" placeholder="Utilizador" name="username" autofocus>
+													<input type="text" value="<?php if (isset($_POST['username'])) { echo $_POST['username']; } else { echo '';} ?>" class="form-control" placeholder="Utilizador" name="username" autofocus>
 													<br>
 
                       		<input type="password" class="form-control" placeholder="Palavra-passe" name="password">
