@@ -6,6 +6,7 @@
   $titulo = "Registar Intervenção";
   $timepickerInclude = true;
   $datepickerInclude = true;
+  $validatejs = true;
 
   require 'Shared/conn.php';
   require 'Shared/Restrict.php';
@@ -36,20 +37,20 @@
     $Hora = trim(mysqli_real_escape_string($con, $_POST['Hora']));
     $Descricao = trim(mysqli_real_escape_string($con, $_POST['Descricao']));
     $Resolvido = ((isset($_POST['Resolvido'])) ? "1" : "0");
-    // Conversão da data do utilizador para formato MySQLi
 
+    // Conversão da data do utilizador para formato MySQLi
     $Date = str_replace('/', '-', $Data);
     $DataMySQL = date('Y-m-d', strtotime($Date));
 
     $stmt = $con->prepare("INSERT INTO intervencoes (IdPedido, IdProfessor, Data, Hora, Descricao, Resolvido) values (?, ?, ?, ?, ?, " . $Resolvido . ");");
-    $stmt->bind_param("iisss", $Id, $LoggedID, $Data, $Hora, $Descricao);
+    $stmt->bind_param("iisss", $Id, $LoggedID, $DataMySQL, $Hora, $Descricao);
     $stmt->execute();
 
     if ($Resolvido == "1") {
       $stmt = $con->prepare("UPDATE pedidos SET Resolvido = 1 WHERE Id = ?");
       $stmt->bind_param("i", $Id);
       $stmt->execute();
-    } 
+    }
 
     header('Location: ResolverPedidos');
   };
@@ -77,7 +78,7 @@
                 <h3><i class="fa fa-angle-right"></i> Registo de intervenções</h3>
                 <div class="row mt">
                     <div class="form-panel">
-                        <form class="form-horizontal style-form" method="post">
+                        <form class="form-horizontal style-form" method="post" id="intervencaoform">
                             <div class="form-group">
                                 <br>
 
@@ -98,7 +99,7 @@
                                     <span class="input-group-addon time-get-color">
                                         <span class="glyphicon glyphicon-time"></span>
                                     </span>
-                                  <input type="text" class="form-control" value="<?php echo date('h:i', strtotime('-1 hour')); ?>" name="Hora"
+                                  <input type="text" placeholder="HH:MM" class="form-control" value="<?php echo date('h:i', strtotime('-1 hour')); ?>" name="Hora"
                                   readonly required>
                                   </div>
                                     <br>
@@ -139,6 +140,12 @@
           include 'Shared/Scripts.php'
     ?>
 
+    <script type="text/javascript">
+      $("#intervencaoform").validate({
+         errorClass: "my-error-class",
+         validClass: "my-valid-class"
+      });
+    </script>
 </body>
 
 </html>

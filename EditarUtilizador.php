@@ -7,6 +7,7 @@
   }
 
   $titulo = "Novo Utilizador";
+  $validatejs = true;
 
   if ($LoggedRole != "1") {
     header("Location: 403");
@@ -69,7 +70,7 @@
                 <h3><i class="fa fa-angle-right"></i> Novo Utilizador</h3>
                 <div class="row mt">
                     <div class="form-panel">
-                        <form class="form-horizontal style-form" method="POST" action="<?= $_SERVER["PHP_SELF"] ?>">
+                        <form class="form-horizontal style-form" method="POST" action="<?= $_SERVER["PHP_SELF"] ?>" id="EditarUtilizador">
                           <input type="hidden" value="<?=$_GET["Id"]?>" name="Id">
                             <div class="form-group">
                                 <br>
@@ -155,9 +156,37 @@
         </section>
     </section>
 
-    <?php #HEADER INCLUDE
+    <?php #SCRIPTS INCLUDE
           include 'Shared/Scripts.php'
     ?>
+    <script type="text/javascript">
+      $("#EditarUtilizador").validate({
+         errorClass: "my-error-class",
+         validClass: "my-valid-class",
+         rules: {
+            'Nome': {
+              minlength: 3
+            },
+            'Apelido':{
+              minlength: 3
+            },
+            'Username': {
+              minlength: 4
+            },
+            'Password': {
+              minlength: 5
+            },
+            'Password2': {
+              minlength: 5,
+              equalTo: "Password"
+            }
+        },
+
+        messages: {
+          'Password2': "Escreva a mesma Palavra-Passe que foi antes escrita"          
+        }
+    });
+    </script>
 
 </body>
 

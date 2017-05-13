@@ -1,5 +1,5 @@
 <?php
-  $titulo = "O Meu Perfil - Editar";
+  $titulo = "Edição de perfil";
   $fileinputInclude =  true;
 
   require 'Shared/conn.php';

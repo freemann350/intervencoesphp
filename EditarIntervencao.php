@@ -35,7 +35,7 @@
 
     $HoraLeitura = date('H:i', strtotime($intervencao['Hora']));
 
-    if (isset($_POST["editar_intervencao_submit"])) {
+    if (isset($_POST["editar_intervencao_submit"]) && (isset($_POST['Data'])) && (isset($_POST['Hora'])) && (isset($_POST['Descricao']))) {
       // Escape strings para prevenção de MySQL injection
       $Data = trim(mysqli_real_escape_string($con, $_POST['Data']));
       $Hora = trim(mysqli_real_escape_string($con, $_POST['Hora']));
@@ -60,7 +60,6 @@
       $stmt->bind_param("ii", $Resolvido, $intervencao['IdPedido']);
       $stmt->execute();
 
-      header('Location: MinhasIntervencoes');
     };
 ?>
 <!DOCTYPE html>
@@ -109,7 +108,7 @@
                                   <span class="input-group-addon time-get-color">
                                       <span class="glyphicon glyphicon-time"></span>
                                   </span>
-                                <input type="text" class="form-control" value="<?=$HoraLeitura?>" name="Hora"
+                                <input type="text" placeholder="HH:MM" class="form-control" value="<?=$HoraLeitura?>" name="Hora"
                                 readonly required>
                                 </div>
                                   <br>

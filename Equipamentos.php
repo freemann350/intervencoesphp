@@ -1,5 +1,5 @@
 <?php
-  $titulo = "Gerência de Equipamentos";
+  $titulo = "Gestão de Equipamentos";
   $removeInclude = true;
   $EqActive = true;
 
@@ -38,7 +38,6 @@
         <!--MAIN CONTENT-->
         <section id="main-content">
             <section class="wrapper site-min-height" id="wrapping">
-              <br>
               <?php
                 if (isset($_GET["msg"])) {
                   if ($_GET["msg"] == "1") {

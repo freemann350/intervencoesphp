@@ -36,14 +36,14 @@
 
         <!--MAIN CONTENT-->
         <section id="main-content">
-            <section class="wrapper site-min-height" id="wrapping">
+            <section class="wrapper site-min-height" id="wrapping" style="min-width: 20%; max-width: 140%; overflow: auto;">
 
                 <h3><i class="fa fa-angle-right"></i> Todos os pedidos</h3>
 
                 <div class="row mt">
                     <br>
                     <div class="col-lg-12">
-                        <div class="form-panel">
+                        <div class="form-panel" style="min-width: 620px; table-layout:fixed;">
                             <div class="col-lg-12" id="filtrosheader">
                                 <span class="float-xs-left" id="filtrostext">Filtros</span>
                                 <span class="float-xs-right" id="filtrosdown"><i class="fa fa-caret-down"></i></span>
@@ -103,8 +103,8 @@
                                 <br>
                             </div>
 
-                            <br><br><br>
-                            <table class="table table-hover">
+                            <br><br>
+                            <table class="table table-hover" style="min-width: 600px; table-layout:fixed; overflow: hidden;">
                                 <thead>
                                     <tr>
                                         <th>Equipamento</th>

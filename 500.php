@@ -1,4 +1,4 @@
-<?php
+s<?php
     $titulo = "500";
 ?>
 <!DOCTYPE html>

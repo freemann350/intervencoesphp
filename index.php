@@ -1,4 +1,5 @@
 <?php
+	$validatejs = true;
 	session_start();
 	if (isset($_SESSION['usr']) && ($_SESSION['usr'] !== "")) {
 		header('Location: Inicial');
@@ -50,15 +51,15 @@
 <body>
     <section id="container">
             <div class="container">
-                <form class="form-login" action="" method = "post">
+                <form class="form-login" action="" method = "post" id="loginform">
                     <h2 class="form-login-heading"><b>Intervenções AESM</b></h2>
                     <div class="login-wrap">
 											<?php if (isset($error) && ($error=true)) {?>
 											  <div class="form-group form-group has-error has-feedback">
-													<input type="text" value="<?php if (isset($_POST['username'])) { echo $_POST['username']; } else { echo '';} ?>" class="form-control" placeholder="Utilizador" name="username" autofocus>
+													<input type="text" value="<?php if (isset($_POST['username'])) { echo $_POST['username']; } else { echo '';} ?>" class="form-control" placeholder="Utilizador" name="username" autofocus required>
 													<br>
 
-                      		<input type="password" class="form-control" placeholder="Palavra-passe" name="password">
+                      		<input type="password" class="form-control" placeholder="Palavra-passe" name="password" required>
 													<input type="hidden" name="redirurl" value="<? echo $_SERVER['HTTP_REFERER']; ?>">
                             <br>
                             <button class="btn btn-theme btn-block" href="Inicial" type="submit"><i class="fa fa-lock"></i> Entrar</button>
@@ -66,10 +67,10 @@
                         <hr>
                         <p style="text-align: center; color: #FF0000"> Utilizador/Palavra-Passe Inválida</p>
 											<?php } else {?>
-                        <input type="text" class="form-control" placeholder="Utilizador" name="username" autofocus>
+                        <input type="text" class="form-control" placeholder="Utilizador" name="username" autofocus required>
                         <br>
                         <div class="form-group">
-                      		<input type="password" class="form-control" placeholder="Palavra-passe" name="password">
+                      		<input type="password" class="form-control" placeholder="Palavra-passe" name="password" required>
 													<input type="hidden" name="redirurl" value="<? echo $_SERVER['HTTP_REFERER']; ?>">
                             <br>
                             <button class="btn btn-theme btn-block" href="Inicial" type="submit"><i class="fa fa-lock"></i> Entrar</button>
@@ -84,6 +85,18 @@
     <?php #HEADER INCLUDE
           include 'Shared/Scripts.php';
     ?>
+
+		<script type="text/javascript">
+      $("#loginform").validate({
+         errorClass: "my-error-class",
+         validClass: "my-valid-class",
+
+         messages: {
+          'username': "Tem de escrever o nome de utilizador",
+					'password': "Tem de preencher a Palavra-Passe"
+         }
+      });
+    </script>
 </body>
 
 </html>

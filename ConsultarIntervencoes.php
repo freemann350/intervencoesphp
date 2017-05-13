@@ -8,7 +8,12 @@
   require 'Shared/conn.php';
   require 'Shared/Restrict.php';
 
-  $stmt = $con->prepare("SELECT intervencoes.Resolvido, intervencoes.Id, salas.Sala, equipamentos.Nome FROM intervencoes INNER JOIN pedidos ON intervencoes.IdPedido = pedidos.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id INNER JOIN salas ON pedidos.IdSala = salas.Id");
+  $stmt = $con->prepare("SELECT intervencoes.Resolvido, intervencoes.Data, intervencoes.Id, salas.Sala, equipamentos.Nome, professores.Id AS IdProf, concat_ws(' ', professores.Nome, professores.Apelido) NomeTodo FROM intervencoes
+    INNER JOIN pedidos ON intervencoes.IdPedido = pedidos.Id
+    INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id
+    INNER JOIN salas ON pedidos.IdSala = salas.Id
+    INNER JOIN professores ON intervencoes.IdProfessor = professores.Id
+    ");
 
   $stmt->execute();
 
@@ -34,17 +39,17 @@
 
         <!--MAIN CONTENT-->
         <section id="main-content">
-            <section class="wrapper site-min-height" id="wrapping">
+            <section class="wrapper site-min-height" id="wrapping" style="min-width: 20%; max-width: 140%; overflow: auto;">
 
                 <h3><i class="fa fa-angle-right"></i> Todas as intervenções</h3>
 
                 <div class="row mt">
                     <br>
                     <div class="col-lg-12">
-                        <div class="form-panel">
+                        <div class="form-panel" style="min-width: 620px; table-layout:fixed;">
                             <div class="col-lg-12" id="filtrosheader">
                                 <span class="float-xs-left" id="filtrostext">Filtros</span>
-                                <span class="float-xs-right" id="filtrosdown"><i class="fa fa-caret-down"></i></span>
+                                <span class="float-xs-right" id="filtrosdown"><i>(Carregue nesta barra para filtrar a informação)</i>&nbsp;&nbsp; <i class="fa fa-caret-down" id="caret-spin"></i></span>
                             </div>
 
                             <div class="col-lg-12" id="filtrosdiv" style="display: none;">
@@ -95,6 +100,18 @@
                                     </div>
                                 </div>
                                 <br>
+
+                                <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por estado de resolvido</h4>
+                                <div class="form-group">
+                                  <div class="checkbox">
+                                    <label>
+                                      <input type="checkbox" name="Resolvido">
+                                      <p style="margin-top:2px; cursor: pointer;" class="unselectable">Resolvido</p>
+                                    </label>
+                                  </div>
+                                </div>
+                                <br>
+
                                 <input type="submit" class="btn btn-primary" value="Procurar">
                                 </form>
                                 <hr>
@@ -102,10 +119,13 @@
                             </div>
 
                             <br><br>
-                            <table class="table table-hover" style="max-width: 15116165px; overflow: scroll;">
+                            <table class="table table-hover" style="min-width: 600px; table-layout:fixed; overflow: hidden;">
                                 <thead>
                                     <tr>
+                                      <th>Resolvido</th>
                                       <th>Equipamento</th>
+                                      <th>Data resolv.</th>
+                                      <th title="Professor Interveniente">Professor Interv.</th>
                                       <th>Sala</th>
                                       <th>Ação</th>
                                     </tr>
@@ -114,9 +134,14 @@
                                   <?php
                                   if ($result->num_rows != 0) {
                                   while ($row = $result->fetch_assoc()) {
+                                  $Date = str_replace('-', '/', $row['Data']);
+                                  $DataLeitura = date('d/m/Y', strtotime($Date));
                                   ?>
                                     <tr>
+                                        <td style="padding-left: 20px;"><?php if ($row['Resolvido'] == "1") {echo "Sim";} else {echo "Não";}?></td>
                                         <td><?=$row["Nome"]?></td>
+                                        <td><?=$DataLeitura?></td>
+                                        <td><a href="Perfil?Id=<?=$row['IdProf']?>"><?=$row['NomeTodo']?></td>
                                         <td><?=$row["Sala"]?></td>
                                         <td>
                                           <a href="VerificarIntervencao?Id=<?=$row["Id"];?>">
@@ -127,6 +152,9 @@
                                     <?php }} else { ?>
                                       <tr>
                                           <td><?php echo 'Não foram encontrados nenhuns dados.'?></td>
+                                          <td>&nbsp;N/D </td>
+                                          <td>&nbsp;N/D </td>
+                                          <td>&nbsp;N/D </td>
                                           <td>&nbsp;N/D </td>
                                           <td>&nbsp;N/D </td>
                                       </tr>

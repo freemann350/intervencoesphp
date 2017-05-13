@@ -14,7 +14,7 @@
     <link href="assets\libs\font-awesome\css\font-awesome.min.css" rel="stylesheet" />
     <link href="assets\libs\template\css\style.css" rel="stylesheet">
     <link href="assets\libs\template\css\style-responsive.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.0.3/jquery-confirm.min.css">
+    <link rel="stylesheet" href="assets\libs\jquery-confirm\jquery-confirm.min.css">
 
     <?php
       #DATEPICKER

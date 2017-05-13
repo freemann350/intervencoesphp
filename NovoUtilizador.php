@@ -2,6 +2,7 @@
   $titulo = "Novo Utilizador";
   $timepickerInclude = true;
   $datepickerInclude = true;
+  $validatejs = true;
 
   require 'Shared/conn.php';
   require 'Shared/Restrict.php';
@@ -10,7 +11,7 @@
     header("Location: 403");
   }
 
-  if (isset($_POST["novo_util_submit"])) {
+  if (isset($_POST["novo_util_submit"]) && (isset($_POST["Nome"])) && (isset($_POST["Apelido"])) && (isset($_POST["Email"])) && (isset($_POST["NomeUtilizador"])) && (isset($_POST["Password"])) && (isset($_POST["Password2"])) && ($_POST["Password"] !=="0")) {
     // Escape user inputs for security
     $Nome = trim(mysqli_real_escape_string($con, $_POST['Nome']));
     $Apelido = trim(mysqli_real_escape_string($con, $_POST['Apelido']));
@@ -49,7 +50,7 @@
                 <h3><i class="fa fa-angle-right"></i> Novo Utilizador</h3>
                 <div class="row mt">
                     <div class="form-panel">
-                        <form class="form-horizontal style-form" method="POST" action="<?= $_SERVER["PHP_SELF"] ?>">
+                        <form class="form-horizontal style-form" id="NovoUtilizador" method="POST" action="<?= $_SERVER["PHP_SELF"] ?>">
                             <div class="form-group">
                                 <br>
                                 <label class="col-sm-2 col-sm-2 control-label">Nome</label>
@@ -80,14 +81,14 @@
                                 </div>
                                 <br>
 
-                                <label class="col-sm-2 col-sm-2 control-label">Password</label>
+                                <label class="col-sm-2 col-sm-2 control-label">Palavra-Passe</label>
                                 <div class="col-sm-10">
                                   <input type="password" class="form-control" name="Password" required>
                                   <br>
                                 </div>
                                 <br>
 
-                                <label class="col-sm-2 col-sm-2 control-label">Confirmar Password</label>
+                                <label class="col-sm-2 col-sm-2 control-label">Confirmar Palavra-Passe</label>
                                 <div class="col-sm-10">
                                   <input type="password" class="form-control" name="Password2" required>
                                   <br>
@@ -97,6 +98,7 @@
                                 <label class="col-sm-2 col-sm-2 control-label">Tipo de utilizador</label>
                                 <div class="col-sm-10">
                                     <select class="form-control" name="Tipo" required>
+                                      <option value="0" selected disabled hidden>Escolha um tipo de utilizador...</option>
                                       <?php
                                         $stmt = $con->prepare("SELECT * FROM roles");
 
@@ -105,7 +107,7 @@
 
                                         while ($row = $result->fetch_assoc()) {
                                       ?>
-                                        <option value="<?= $row['Id'] ?>"<?php echo ($row["Role"] == "Professor" ? "selected" : "") ?>><?= $row["Role"] ?></option>
+                                        <option value="<?= $row['Id'] ?>"><?= $row["Role"] ?></option>
                                       <?php } ?>
                                     </select>
                                     <br>
@@ -119,7 +121,7 @@
             <!-- /MAIN CONTENT -->
 
             <?php #FOOTER INCLUDE
-              include 'Shared\Footer.php';
+              include 'Shared/Footer.php';
             ?>
         </section>
     </section>
@@ -127,6 +129,36 @@
     <?php #HEADER INCLUDE
           include 'Shared/Scripts.php'
     ?>
+
+    <script type="text/javascript">
+      $("#NovoUtilizador").validate({
+         errorClass: "my-error-class",
+         validClass: "my-valid-class",
+         rules: {
+            'Nome': {
+              minlength: 3
+            },
+            'Apelido':{
+              minlength: 3
+            },
+            'Username': {
+              minlength: 4
+            },
+            'Password': {
+              minlength: 5
+            },
+            'Password2': {
+              minlength: 5,
+              equalTo: '#pw1'
+            }
+        },
+
+        messages: {
+          'Password2': "Escreva a mesma Palavra-Passe que foi antes escrita",
+          'Tipo': "Escolha um tipo de utilizador"
+        }
+    });
+    </script>
 
 </body>
 

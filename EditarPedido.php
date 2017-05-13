@@ -8,12 +8,13 @@
   $removeInclude =  true;
   $filtrosInclude =  true;
   $timepickerInclude =  true;
+  $validatejs = true;
 
   require 'Shared/conn.php';
   require 'Shared/Restrict.php';
 
   $stmt = $con->prepare(
-  "SELECT pedidos.Id, pedidos.descricao, pedidos.Data, pedidos.Hora, pedidos.Resolvido, equipamentos.Nome, salas.Sala, pedidos.IdEquipamento, concat_ws(' ', professores.Nome, professores.Apelido) NomeTodo FROM pedidos INNER JOIN Salas ON pedidos.IdSala = salas.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id INNER JOIN professores ON pedidos.IdProfessor = professores.Id WHERE pedidos.Id = ? AND pedidos.IdProfessor = ?");
+  "SELECT pedidos.Id, pedidos.descricao, pedidos.Data, pedidos.Hora, pedidos.Resolvido, equipamentos.Nome, salas.Sala, pedidos.IdEquipamento, concat_ws(' ', professores.Nome, professores.Apelido) NomeTodo, pedidos.Resolvido FROM pedidos INNER JOIN Salas ON pedidos.IdSala = salas.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id INNER JOIN professores ON pedidos.IdProfessor = professores.Id WHERE pedidos.Id = ? AND pedidos.IdProfessor = ?");
 
   $stmt->bind_param("ii", $_GET['Id'], $LoggedID);
   $stmt->execute();
@@ -26,19 +27,26 @@
 
   $pedido = $result->fetch_assoc();
 
+  if ($pedido['Resolvido'] == '1') {
+    header("Location: MeusPedidos");
+  }
+
   $Date = str_replace('-', '/', $pedido['Data']);
   $DataLeitura = date('d/m/Y', strtotime($Date));
 
   $HoraLeitura = date('H:i', strtotime($pedido['Hora']));
 
-  if (isset($_POST["editar_pedidos_submit"])) {
+  if (isset($_POST["editar_pedidos_submit"]) && (isset($_POST["Bloco"])) && (isset($_POST["Sala"])) && (isset($_POST["Equipamento"])) && (isset($_POST["Data"])) && (isset($_POST["Hora"])) && (isset($_POST["Descricao"])) && ($_POST["Equipamento"] !== '0')) {
     // Escape strings para prevenção de MySQL injection
+    $Descricao_Break = trim(nl2br($_POST['Descricao']));
+    $Descricao_Purify = trim(preg_replace('/\s\s+/', ' ', $Descricao_Break));
+
     $Id = trim(mysqli_real_escape_string($con, $_POST['Id']));
     $Sala = trim(mysqli_real_escape_string($con, $_POST['Sala']));
     $Equipamento = trim(mysqli_real_escape_string($con, $_POST['Equipamento']));
     $Data = trim(mysqli_real_escape_string($con, $_POST['Data']));
     $Hora = trim(mysqli_real_escape_string($con, $_POST['Hora']));
-    $Descricao = trim(mysqli_real_escape_string($con, $_POST['Descricao']));
+    $Descricao = trim(mysqli_real_escape_string($con, $Descricao_Purify));
 
     // Conversão da data do utilizador para formato MySQLi
     $Date = str_replace('/', '-', $Data);
@@ -78,11 +86,10 @@
         <!--MAIN CONTENT-->
         <section id="main-content">
             <section class="wrapper site-min-height"><br>
-              <div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><b>Erro!</b> Os dados não foram alterados com êxito.</div>
                 <h3><i class="fa fa-angle-right"></i> Registo de Pedidos - Editar</h3>
                 <div class="row mt">
                     <div class="form-panel">
-                        <form class="form-horizontal style-form" method="POST" action="<?= $_SERVER["PHP_SELF"] ?>">
+                        <form class="form-horizontal style-form" method="POST" id="EditarPedido" action="<?= $_SERVER["PHP_SELF"] ?>">
                             <div class="form-group">
                                 <br>
                                 <input type="hidden" value="<?=$pedido['Id']?>" name="Id">
@@ -155,7 +162,7 @@
 
                                 <label class="col-sm-2 col-sm-2 control-label">Descrição</label>
                                 <div class="col-sm-10">
-                                    <textarea type="text" class="form-control" rows="7" name="Descricao" required><?=$pedido['descricao']?></textarea>
+                                    <textarea type="text" class="form-control" rows="7" name="Descricao" required placeholder="Descreva aqui o problema..."><?=$pedido['descricao']?></textarea>
                                     <span class="help-block">Tente ser o mais breve possível</span>
                                     <br>
                                     <input type="submit" class="btn btn-primary" value="Submeter" name="editar_pedidos_submit">
@@ -177,6 +184,16 @@
                 include 'Shared/Scripts.php'
           ?>
           <script type="text/javascript" src="assets/libs/template/js/editar-pedido.js"></script>
+          <script type="text/javascript">
+            $("#EditarPedido").validate({
+               errorClass: "my-error-class",
+               validClass: "my-valid-class",
+
+               messages: {
+                'Equipamento': "Tem de escolher um equipamento"
+               }
+            });
+          </script>
 </body>
 
 </html>

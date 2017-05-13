@@ -9,7 +9,7 @@
   require 'Shared/Restrict.php';
 
   $stmt = $con->prepare(
-  "SELECT pedidos.Id, equipamentos.Nome, salas.Sala FROM pedidos INNER JOIN Salas ON pedidos.IdSala = salas.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id WHERE pedidos.IdProfessor = ?;
+  "SELECT pedidos.Id, equipamentos.Nome, salas.Sala, pedidos.Resolvido FROM pedidos INNER JOIN Salas ON pedidos.IdSala = salas.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id WHERE pedidos.IdProfessor = ?;
   ");
 
   $stmt->bind_param("i", $LoggedID);
@@ -38,20 +38,21 @@
 
         <!--MAIN CONTENT-->
         <section id="main-content">
-            <section class="wrapper site-min-height">
-              <br>
+            <section class="wrapper site-min-height" style="min-width: 20%; max-width: 140%; overflow: auto;">
+
               <?php
                 if (isset($_GET["msg"])) {
                   if ($_GET["msg"] == "1") {
               ?>
+                <br>
                 <div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><b>Sucesso!</b> Os dados foram alterados com êxito.</div>
               <?php
                 } elseif ($_GET["msg"] == "2") {
               ?>
+                <br>
                 <div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><b>Ocorreu um erro.</b> Se tal persistir, contacte um responsável técnico.</div>
               <?php
                   }
-
                 }
               ?>
 
@@ -60,7 +61,7 @@
                 <div class="row mt">
                     <br>
                     <div class="col-lg-12">
-                        <div class="form-panel">
+                        <div class="form-panel" style="min-width: 620px; table-layout:fixed;">
                             <div class="col-lg-12" id="filtrosheader">
                                 <span class="float-xs-left" id="filtrostext">Filtros</span>
                                 <span class="float-xs-right" id="filtrosdown"><i class="fa fa-caret-down"></i></span>
@@ -114,7 +115,7 @@
                             </div>
 
                             <br><br>
-                            <table class="table table-hover" style="max-width: 15116165px; overflow: scroll;">
+                            <table class="table table-hover" style="min-width: 600px; table-layout:fixed; overflow: hidden;">
                                 <thead>
                                     <tr>
                                       <th>Equipamento</th>
@@ -131,14 +132,23 @@
                                         <td><?=$row["Nome"]?></td>
                                         <td><?=$row["Sala"]?></td>
                                         <td>
+                                        <?php if ($row["Resolvido"] == "0") {?>
                                           <a href="EditarPedido?Id=<?=$row["Id"];?>">
                                             <i title="Editar" class="fa fa-pencil fa-lg" aria-hidden="true"></i>
+                                          </a>
+                                        <?php } else { ?>
+                                          <i title="O pedido já foi resolvido." class="fa fa-pencil fa-lg" id="disabledDelete" aria-hidden="true"></i>
+                                        <?php };?>
                                           <a href="VerificarPedido?Id=<?=$row["Id"];?>">
                                             <i title="Ver todas as informações" class="fa fa-eye fa-lg" aria-hidden="true"></i>
                                           </a>
+                                          <?php if ($row["Resolvido"] == "0") {?>
                                           <a href="javascript:;" class="deleteRecord" data-id="<?=$row["Id"];?>">
                                             <i title="Eliminar" class="fa fa-times fa-lg" aria-hidden="true"></i>
                                           </a>
+                                          <?php } else { ?>
+                                            <i title="O pedido já foi resolvido." class="fa fa-times fa-lg" id="disabledDelete" aria-hidden="true"></i>
+                                          <?php };?>
                                         </td>
                                     </tr>
                                     <?php }} else { ?>

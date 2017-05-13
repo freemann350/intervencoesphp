@@ -7,7 +7,7 @@
   <script class="include" type="text/javascript" src="assets\libs\template\js\jquery.dcjqaccordion.2.7.js"></script>
   <script src="assets\libs\template\js\jquery.scrollTo.min.js"></script>
   <script src="assets\libs\template\js\jquery.nicescroll.js" type="text/javascript"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.0.3/jquery-confirm.min.js"></script>
+  <script src="assets\libs\jquery-confirm\jquery-confirm.min.js"></script>
   <script src="assets\libs\template\js\jquery.confirm.js"></script>
   <script src="assets\libs\template\js\common-scripts.js"></script>
 
@@ -63,6 +63,11 @@
       vibrate: true
   });
   </script>
+<?php };?>
+
+<?php if (isset($validatejs) && ($validatejs = true)) {?>
+  <script src="assets\libs\jquery-validation\dist\jquery.validate.js"></script>
+  <script src="assets\libs\jquery-validation\src\localization\messages_pt_PT.js"> </script>
 <?php };?>
   <script>
     function goBack() {

@@ -13,7 +13,12 @@
   }
 
   $stmt = $con->prepare(
-  "SELECT pedidos.Id, equipamentos.Nome, salas.Sala, Resolvido FROM pedidos INNER JOIN Salas ON pedidos.IdSala = salas.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id;
+  "SELECT pedidos.Id, equipamentos.Nome, salas.Sala, professores.Id AS IdProf,concat_ws(' ', professores.Nome, professores.Apelido) NomeTodo, pedidos.Resolvido
+  FROM pedidos
+  INNER JOIN Salas ON pedidos.IdSala = salas.Id
+  INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id
+  INNER JOIN professores ON professores.Id = pedidos.IdProfessor
+  WHERE Resolvido = '0';
   ");
 
   $stmt->execute();
@@ -108,12 +113,13 @@
                                 <br>
                             </div>
 
-                            <br><br><br>
+                            <br><br>
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
 
                                         <th>Equipamento</th>
+                                        <th>Professor</th>
                                         <th>Sala</th>
                                         <th>Ação</th>
                                     </tr>
@@ -122,10 +128,10 @@
                                   <?php
                                   if ($result->num_rows != 0) {
                                     while ($row = $result->fetch_assoc()) {
-                                      if ($row['Resolvido'] == '0') {
                                   ?>
                                   <tr>
                                       <td><?=$row['Nome']?></td>
+                                      <td><a href="Perfil?Id=<?=$row['IdProf']?>"><?=$row['NomeTodo']?></a></td>
                                       <td><?=$row['Sala']?></td>
                                       <td>
                                           <a href="VerificarPedido?Id=<?=$row['Id']?>">
@@ -137,9 +143,10 @@
                                           </a>
                                       </td>
                                   </tr>
-                                  <?php }}} else { ?>
+                                  <?php }} else { ?>
                                     <tr>
                                         <td><?php echo 'Não foram encontrados nenhuns dados.'?></td>
+                                        <td>&nbsp;N/D </td>
                                         <td>&nbsp;N/D </td>
                                         <td>&nbsp;N/D </td>
                                     </tr>

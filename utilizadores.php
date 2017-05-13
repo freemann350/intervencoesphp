@@ -1,5 +1,5 @@
 <?php
-  $titulo = "Gerência de Utilizadores";
+  $titulo = "Gestão de Utilizadores";
   $removeInclude = true;
   $filtrosInclude = true;
   $PuActive = true;
@@ -38,8 +38,7 @@ $stmt = $con->prepare("SELECT concat_ws(' ', nome, apelido) nome, email, Ativo, 
 
         <!--MAIN CONTENT-->
         <section id="main-content">
-            <section class="wrapper site-min-height" id="wrapping">
-              <br>
+            <section class="wrapper site-min-height">
               <?php
                 if (isset($_GET["msg"])) {
                   if ($_GET["msg"] == "1") {
@@ -58,7 +57,7 @@ $stmt = $con->prepare("SELECT concat_ws(' ', nome, apelido) nome, email, Ativo, 
                 <div class="row mt">
                     <br><br>
                     <div class="col-lg-12">
-                        <div class="form-panel">
+                        <div class="form-panel" style="min-width: 620px; table-layout:fixed;">
                             <div class="col-lg-12" id="filtrosheader">
                                 <span class="float-xs-left" id="filtrostext">Filtros</span>
                                 <span class="float-xs-right" id="filtrosdown"><i class="fa fa-caret-down"></i></span>
@@ -95,20 +94,23 @@ $stmt = $con->prepare("SELECT concat_ws(' ', nome, apelido) nome, email, Ativo, 
 
                             <br><br><br>
                             <a href="NovoUtilizador" style="float: right;">+ Registar novo Utilizador</a>
-                            <table class="table table-hover">
+                            <table class="table table-hover" style="min-width: 600px; table-layout:fixed; overflow: hidden;">
                                 <thead>
                                     <tr>
-                                        <th>Nome</th>
-                                        <th>Tipo de utilizador</th>
-                                        <th>Ação</th>
+                                      <th>Ativo</th>
+                                      <th>Nome</th>
+                                      <th>Tipo de utilizador</th>
+                                      <th>Ação</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                   <?php
+                                    if ($result->num_rows != 0) {
                                     while ($row = $result->fetch_assoc()) {
                                   ?>
                                     <tr>
-                                      <td><?= $row["nome"] ?></td>
+                                      <td><?php if ($row['Ativo'] == "1"){ echo "Sim";} else { echo "Não"; }?></td>
+                                      <td><a href="Perfil?Id=<?=$row['Id']?>"><?= $row["nome"] ?></a></td>
                                       <td><?= $row["role"] ?></td>
                                       <td>
                                         <a href="EditarUtilizador?Id=<?=$row['Id']?>">
@@ -122,10 +124,16 @@ $stmt = $con->prepare("SELECT concat_ws(' ', nome, apelido) nome, email, Ativo, 
                                           <i title="Inativar Utilizador" class="fa fa-times fa-lg" aria-hidden="true"></i>
                                         </a>
                                       <?php } else {?>
-                                          <i title="O utilizador já está inativo." class="fa fa-times fa-lg" aria-hidden="true"></i>
-                                      <?php }?>
+                                          <i title="O utilizador já está inativo." id="disabledDelete" class="fa fa-times fa-lg" aria-hidden="true"></i>
+                                      <?php };?>
                                     </tr>
-                                  <?php } ?>
+                                  <?php }} else { ?>
+                                    <tr>
+                                      <td><?php echo 'Não foram encontrados nenhuns dados.'?></td>
+                                      <td>&nbsp;N/D </td>
+                                      <td>&nbsp;N/D </td>
+                                    </tr>
+                                    <?php };?>
                                 </tbody>
                             </table>
                             <a href="NovoUtilizador" style="float: right;">+ Registar novo Utilizador</a>
@@ -151,7 +159,7 @@ $stmt = $con->prepare("SELECT concat_ws(' ', nome, apelido) nome, email, Ativo, 
       let id = $(this).attr("data-id");
       $.confirm({
           title: 'Sair',
-          content: 'Tem a certeza que pretende inativar este utilizador?<br><br> Poderá voltar a ativa-lo ao editar o utilizador.',
+          content: 'Tem a certeza que pretende inativar este utilizador?<br><br> Poderá voltar a ativá-lo ao editar o utilizador.',
           buttons: {
               Sim: function() {
                 $.ajax({
