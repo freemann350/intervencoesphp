@@ -443,10 +443,7 @@ ul.sidebar-menu li a.active i {
     z-index: 5;
 }
 
-.black-bg
-/*CABEÇALHO STYLE*/
-
-{
+.black-bg {
     background: #009fd1;
     border-bottom: 1px solid #02395c;
 }
@@ -2414,7 +2411,7 @@ label {
 }
 
 
-/*footer*/
+/*SITE FOOTER*/
 
 .site-footer {
     background: #009fd1;
@@ -2483,11 +2480,11 @@ label {
 }
 
 #filtrosdown {
-    text-align: right;
-    clear: both;
-    float: right;
-    line-height: 37px;
-    transition: 0.1s ease-in all;
+  text-align: right;
+  clear: both;
+  float: right;
+  line-height: 37px;
+  transition: 0.1s ease-in all;
 }
 
 .selectfiltros:focus option:first-of-type {
@@ -2496,6 +2493,7 @@ label {
 
 textarea {
     resize: vertical;
+    white-space: pre-wrap;
 }
 
 .time-get-color {
@@ -2514,4 +2512,33 @@ textarea {
 .datepicker .disabled.century:hover,
 .datepicker .disabled-date.disabled {
   background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAIklEQVQYV2NkQAJr1679zwjjgzjBwcGMYAEYB8RmROaABADgiw8Lw5+t3QAAAABJRU5ErkJggg==) repeat !important;
+}
+
+label.my-error-class {
+    color: #FF0000;
+}
+
+label.my-valid-class {
+    color: #00CC00;
+}
+
+.deleteRecord {
+  color: #E8434E;
+}
+
+.deleteRecord:hover,
+.deleteRecord:active {
+  color: #E81A27 ;
+}
+
+#disabledDelete:hover {
+  cursor: help;
+}
+
+th, td {
+  text-align: center;
+}
+
+.whitespace {
+    white-space: pre-wrap;
 }
