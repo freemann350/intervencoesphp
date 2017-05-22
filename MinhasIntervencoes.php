@@ -40,7 +40,7 @@
 
         <!--MAIN CONTENT-->
         <section id="main-content">
-            <section class="wrapper site-min-height"  style="min-width: 20%; max-width: 140%; overflow: auto;">
+            <section class="wrapper site-min-height"  >
               <?php
                 if (isset($_GET["msg"])) {
                   if ($_GET["msg"] == "1") {
@@ -48,7 +48,7 @@
                 <br>
                 <div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><b>Sucesso!</b> Os dados foram alterados com êxito.</div>
               <?php
-                } elseif ($_GET["msg"] == "2") {
+            } elseif ($_GET["msg"] == "2") {
               ?>
                 <br>
                 <div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><b>Ocorreu um erro.</b> Se tal persistir, contacte um responsável técnico.</div>
@@ -59,63 +59,71 @@
                 <h3><i class="fa fa-angle-right"></i> As minhas intervenções</h3>
 
                 <div class="row mt">
-                    <br>
                     <div class="col-lg-12">
-                        <div class="form-panel" style="min-width: 620px; table-layout:fixed;">
-                            <div class="col-lg-12" id="filtrosheader">
+                        <div class="form-panel" style="overflow: auto;">
+                            <div class="col-lg-12" id="filtrosheader" style="min-width: 620px;">
                                 <span class="float-xs-left" id="filtrostext">Filtros</span>
-                                <span class="float-xs-right" id="filtrosdown"><i class="fa fa-caret-down"></i></span>
+                                <span class="float-xs-right" id="filtrosdown"><i>(Carregue nesta barra para filtrar a informação)</i>&nbsp;&nbsp; <i class="fa fa-caret-down" id="caret-spin"></i></span>
                             </div>
 
-                            <div class="col-lg-12" id="filtrosdiv" style="display: none;">
+                            <div class="col-lg-12" id="filtrosdiv" style="display: none; min-width: 620px;">
                                 <br>
-                                <form>
-                                    <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por dias</h4>
-                                    <div class="input-group input-daterange">
-                                        <input type="text" class="form-control" placeholder="DD/MM/AAAA">
-                                        <div class="input-group-addon">Até</div>
-                                        <input type="text" class="form-control" placeholder="DD/MM/AAAA">
-                                    </div>
-                                    <br>
+                                <form class="style-form" method="post">
+                                  <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar entre datas</h4>
+                                  <div class="input-group input-daterange">
+                                      <input type="text" class="form-control" placeholder="DD/MM/AAAA" name="Data1">
+                                      <div class="input-group-addon">Até</div>
+                                      <input type="text" class="form-control" placeholder="DD/MM/AAAA" name="Data2">
+                                  </div>
+                                  <br>
 
-                                    <br>
-                                    <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por equipamento</h4>
-                                    <div class="form-group">
-                                        <div class="form-group">
-                                        <select class="form-control">
-                                        <option selected disabled hidden>Escolha um equipamento...</option>
-                                        <option>Computador</option>
-                                        <option>Projetor</option>
-                                        <option>Quadro interativo</option>
-                                        <option>Outros</option>
+                                  <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por equipamento</h4>
+                                  <div class="form-group">
+                                      <select class="form-control" name="Equipamento">
+                                        <option selected hidden value="">Escolha um equipamento...</option>
                                       </select>
-                                        </div>
-                                    </div>
-                                    <br>
+                                  </div>
+                                  <br>
 
-                                    <br>
-                                    <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por tipo de problema</h4>
-                                    <div class="form-group">
-                                        <div class="form-group">
-                                            <select class="form-control">
-                                        <option selected disabled hidden>Escolha um tipo de problema...</option>
-                                        <option>Problema 1</option>
-                                        <option>Problema 2</option>
-                                        <option>Problema 3</option>
-                                        <option>Problema 4</option>
-                                        <option>Problema 5</option>
+                                  <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por Bloco</h4>
+                                  <div class="form-group">
+                                      <select class="form-control" name="Bloco" onchange="getSalas(this);" id="bloco">
+                                        <option selected hidden value="">Escolha um bloco...</option>
                                       </select>
-                                        </div>
-                                    </div>
-                                    <br>
-                                    <input type="submit" class="btn btn-primary" value="Procurar">
-                                </form>
-                                <hr>
-                                <br>
-                            </div>
+                                  </div>
+                                  <br>
+
+                                  <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por Sala</h4>
+                                  <div class="form-group">
+                                    <select class="form-control" name="Sala" id="sala">
+                                      <option selected hidden value="">Escolha uma sala...</option>
+                                    </select>
+                                  </div>
+                                  <br>
+
+                                  <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por estado de resolvido</h4>
+                                  <div style="margin-left:10px;">
+                                    <label class="radio-inline">
+                                      <input type="radio" name="Ativo" class="radio-inline" value="1">
+                                      <p style="cursor: pointer;" class="unselectable">Sim</p>
+                                    </label>
+                                    <label class="radio-inline">
+                                      <input type="radio" name="Ativo" class="radio-inline" value="0">
+                                      <p style="cursor: pointer;" class="unselectable">Não</p>
+                                    </label>
+                                    <label class="radio-inline">
+                                      <input type="radio" name="Ativo" class="radio-inline" value="" checked>
+                                      <p style="cursor: pointer;" class="unselectable">Ambos</p>
+                                    </label><br><br>
+                                    <input type="submit" class="btn btn-primary" name="filtros_utilizadores_submit" value="Procurar">
+                                  </div>
+                              </form>
+                              <hr>
+                              <br>
+                          </div>
 
                             <br><br>
-                            <table class="table table-hover" style="min-width: 600px; table-layout:fixed; overflow: hidden;">
+                            <table class="table table-hover" style="min-width: 600px; table-layout:fixed; overflow: auto;" id="OrderTableToggle">
                                 <thead>
                                     <tr>
                                       <th>Resolvido</th>
@@ -129,11 +137,13 @@
                                   <?php
                                   if ($result->num_rows != 0) {
                                   while ($row = $result->fetch_assoc()) {
+                                  $Date = str_replace('-', '/', $row['Data']);
+                                  $DataLeitura = date('d/m/Y', strtotime($Date));
                                   ?>
                                     <tr>
-                                        <td style="padding-left: 20px;"><?php if ($row['Resolvido'] == "1") {echo "Sim";} else {echo "Não";}?></td>
+                                        <td><?php if ($row['Resolvido'] == "1") {echo "<i style='color: #60D439; cursor: help' class='fa fa-check fa-lg' title='Pedido resolvido' aria-hidden='true'></i>";} else {echo "<i style='color: #E8434E; cursor: help' class='fa fa-remove fa-lg' title='Pedido não resolvido' aria-hidden='true'></i>";}?></td>
                                         <td><?=$row["Nome"]?></td>
-                                        <td><?=$row["Data"]?></td>
+                                        <td><?=$DataLeitura?></td>
                                         <td><?=$row["Sala"]?></td>
                                         <td>
                                           <a href="EditarIntervencao?Id=<?=$row["Id"];?>">
@@ -157,21 +167,75 @@
                                     <?php };?>
                                 </tbody>
                             </table>
+                            <?php
+                              if (isset($_POST['filtros_utilizadores_submit'])) {
+
+                                $stmt = $con->prepare("SELECT count(*) AS TotalDados FROM intervencoes INNER JOIN pedidos ON intervencoes.IdPedido = pedidos.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id INNER JOIN salas ON pedidos.IdSala = salas.Id WHERE intervencoes.IdProfessor = " .$LoggedID.";");
+
+                                $stmt->bind_param("ss", $Nome, $Tipo);
+                                $stmt->execute();
+
+                                $result = $stmt->get_result();
+
+                                $row = $result->fetch_assoc();
+
+                                echo "Total de dados: " . $row['TotalDados']."<br><br>";
+
+                              } else {
+                                $stmt = $con->prepare("SELECT count(*) AS TotalDados FROM intervencoes INNER JOIN pedidos ON intervencoes.IdPedido = pedidos.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id INNER JOIN salas ON pedidos.IdSala = salas.Id WHERE intervencoes.IdProfessor = " .$LoggedID.";");
+
+                                $stmt->execute();
+
+                                $result = $stmt->get_result();
+
+                                $row = $result->fetch_assoc();
+                                echo "Total de dados: " . $row['TotalDados'] ."<br><br>";
+                              }
+                            ?>
                         </div>
                     </div>
                 </div>
-            </section>
-            <!-- /MAIN CONTENT -->
+              </section>
+          </section>
+          <div style="padding-bottom: 30px;"></div>
+          <!-- /MAIN CONTENT -->
 
-            <?php #FOOTER INCLUDE
-              include 'Shared\Footer.php';
-            ?>
-        </section>
-    </section>
+          <?php #FOOTER INCLUDE
+            include 'Shared\Footer.php';
+          ?>
+      </section>
 
     <?php #HEADER INCLUDE
           include 'Shared/Scripts.php'
     ?>
+    <script>
+    $('.deleteRecord').click(function() {
+      let id = $(this).attr("data-id");
+      $.confirm({
+          title: 'Sair',
+          content: 'Tem a certeza que pretende eliminar este registo?',
+          buttons: {
+              Sim: function() {
+                $.ajax({
+                  method: "GET",
+                  url: "ajax/deleteIntervencao.php?id=" + id,
+                  success: function(data) {
+                    if (data == "1") {
+                      window.location.href = location.href.split('?')[0] + "?msg=1"
+                    } else {
+                      window.location.href = location.href.split('?')[0] + "?msg=2"
+                    }
+                  }
+                });
+              },
+              Não: function() {
+
+              },
+
+          }
+      });
+    });
+    </script>
 </body>
 
 </html>

@@ -38,15 +38,13 @@
 
   if (isset($_POST["editar_pedidos_submit"]) && (isset($_POST["Bloco"])) && (isset($_POST["Sala"])) && (isset($_POST["Equipamento"])) && (isset($_POST["Data"])) && (isset($_POST["Hora"])) && (isset($_POST["Descricao"])) && ($_POST["Equipamento"] !== '0')) {
     // Escape strings para prevenção de MySQL injection
-    $Descricao_Break = trim(nl2br($_POST['Descricao']));
-    $Descricao_Purify = trim(preg_replace('/\s\s+/', ' ', $Descricao_Break));
-
     $Id = trim(mysqli_real_escape_string($con, $_POST['Id']));
     $Sala = trim(mysqli_real_escape_string($con, $_POST['Sala']));
     $Equipamento = trim(mysqli_real_escape_string($con, $_POST['Equipamento']));
     $Data = trim(mysqli_real_escape_string($con, $_POST['Data']));
     $Hora = trim(mysqli_real_escape_string($con, $_POST['Hora']));
-    $Descricao = trim(mysqli_real_escape_string($con, $Descricao_Purify));
+    $Descricao = trim(mysqli_real_escape_string($con, $_POST['Descricao']));
+    $Descricao = stripslashes(str_replace('\r\n',PHP_EOL,$Descricao));
 
     // Conversão da data do utilizador para formato MySQLi
     $Date = str_replace('/', '-', $Data);

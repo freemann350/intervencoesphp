@@ -39,7 +39,8 @@
       // Escape strings para prevenção de MySQL injection
       $Data = trim(mysqli_real_escape_string($con, $_POST['Data']));
       $Hora = trim(mysqli_real_escape_string($con, $_POST['Hora']));
-      $Descricao = trim(mysqli_real_escape_string($con, $_POST['Descricao']));
+      $Descricao = trim(mysqli_real_escape_string($con, $_POST['Descricao']));      
+      $Descricao = stripslashes(str_replace('\r\n',PHP_EOL,$Descricao));
       $Resolvido = ((isset($_POST['Resolvido'])) ? "1" : "0");
 
       // Conversão da data do utilizador para formato MySQLi
@@ -60,6 +61,7 @@
       $stmt->bind_param("ii", $Resolvido, $intervencao['IdPedido']);
       $stmt->execute();
 
+      header('Location: MinhasIntervencoes');
     };
 ?>
 <!DOCTYPE html>

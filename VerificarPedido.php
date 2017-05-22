@@ -82,7 +82,7 @@
 
                                 <label class="col-sm-2 col-sm-2 control-label"><b>Descrição</b></label>
                                 <div class="col-sm-10">
-                                    <p class="form-control-static"><?=$row["descricao"]?></p>
+                                    <p class="form-control-static whitespace"><?=nl2br($row["descricao"])?></p>
                                     <br>
                                 </div>
 

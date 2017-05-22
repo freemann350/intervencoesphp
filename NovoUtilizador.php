@@ -83,7 +83,7 @@
 
                                 <label class="col-sm-2 col-sm-2 control-label">Palavra-Passe</label>
                                 <div class="col-sm-10">
-                                  <input type="password" class="form-control" name="Password" required>
+                                  <input type="password" class="form-control" name="Password" id="pw1" required>
                                   <br>
                                 </div>
                                 <br>

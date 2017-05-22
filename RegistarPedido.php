@@ -15,6 +15,7 @@
     $Data = trim(mysqli_real_escape_string($con, $_POST['Data']));
     $Hora = trim(mysqli_real_escape_string($con, $_POST['Hora']));
     $Descricao = trim(mysqli_real_escape_string($con, $_POST['Descricao']));
+    $Descricao = stripslashes(str_replace('\r\n',PHP_EOL,$Descricao));
 
     // Conversão da data do utilizador para formato MySQLi
     $Date = str_replace('/', '-', $Data);

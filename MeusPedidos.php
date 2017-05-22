@@ -8,15 +8,42 @@
   require 'Shared/conn.php';
   require 'Shared/Restrict.php';
 
-  $stmt = $con->prepare(
-  "SELECT pedidos.Id, equipamentos.Nome, salas.Sala, pedidos.Resolvido FROM pedidos INNER JOIN Salas ON pedidos.IdSala = salas.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id WHERE pedidos.IdProfessor = ?;
-  ");
+  if (isset($_POST['filtros_meuspedidos_submit'])) {
 
-  $stmt->bind_param("i", $LoggedID);
-  $stmt->execute();
+    $Equipamento = $_POST['Equipamento'];
+    /*$Bloco = $_POST['Bloco'];
+    $Sala = $_POST['Sala'];*/
+    $Date1 = $_POST['Data1'];
+    $Date2 = $_POST['Data2'];
 
-  $result = $stmt->get_result();
+    $Date1 = str_replace('/', '-', $Date1);
+    $Date1 = str_replace("'","", $Date1);
+    $Date1 = str_replace('"',"", $Date1);
+    $Date1Split = explode("-", $Date1);
+    $Date1 = $Date1Split[2] . "-" . $Date1Split[1] . "-" . $Date1Split[0];
 
+    $Date2 = str_replace('/', '-', $Date2);
+    $Date2 = str_replace("'","", $Date2);
+    $Date2 = str_replace('"',"", $Date2);
+    $Date2Split = explode("-", $Date2);
+    $Date2 = $Date2Split[2] . "-" . $Date2Split[1] . "-" . $Date2Split[0];
+
+    $stmt = $con->prepare("SELECT pedidos.Id, equipamentos.Nome AS NomeEquip, pedidos.Data, salas.Sala, pedidos.Resolvido FROM pedidos INNER JOIN Salas ON pedidos.IdSala = salas.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id WHERE pedidos.Data BETWEEN ? AND ? AND equipamentos.Id = ? AND  pedidos.IdProfessor = ?;");
+
+    $stmt->bind_param("ssii", $Date1, $Date2, $Equipamento, $LoggedID);
+    $stmt->execute();
+
+    $result = $stmt->get_result();
+  } else {
+
+    $stmt = $con->prepare(
+    "SELECT pedidos.Id, equipamentos.Nome AS NomeEquip, pedidos.Data, salas.Sala, pedidos.Resolvido FROM pedidos INNER JOIN Salas ON pedidos.IdSala = salas.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id WHERE pedidos.IdProfessor = ?;");
+
+    $stmt->bind_param("i", $LoggedID);
+    $stmt->execute();
+
+    $result = $stmt->get_result();
+  }
 ?>
 <!DOCTYPE html>
 <html lang="pt">
@@ -38,7 +65,7 @@
 
         <!--MAIN CONTENT-->
         <section id="main-content">
-            <section class="wrapper site-min-height" style="min-width: 20%; max-width: 140%; overflow: auto;">
+            <section class="wrapper site-min-height">
 
               <?php
                 if (isset($_GET["msg"])) {
@@ -47,7 +74,7 @@
                 <br>
                 <div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><b>Sucesso!</b> Os dados foram alterados com êxito.</div>
               <?php
-                } elseif ($_GET["msg"] == "2") {
+            } elseif ($_GET["msg"] == "2") {
               ?>
                 <br>
                 <div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><b>Ocorreu um erro.</b> Se tal persistir, contacte um responsável técnico.</div>
@@ -59,66 +86,96 @@
                 <h3><i class="fa fa-angle-right"></i> Os meus Pedidos</h3>
 
                 <div class="row mt">
-                    <br>
-                    <div class="col-lg-12">
-                        <div class="form-panel" style="min-width: 620px; table-layout:fixed;">
-                            <div class="col-lg-12" id="filtrosheader">
+                  <div class="col-lg-12">
+                    <div class="form-panel" style="overflow: auto;">
+                        <div class="col-lg-12" id="filtrosheader" style="min-width: 620px;">
                                 <span class="float-xs-left" id="filtrostext">Filtros</span>
-                                <span class="float-xs-right" id="filtrosdown"><i class="fa fa-caret-down"></i></span>
+                                <span class="float-xs-right" id="filtrosdown"><i>(Carregue nesta barra para filtrar a informação)</i>&nbsp;&nbsp; <i class="fa fa-caret-down" id="caret-spin"></i></span>
                             </div>
 
-                            <div class="col-lg-12" id="filtrosdiv" style="display: none;">
+                            <div class="col-lg-12" id="filtrosdiv" style="display: none; min-width: 620px;">
                                 <br>
-                                <form>
-                                    <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por dias</h4>
+                                  <form class="style-form" method="post">
+                                    <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar entre datas</h4>
                                     <div class="input-group input-daterange">
-                                        <input type="text" class="form-control" placeholder="DD/MM/AAAA">
+                                        <input type="text" class="form-control" placeholder="DD/MM/AAAA" name="Data1">
                                         <div class="input-group-addon">Até</div>
-                                        <input type="text" class="form-control" placeholder="DD/MM/AAAA">
+                                        <input type="text" class="form-control" placeholder="DD/MM/AAAA" name="Data2">
                                     </div>
                                     <br>
 
-                                    <br>
                                     <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por equipamento</h4>
                                     <div class="form-group">
-                                        <div class="form-group">
-                                        <select class="form-control">
-                                        <option selected disabled hidden>Escolha um equipamento...</option>
-                                        <option>Computador</option>
-                                        <option>Projetor</option>
-                                        <option>Quadro interativo</option>
-                                        <option>Outros</option>
-                                      </select>
-                                        </div>
+                                        <select class="form-control" name="Equipamento">
+                                          <option selected hidden value="">Escolha um equipamento...</option>
+                                          <?php
+                                            $stmt1 = $con->prepare("SELECT * FROM equipamentos");
+
+                                            $stmt1->execute();
+                                            $result1 = $stmt1->get_result();
+
+                                            while ($equip = $result1->fetch_assoc()) {
+                                          ?>
+                                          <option value="<?= $equip['Id'] ?>"><?=$equip["Nome"]; ?></option>
+                                          <?php } ?>
+                                        </select>
                                     </div>
                                     <br>
 
-                                    <br>
-                                    <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por tipo de problema</h4>
+                                    <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por Bloco</h4>
                                     <div class="form-group">
-                                        <div class="form-group">
-                                            <select class="form-control">
-                                        <option selected disabled hidden>Escolha um tipo de problema...</option>
-                                        <option>Problema 1</option>
-                                        <option>Problema 2</option>
-                                        <option>Problema 3</option>
-                                        <option>Problema 4</option>
-                                        <option>Problema 5</option>
-                                      </select>
-                                        </div>
+                                        <select class="form-control" name="Bloco" onchange="getSalas(this);" id="bloco">
+                                          <option selected hidden value="">Escolha um bloco...</option>
+                                          <?php
+                                            $stmt2 = $con->prepare("SELECT * FROM blocos");
+
+                                            $stmt2->execute();
+                                            $result2 = $stmt2->get_result();
+
+                                            while ($blocorow = $result2->fetch_assoc()) {
+                                           ?>
+                                            <option value="<?php $blocorow['Id'] ?>"><?= $blocorow["Bloco"] ?></option>
+                                          <?php } ?>
+                                        </select>
                                     </div>
                                     <br>
-                                    <input type="submit" class="btn btn-primary" value="Procurar">
+
+                                    <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por Sala</h4>
+                                    <div class="form-group">
+                                      <select class="form-control" name="Sala" id="sala">
+                                        <option selected hidden value="">Escolha uma sala...</option>
+                                      </select>
+                                    </div>
+                                    <br>
+
+                                    <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por estado de resolvido</h4>
+                                    <div style="margin-left:10px;">
+                                      <label class="radio-inline">
+                                        <input type="radio" name="Ativo" class="radio-inline" value="1">
+                                        <p style="cursor: pointer;" class="unselectable">Sim</p>
+                                      </label>
+                                      <label class="radio-inline">
+                                        <input type="radio" name="Ativo" class="radio-inline" value="0">
+                                        <p style="cursor: pointer;" class="unselectable">Não</p>
+                                      </label>
+                                      <label class="radio-inline">
+                                        <input type="radio" name="Ativo" class="radio-inline" value="" checked>
+                                        <p style="cursor: pointer;" class="unselectable">Ambos</p>
+                                      </label><br><br>
+                                      <input type="submit" class="btn btn-primary" name="filtros_utilizadores_submit" value="Procurar">
+                                    </div>
                                 </form>
                                 <hr>
                                 <br>
                             </div>
 
                             <br><br>
-                            <table class="table table-hover" style="min-width: 600px; table-layout:fixed; overflow: hidden;">
+                            <table class="table table-hover" style="min-width: 600px; table-layout:fixed; overflow: auto;" id="OrderTableToggle">
                                 <thead>
                                     <tr>
+                                      <th>Resolvido</th>
                                       <th>Equipamento</th>
+                                      <th>Data do Pedido</th>
                                       <th>Sala</th>
                                       <th>Ação</th>
                                     </tr>
@@ -127,39 +184,70 @@
                                   <?php
                                   if ($result->num_rows != 0) {
                                   while ($row = $result->fetch_assoc()) {
+                                  $Date = str_replace('-', '/', $row['Data']);
+                                  $DataLeitura = date('d/m/Y', strtotime($Date));
                                   ?>
                                     <tr>
-                                        <td><?=$row["Nome"]?></td>
-                                        <td><?=$row["Sala"]?></td>
-                                        <td>
+                                      <td><?php if ($row['Resolvido'] == "1") {echo "<i style='color: #60D439; cursor: help' class='fa fa-check fa-lg' title='Pedido resolvido' aria-hidden='true'></i>";} else {echo "<i style='color: #E8434E; cursor: help' class='fa fa-remove fa-lg' title='Pedido não resolvido' aria-hidden='true'></i>";}?></td>
+                                      <td><?=$row["NomeEquip"]?></td>
+                                      <td><?=$DataLeitura?></td>
+                                      <td><?=$row["Sala"]?></td>
+                                      <td>
+                                      <?php if ($row["Resolvido"] == "0") {?>
+                                        <a href="EditarPedido?Id=<?=$row["Id"];?>">
+                                          <i title="Editar" class="fa fa-pencil fa-lg" aria-hidden="true"></i>
+                                        </a>
+                                      <?php } else { ?>
+                                        <i title="O pedido já foi resolvido." class="fa fa-pencil fa-lg" id="disabledDelete" aria-hidden="true"></i>
+                                      <?php };?>
+                                        <a href="VerificarPedido?Id=<?=$row["Id"];?>">
+                                          <i title="Ver todas as informações" class="fa fa-eye fa-lg" aria-hidden="true"></i>
+                                        </a>
                                         <?php if ($row["Resolvido"] == "0") {?>
-                                          <a href="EditarPedido?Id=<?=$row["Id"];?>">
-                                            <i title="Editar" class="fa fa-pencil fa-lg" aria-hidden="true"></i>
-                                          </a>
+                                        <a href="javascript:;" class="deleteRecord" data-id="<?=$row["Id"];?>">
+                                          <i title="Eliminar" class="fa fa-times fa-lg" aria-hidden="true"></i>
+                                        </a>
                                         <?php } else { ?>
-                                          <i title="O pedido já foi resolvido." class="fa fa-pencil fa-lg" id="disabledDelete" aria-hidden="true"></i>
+                                          <i title="O pedido já foi resolvido." class="fa fa-times fa-lg" id="disabledDelete" aria-hidden="true"></i>
                                         <?php };?>
-                                          <a href="VerificarPedido?Id=<?=$row["Id"];?>">
-                                            <i title="Ver todas as informações" class="fa fa-eye fa-lg" aria-hidden="true"></i>
-                                          </a>
-                                          <?php if ($row["Resolvido"] == "0") {?>
-                                          <a href="javascript:;" class="deleteRecord" data-id="<?=$row["Id"];?>">
-                                            <i title="Eliminar" class="fa fa-times fa-lg" aria-hidden="true"></i>
-                                          </a>
-                                          <?php } else { ?>
-                                            <i title="O pedido já foi resolvido." class="fa fa-times fa-lg" id="disabledDelete" aria-hidden="true"></i>
-                                          <?php };?>
-                                        </td>
+                                      </td>
                                     </tr>
                                     <?php }} else { ?>
                                       <tr>
                                           <td><?php echo 'Não foram encontrados nenhuns dados.'?></td>
                                           <td>&nbsp;N/D </td>
                                           <td>&nbsp;N/D </td>
+                                          <td>&nbsp;N/D </td>
+                                          <td>&nbsp;N/D </td>
                                       </tr>
                                     <?php };?>
                                 </tbody>
                             </table>
+                            <?php
+                              if (isset($_POST['filtros_utilizadores_submit'])) {
+
+                                $stmt = $con->prepare("SELECT count(*) AS TotalDados FROM pedidos INNER JOIN professores ON pedidos.IdProfessor = professores.Id INNER JOIN Salas ON pedidos.IdSala = salas.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id");
+
+                                $stmt->bind_param("ss", $Nome, $Tipo);
+                                $stmt->execute();
+
+                                $result = $stmt->get_result();
+
+                                $row = $result->fetch_assoc();
+
+                                echo "Total de dados: " . $row['TotalDados']."<br><br>";
+
+                              } else {
+                                $stmt = $con->prepare("SELECT count(*) AS TotalDados FROM pedidos INNER JOIN Salas ON pedidos.IdSala = salas.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id WHERE pedidos.IdProfessor = " . $LoggedID .";");
+
+                                $stmt->execute();
+
+                                $result = $stmt->get_result();
+
+                                $row = $result->fetch_assoc();
+                                echo "Total de dados: " . $row['TotalDados'] ."<br><br>";
+                              }
+                            ?>
                         </div>
                     </div>
                 </div>
@@ -171,6 +259,7 @@
             ?>
         </section>
     </section>
+    <div style="padding-bottom: 30px;"></div>
 
     <?php #HEADER INCLUDE
           include 'Shared/Scripts.php'
@@ -203,6 +292,7 @@
       });
     });
     </script>
+    <script type="text/javascript" src="assets/libs/template/js/registar-pedido.js"></script>
 </body>
 
 </html>
