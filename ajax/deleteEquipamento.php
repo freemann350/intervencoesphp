@@ -8,7 +8,9 @@
     $stmt->bind_param("i", $Id);
     $stmt->execute();
 
+  if (mysqli_affected_rows($con) > 0) {
     echo "1";
   } else {
     echo "0";
   }
+};

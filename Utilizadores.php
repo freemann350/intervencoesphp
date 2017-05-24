@@ -11,11 +11,11 @@
     header("Location: 403");
   }
 
-  if (isset($_POST['filtros_utilizadores_submit']) && ($_POST['Tipo'] > '1')) {
-    $Tipo = $_POST['Tipo'];
+  if (isset($_POST['filtros_utilizadores_submit'])) {
+    $Tipo = "%" . $_POST['Tipo'] . "%";
     $Nome = "%" . $_POST['Nome'] . "%";
 
-    $stmt = $con->prepare("SELECT concat_ws(' ', nome, apelido) nome, email, Ativo, professores.Id, professores.IdRole, roles.role FROM professores inner join roles on professores.idrole = roles.id WHERE Nome LIKE ? AND professores.IdRole LIKE ? AND Not professores.Id = " . $LoggedID);
+    $stmt = $con->prepare("SELECT concat_ws(' ', nome, apelido) nome, email, Ativo, professores.Id, professores.IdRole, roles.role FROM professores inner join roles on professores.idrole = roles.id WHERE concat_ws(' ', nome, apelido) LIKE ? AND professores.IdRole LIKE ? AND Not professores.Id = " . $LoggedID);
 
     $stmt->bind_param("ss", $Nome, $Tipo);
     $stmt->execute();
@@ -90,7 +90,8 @@
 
                                               while ($roles = $result1->fetch_assoc()) {
                                             ?>
-                                            <option value="<?= $roles['Id'] ?>"><?=$roles["Role"]; ?></option>
+
+                                            <option value="<?= $roles['Id'] ?>" <?= ((isset($_POST["Tipo"]) && $_POST["Tipo"] == $roles["Id"]) ? "selected='selected'" : "") ?>><?=$roles["Role"]; ?></option>
                                             <?php } ?>
                                         </select>
                                     </div>
@@ -174,7 +175,7 @@
                             <?php
                               if (isset($_POST['filtros_utilizadores_submit'])) {
 
-                                $stmt = $con->prepare("SELECT count(*) AS TotalDados FROM professores INNER JOIN roles ON professores.IdRole = roles.Id WHERE Nome LIKE ? AND professores.IdRole = ? AND Not professores.Id = " . $LoggedID);
+                                $stmt = $con->prepare("SELECT count(*) AS TotalDados FROM professores inner join roles on professores.idrole = roles.id WHERE concat_ws(' ', nome, apelido) LIKE ? AND professores.IdRole LIKE ? AND Not professores.Id = " . $LoggedID);
 
                                 $stmt->bind_param("ss", $Nome, $Tipo);
                                 $stmt->execute();
