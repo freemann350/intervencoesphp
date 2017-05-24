@@ -24,7 +24,7 @@
   $utilizador = $result->fetch_assoc();
 
   if (isset($_POST["editar_util_submit"])) {
-    if ($_POST['Password'] == $_POST['Password_Confirm']) {
+    if ($_POST['Password'] == $_POST['Password2']) {
     // Escape user inputs for security
     $Nome = trim(mysqli_real_escape_string($con, $_POST['Nome']));
     $Apelido = trim(mysqli_real_escape_string($con, $_POST['Apelido']));
@@ -35,14 +35,20 @@
     $Id = trim(mysqli_real_escape_string($con, $_POST['Id']));
     $Ativo = ((isset($_POST['Ativo'])) ? "1" : "0");
 
+    $options = [
+        'cost' => 11,
+    ];
+
+    $hash = password_hash($Password, PASSWORD_BCRYPT, $options);
+
     $stmt = $con->prepare(
     "UPDATE professores SET Nome = ?, Apelido = ?, Email = ?, Password = ?, Username = ?, IdRole = ?, Ativo = ? WHERE Id = ?");
 
-    $stmt->bind_param("sssssiii", $Nome, $Apelido, $Email, $Password, $Username, $Tipo, $Ativo, $Id);
+    $stmt->bind_param("sssssiii", $Nome, $Apelido, $Email, $hash, $Username, $Tipo, $Ativo, $Id);
 
     $stmt->execute();
 
-    header('Location: Utilizadores');
+    header("Location: Utilizadores");
     };
 };
 ?>
@@ -104,14 +110,14 @@
 
                                 <label class="col-sm-2 col-sm-2 control-label">Password</label>
                                 <div class="col-sm-10">
-                                  <input type="password" class="form-control" name="Password" value="<?=$utilizador['Password']?>" required>
+                                  <input type="password" class="form-control" name="Password" value="<?=$utilizador['Password']?>" id="pw1" required>
                                   <br>
                                 </div>
                                 <br>
 
                                 <label class="col-sm-2 col-sm-2 control-label">Confirmar Password</label>
                                 <div class="col-sm-10">
-                                  <input type="password" class="form-control" name="Password_Confirm" value="<?=$utilizador['Password']?>" required>
+                                  <input type="password" class="form-control" name="Password2" value="<?=$utilizador['Password']?>" required>
                                   <br>
                                 </div>
                                 <br>
@@ -178,12 +184,12 @@
             },
             'Password2': {
               minlength: 5,
-              equalTo: "Password"
+              equalTo: '#pw1'
             }
         },
 
         messages: {
-          'Password2': "Escreva a mesma Palavra-Passe que foi antes escrita"          
+          'Password2': "Escreva a mesma Palavra-Passe que foi antes escrita"
         }
     });
     </script>

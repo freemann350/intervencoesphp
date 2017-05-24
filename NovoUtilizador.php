@@ -11,7 +11,7 @@
     header("Location: 403");
   }
 
-  if (isset($_POST["novo_util_submit"]) && (isset($_POST["Nome"])) && (isset($_POST["Apelido"])) && (isset($_POST["Email"])) && (isset($_POST["NomeUtilizador"])) && (isset($_POST["Password"])) && (isset($_POST["Password2"])) && ($_POST["Password"] !=="0")) {
+  if (isset($_POST["novo_util_submit"]) && (isset($_POST["Nome"])) && (isset($_POST["Apelido"])) && (isset($_POST["Email"])) && (isset($_POST["Username"])) && (isset($_POST["Password"])) && (isset($_POST["Password2"])) && ($_POST['Password'] == $_POST['Password2'])) {
     // Escape user inputs for security
     $Nome = trim(mysqli_real_escape_string($con, $_POST['Nome']));
     $Apelido = trim(mysqli_real_escape_string($con, $_POST['Apelido']));
@@ -20,11 +20,18 @@
     $Username = trim(mysqli_real_escape_string($con, $_POST['Username']));
     $Tipo = trim(mysqli_real_escape_string($con, $_POST['Tipo']));
 
+    $options = [
+        'cost' => 11,
+    ];
+
+    $hash = password_hash($Password, PASSWORD_BCRYPT, $options);
+
     $stmt = $con->prepare("INSERT INTO professores (Nome, Apelido, Username, Email, Password, IdRole, Ativo) VALUES (?, ?, ?, ?, ?, ?, '1')");
 
-    $stmt->bind_param("sssssi", $Nome, $Apelido, $Username, $Email, $Password, $Tipo);
+    $stmt->bind_param("sssssi", $Nome, $Apelido, $Username, $Email, $hash, $Tipo);
 
     $stmt->execute();
+    header("Location: Utilizadores");
   }
 ?>
 <!DOCTYPE html>
@@ -98,7 +105,6 @@
                                 <label class="col-sm-2 col-sm-2 control-label">Tipo de utilizador</label>
                                 <div class="col-sm-10">
                                     <select class="form-control" name="Tipo" required>
-                                      <option value="0" selected disabled hidden>Escolha um tipo de utilizador...</option>
                                       <?php
                                         $stmt = $con->prepare("SELECT * FROM roles");
 
@@ -111,12 +117,11 @@
                                       <?php } ?>
                                     </select>
                                     <br>
-                                    <input type="submit" name="novo_util_submit" class="btn btn-primary" value="Submeter">
+                                    <input type="submit" class="btn btn-primary" value="Submeter" name="novo_util_submit">
                                 </div>
-                            </div>
                         </form>
+                        </div>
                     </div>
-                </div>
             </section>
             <!-- /MAIN CONTENT -->
 
