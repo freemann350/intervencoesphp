@@ -10,27 +10,18 @@
 
   if (isset($_POST['filtros_meuspedidos_submit'])) {
 
-    $Equipamento = $_POST['Equipamento'];
-    /*$Bloco = $_POST['Bloco'];
-    $Sala = $_POST['Sala'];*/
-    $Date1 = $_POST['Data1'];
-    $Date2 = $_POST['Data2'];
+    $Date1 = trim(mysqli_real_escape_string($con, $_POST['Data1']));
+    $Date2 = trim(mysqli_real_escape_string($con, $_POST['Data2']));
 
     $Date1 = str_replace('/', '-', $Date1);
-    $Date1 = str_replace("'","", $Date1);
-    $Date1 = str_replace('"',"", $Date1);
-    $Date1Split = explode("-", $Date1);
-    $Date1 = $Date1Split[2] . "-" . $Date1Split[1] . "-" . $Date1Split[0];
+    $Date1 = date('Y-m-d', strtotime($Date1));
 
     $Date2 = str_replace('/', '-', $Date2);
-    $Date2 = str_replace("'","", $Date2);
-    $Date2 = str_replace('"',"", $Date2);
-    $Date2Split = explode("-", $Date2);
-    $Date2 = $Date2Split[2] . "-" . $Date2Split[1] . "-" . $Date2Split[0];
+    $Date2 = date('Y-m-d', strtotime($Date2));
 
-    $stmt = $con->prepare("SELECT pedidos.Id, equipamentos.Nome AS NomeEquip, pedidos.Data, salas.Sala, pedidos.Resolvido FROM pedidos INNER JOIN Salas ON pedidos.IdSala = salas.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id WHERE pedidos.Data BETWEEN ? AND ? AND equipamentos.Id = ? AND  pedidos.IdProfessor = ?;");
+    $stmt = $con->prepare("SELECT pedidos.Id, equipamentos.Nome AS NomeEquip, pedidos.Data, salas.Sala, pedidos.Resolvido FROM pedidos INNER JOIN Salas ON pedidos.IdSala = salas.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id WHERE pedidos.Data BETWEEN ? AND ? /*AND equipamentos.Id = ?*/ AND  pedidos.IdProfessor = ?;");
 
-    $stmt->bind_param("ssii", $Date1, $Date2, $Equipamento, $LoggedID);
+    $stmt->bind_param("ssi", $Date1, $Date2, $LoggedID);
     $stmt->execute();
 
     $result = $stmt->get_result();
@@ -162,7 +153,7 @@
                                         <input type="radio" name="Ativo" class="radio-inline" value="" checked>
                                         <p style="cursor: pointer;" class="unselectable">Ambos</p>
                                       </label><br><br>
-                                      <input type="submit" class="btn btn-primary" name="filtros_utilizadores_submit" value="Procurar">
+                                      <input type="submit" class="btn btn-primary" name="filtros_meuspedidos_submit" value="Procurar">
                                     </div>
                                 </form>
                                 <hr>
@@ -224,11 +215,10 @@
                                 </tbody>
                             </table>
                             <?php
-                              if (isset($_POST['filtros_utilizadores_submit'])) {
+                              if (isset($_POST['filtros_meuspedidos_submit'])) {
 
-                                $stmt = $con->prepare("SELECT count(*) AS TotalDados FROM pedidos INNER JOIN professores ON pedidos.IdProfessor = professores.Id INNER JOIN Salas ON pedidos.IdSala = salas.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id");
+                                $stmt = $con->prepare("SELECT count(*) AS TotalDados FROM pedidos INNER JOIN Salas ON pedidos.IdSala = salas.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id WHERE pedidos.IdProfessor = " . $LoggedID . ";");
 
-                                $stmt->bind_param("ss", $Nome, $Tipo);
                                 $stmt->execute();
 
                                 $result = $stmt->get_result();
@@ -238,7 +228,7 @@
                                 echo "Total de dados: " . $row['TotalDados']."<br><br>";
 
                               } else {
-                                $stmt = $con->prepare("SELECT count(*) AS TotalDados FROM pedidos INNER JOIN Salas ON pedidos.IdSala = salas.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id WHERE pedidos.IdProfessor = " . $LoggedID .";");
+                                $stmt = $con->prepare("SELECT count(*) AS TotalDados FROM pedidos INNER JOIN Salas ON pedidos.IdSala = salas.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id WHERE pedidos.IdProfessor = " . $LoggedID . ";");
 
                                 $stmt->execute();
 

@@ -14,6 +14,7 @@
   $stmt->bind_param("i", $_GET['Id']);
   $stmt->execute();
   $result = $stmt->get_result();
+
   if ($result->num_rows == 0) {
     header("Location: Inicial");
   }

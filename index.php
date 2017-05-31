@@ -16,11 +16,9 @@
 		$stmt = $con->prepare("SELECT * FROM professores");
 		$stmt->execute();
 		$result = $stmt->get_result();
-		$row = $result->fetch_assoc();
-		$dbhash = $row['Password'];
 
 		$stmt = $con->prepare("SELECT * FROM professores WHERE Username = BINARY ? and Password = BINARY ? AND Ativo = '1'");
-		$stmt->bind_param("ss", $usr, password_verify($pwd, $dbhash));
+		$stmt->bind_param("ss", $usr, $pwd);
 
 		$stmt->execute();
 

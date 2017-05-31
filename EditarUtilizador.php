@@ -1,8 +1,8 @@
 <?php
-  require 'Shared/conn.php';
-  require 'Shared/Restrict.php';
+  require_once 'Shared/conn.php';
+  require_once 'Shared/Restrict.php';
 
-  if (!(isset($_GET["Id"])) || (trim($_GET["Id"]) == "") || !(is_numeric($_GET["Id"])) || ($_GET['Id']==$LoggedID)) {
+  if (!(isset($_GET["Id"])) || (trim($_GET["Id"]) == "") || (!is_numeric($_GET["Id"])) || ($_GET['Id']==$LoggedID)) {
     header("Location: Inicial");
   }
 
@@ -22,6 +22,10 @@
 
   $result = $stmt->get_result();
   $utilizador = $result->fetch_assoc();
+
+  if ($result->num_rows == 0) {
+    header("Location: Inicial");
+  }
 
   if (isset($_POST["editar_util_submit"])) {
     if ($_POST['Password'] == $_POST['Password2']) {
