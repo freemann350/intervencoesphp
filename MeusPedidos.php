@@ -9,19 +9,36 @@
   require 'Shared/Restrict.php';
 
   if (isset($_POST['filtros_meuspedidos_submit'])) {
+    $Equipamento = trim(mysqli_real_escape_string($con, $_POST['Equipamento']));
+    if (($_POST['Data1'] != '') && ($_POST['Data2'] != '')) {
+      $Date1 = trim(mysqli_real_escape_string($con, $_POST['Data1']));
+      $Date2 = trim(mysqli_real_escape_string($con, $_POST['Data2']));
 
-    $Date1 = trim(mysqli_real_escape_string($con, $_POST['Data1']));
-    $Date2 = trim(mysqli_real_escape_string($con, $_POST['Data2']));
+      $Date1 = str_replace('/', '-', $Date1);
+      $Date1 = date('Y-m-d', strtotime($Date1));
+      $Date1 = "'" . $Date1 . "'";
 
-    $Date1 = str_replace('/', '-', $Date1);
-    $Date1 = date('Y-m-d', strtotime($Date1));
+      $Date2 = str_replace('/', '-', $Date2);
+      $Date2 = date('Y-m-d', strtotime($Date2));
+      $Date2 = "'" . $Date2 . "'";
+    } else {
+      $Date1 = "''";
+      $Date2 = "''";
+    };
 
-    $Date2 = str_replace('/', '-', $Date2);
-    $Date2 = date('Y-m-d', strtotime($Date2));
+    $query = "SELECT pedidos.Id, equipamentos.Nome AS NomeEquip, pedidos.Data, salas.Sala, pedidos.Resolvido FROM pedidos INNER JOIN Salas ON pedidos.IdSala = salas.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id";
 
-    $stmt = $con->prepare("SELECT pedidos.Id, equipamentos.Nome AS NomeEquip, pedidos.Data, salas.Sala, pedidos.Resolvido FROM pedidos INNER JOIN Salas ON pedidos.IdSala = salas.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id WHERE pedidos.Data BETWEEN ? AND ? /*AND equipamentos.Id = ?*/ AND  pedidos.IdProfessor = ?;");
+    if (!empty($Date1) && (!empty($Date2)) && (!empty($Equipamento))) {
+      $query .= " WHERE pedidos.Data BETWEEN " . $Date1 . " AND " . $Date2. " AND equipamentos.Id = " . $Equipamento . " AND  pedidos.IdProfessor = " . $LoggedID;
+    } elseif (!empty($Equipamento)) {
+      $query .= " WHERE equipamentos.Id = " . $Equipamento . " AND  pedidos.IdProfessor = " . $LoggedID;
+    } else {
+      $query .= " WHERE pedidos.IdProfessor = " . $LoggedID;
+    }
+    $stmt = $con->prepare($query);
 
-    $stmt->bind_param("ssi", $Date1, $Date2, $LoggedID);
+    ECHO "SELECT pedidos.Id, equipamentos.Nome AS NomeEquip, pedidos.Data, salas.Sala, pedidos.Resolvido FROM pedidos INNER JOIN Salas ON pedidos.IdSala = salas.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id WHERE pedidos.Data BETWEEN " . $Date1 . " AND " . $Date2 . " AND equipamentos.Id = " . $Equipamento . " AND  pedidos.IdProfessor = " . $LoggedID;
+
     $stmt->execute();
 
     $result = $stmt->get_result();

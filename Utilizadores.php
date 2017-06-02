@@ -12,8 +12,8 @@
   }
 
   if (isset($_POST['filtros_utilizadores_submit'])) {
-    $Tipo = "%" . $_POST['Tipo'] . "%";
-    $Nome = "%" . $_POST['Nome'] . "%";
+    $Tipo = "%" . trim(mysqli_real_escape_string($con, $_POST['Tipo'])) . "%";
+    $Nome = "%" . trim(mysqli_real_escape_string($con, $_POST['Nome'])) . "%";
 
     $stmt = $con->prepare("SELECT concat_ws(' ', nome, apelido) nome, email, Ativo, professores.Id, professores.IdRole, roles.role FROM professores inner join roles on professores.idrole = roles.id WHERE concat_ws(' ', nome, apelido) LIKE ? AND professores.IdRole LIKE ? AND Not professores.Id = " . $LoggedID);
 
@@ -250,12 +250,12 @@
       let id = $(this).attr("data-id");
       $.confirm({
           title: 'Sair',
-          content: 'Tem a certeza que pretende inativar este utilizador?<br><br> Poderá voltar a ativá-lo ao editar o utilizador.',
+          content: 'Tem a certeza que pretende ativar este utilizador?<br><br> Poderá voltar a ativá-lo ao editar o utilizador.',
           buttons: {
               Sim: function() {
                 $.ajax({
                   method: "GET",
-                  url: "ajax/inativarUtilizador.php?id=" + id,
+                  url: "ajax/ativarUtilizador.php?id=" + id,
                   success: function(data) {
                     if (data == "1") {
                       window.location.href = location.href.split('?')[0] + "?msg=1"

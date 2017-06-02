@@ -148,6 +148,9 @@
                                             <td><?php echo 'Não foram encontrados nenhuns dados.'?></td>
                                             <td>&nbsp;N/D</td>
                                             <td>&nbsp;N/D</td>
+                                            <td>&nbsp;N/D</td>
+                                            <td>&nbsp;N/D</td>
+                                            <td>&nbsp;N/D</td>
                                         </tr>
                                       <?php };?>
                                 </tbody>

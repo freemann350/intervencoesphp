@@ -63,10 +63,10 @@
                                         <option selected hidden value="">Escolha um equipamento...</option>
                                       </select>
                                   </div>
-
                                   <br>
+                                  
                                   <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por professor</h4>
-                                  <div style="margin-left:10px;">
+                                  <div style="form-group">
                                     <input type="text" class="form-control" name="Nome" placeholder="Escreva aqui o nome do professor..." value="<?php if(isset($_POST['Nome'])) { echo $_POST['Nome'];}?>">
                                   </div>
                                   <br>
