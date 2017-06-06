@@ -15,7 +15,7 @@
     $Tipo = "%" . trim(mysqli_real_escape_string($con, $_POST['Tipo'])) . "%";
     $Nome = "%" . trim(mysqli_real_escape_string($con, $_POST['Nome'])) . "%";
 
-    $stmt = $con->prepare("SELECT concat_ws(' ', nome, apelido) nome, email, Ativo, professores.Id, professores.IdRole, roles.role FROM professores inner join roles on professores.idrole = roles.id WHERE concat_ws(' ', nome, apelido) LIKE ? AND professores.IdRole LIKE ? AND Not professores.Id = " . $LoggedID);
+    $stmt = $con->prepare("SELECT concat_ws(' ', nome, apelido) nome, email, Ativo, professores.Id, professores.IdRole, roles.role FROM professores inner join roles on professores.idrole = roles.id WHERE concat_ws(' ', nome, apelido) LIKE ? AND professores.IdRole = ? AND Not professores.Id = " . $LoggedID);
 
     $stmt->bind_param("ss", $Nome, $Tipo);
     $stmt->execute();

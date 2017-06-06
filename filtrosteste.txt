@@ -1,0 +1,41 @@
+
+
+$sql = "SELECT pedidos.Id, equipamentos.Nome AS NomeEquip, pedidos.Data, salas.Sala, pedidos.Resolvido FROM pedidos INNER JOIN Salas ON pedidos.IdSala = salas.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id INNER JOIN Blocos ON salas.IdBloco = Blocos.Id WHERE pedidos.IdProfessor = ?"
+
+if isset + not empty .... data {
+  if ($cond){
+      $sql .= " WHERE ";
+  }else{
+      $sql .= " AND ";
+  }
+  $sql .= "pedidos.Data BETWEEN ? AND ?";
+}
+
+if isset + not empty .... equipamento {
+  if ($cond){
+      $sql .= " WHERE ";
+  }else{
+      $sql .= " AND ";
+  }
+
+
+
+ AND pedidos.IdProfessor = ?"
+
+
+ \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+
+ $sql = "SELECT pedidos.Id, equipamentos.Nome AS NomeEquip, pedidos.Data, salas.Sala, pedidos.Resolvido FROM pedidos INNER JOIN Salas ON pedidos.IdSala = salas.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id INNER JOIN Blocos ON salas.IdBloco = Blocos.Id WHERE pedidos.IdProfessor = ?"
+
+ if isset + not empty .... data {
+   $sql .= " AND pedidos.Data BETWEEN ? AND ?";
+ }
+
+ if isset + not empty .... equipamento {
+   $sql .= " AND pedidos.Equipamento = ?";
+   }
+
+
+
+  AND pedidos.IdProfessor = ?"

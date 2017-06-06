@@ -86,7 +86,7 @@
 
                                       while ($row = $result->fetch_assoc()) {
                                     ?>
-                                      <option value="<?= $row['Id'] ?>"<?php echo ($row["Bloco"] == "A" ? "selected" : "") ?>><?= $row["Bloco"] ?></option>
+                                      <option value="<?= $row['Id']?>"<?php echo ($row["Bloco"] == "A" ? "selected" : "") ?>><?= $row["Bloco"] ?></option>
                                     <?php }; ?>
                                   </select>
                                     <br>

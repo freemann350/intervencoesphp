@@ -3,7 +3,7 @@
 
   $id = $_GET["id"];
 
-  $stmt = $con->prepare("select * from salas where idbloco = ? order by Sala asc");
+  $stmt = $con->prepare("SELECT * FROM salas WHERE idbloco = ? ORDER BY Sala ASC");
   $stmt->bind_param("i", $id);
 
   $stmt->execute();
