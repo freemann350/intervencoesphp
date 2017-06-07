@@ -12,12 +12,53 @@
     header("Location: 403");
   }
 
-  $stmt = $con->prepare("SELECT intervencoes.Resolvido, intervencoes.Id, salas.Sala, equipamentos.Nome, intervencoes.Data FROM intervencoes INNER JOIN pedidos ON intervencoes.IdPedido = pedidos.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id INNER JOIN salas ON pedidos.IdSala = salas.Id WHERE intervencoes.IdProfessor = ?");
+  $Query = "SELECT intervencoes.Resolvido, intervencoes.Id, salas.Sala, equipamentos.Nome, intervencoes.Data FROM intervencoes INNER JOIN pedidos ON intervencoes.IdPedido = pedidos.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id INNER JOIN salas ON pedidos.IdSala = salas.Id INNER JOIN blocos ON blocos.Id = salas.IdBloco WHERE intervencoes.IdProfessor = " . $LoggedID . " ";
 
-  $stmt->bind_param("i", $LoggedID);
-  $stmt->execute();
+  if (isset($_POST['filtros_meusped_submit']) || (!empty($_POST['Data1'])) || (!empty($_POST['Data2'])) || (!empty($_POST['Equipamento'])) || (!empty($_POST['Bloco'])) || (!empty($_POST['Sala'])) || (!empty($_POST['Nome']))) {
+    $Date1 = trim(mysqli_real_escape_string($con, $_POST['Data1']));
+    $Date2 = trim(mysqli_real_escape_string($con, $_POST['Data2']));
 
-  $result = $stmt->get_result();
+    $Equipamento = trim(mysqli_real_escape_string($con, $_POST['Equipamento']));
+    $Bloco = trim(mysqli_real_escape_string($con, $_POST['Bloco']));
+    $Sala = trim(mysqli_real_escape_string($con, $_POST['Sala']));
+
+    if ((!empty($Date1)) && (!empty($Date2)) && (isset($Date1)) && (isset($Date2))) {
+      $Date1 = str_replace('/', '-', $Date1);
+      $Date1 = date('Y-m-d', strtotime($Date1));
+
+      $Date2 = str_replace('/', '-', $Date2);
+      $Date2 = date('Y-m-d', strtotime($Date2));
+
+      $Query .= " AND intervencoes.Data BETWEEN '". $Date1 ."' AND '". $Date2 ."'";
+    }
+
+    if ((!empty($Equipamento)) && (isset($Equipamento))) {
+      $Query .= " AND pedidos.IdEquipamento = " . $Equipamento;
+    }
+
+    if ((!empty($Bloco)) && (isset($Bloco))) {
+      $Query .= " AND salas.IdBloco = " . $Bloco;
+    }
+
+    if ((!empty($Sala)) && (isset($Sala))) {
+      $Query .= " AND pedidos.IdSala = " . $Sala;
+    }
+
+    #echo $Query;
+
+    $stmt = $con->prepare($Query);
+
+    $stmt->execute();
+
+    $result = $stmt->get_result();
+  } else {
+
+    $stmt = $con->prepare($Query);
+
+    $stmt->execute();
+
+    $result = $stmt->get_result();
+  }
 
 ?>
 <!DOCTYPE html>
@@ -81,22 +122,52 @@
                                   <div class="form-group">
                                       <select class="form-control" name="Equipamento">
                                         <option selected hidden value="">Escolha um equipamento...</option>
+                                        <?php
+                                          $stmt1 = $con->prepare("SELECT * FROM equipamentos");
+
+                                          $stmt1->execute();
+                                          $result1 = $stmt1->get_result();
+
+                                          while ($equip = $result1->fetch_assoc()) {
+                                        ?>
+                                        <option value="<?= $equip['Id'] ?>"><?=$equip["Nome"]; ?></option>
+                                        <?php } ?>
                                       </select>
                                   </div>
                                   <br>
 
                                   <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por Bloco</h4>
                                   <div class="form-group">
-                                      <select class="form-control" name="Bloco" onchange="getSalas(this);" id="bloco">
-                                        <option selected hidden value="">Escolha um bloco...</option>
-                                      </select>
+                                    <select class="form-control" name="Bloco" onchange="getSalas(this);">
+                                      <option selected hidden value="">Escolha um bloco...</option>
+                                      <?php
+                                        $stmt1 = $con->prepare("SELECT * FROM blocos");
+
+                                        $stmt1->execute();
+                                        $result1 = $stmt1->get_result();
+
+                                        while ($row1 = $result1->fetch_assoc()) {
+                                      ?>
+                                        <option value="<?= $row1['Id'] ?>"><?= $row1["Bloco"] ?></option>
+                                      <?php }; ?>
+                                    </select>
                                   </div>
                                   <br>
 
                                   <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por Sala</h4>
                                   <div class="form-group">
-                                    <select class="form-control" name="Sala" id="sala">
+                                    <select class="form-control" name="Sala">
                                       <option selected hidden value="">Escolha uma sala...</option>
+                                      <?php
+                                        $stmt1 = $con->prepare("SELECT * FROM salas");
+
+                                        $stmt1->execute();
+                                        $result1 = $stmt1->get_result();
+
+                                        while ($row1 = $result1->fetch_assoc()) {
+                                      ?>
+                                        <option value="<?=$row1["Id"]?>"><?=$row1["Sala"]?></option>
+                                      <?php } ?>
                                     </select>
                                   </div>
                                   <br>
@@ -115,14 +186,13 @@
                                       <input type="radio" name="Ativo" class="radio-inline" value="" checked>
                                       <p style="cursor: pointer;" class="unselectable">Ambos</p>
                                     </label><br><br>
-                                    <input type="submit" class="btn btn-primary" name="filtros_utilizadores_submit" value="Procurar">
+                                    <input type="submit" class="btn btn-primary" name="filtros_meusped_submit" value="Procurar">
                                   </div>
                               </form>
                               <hr>
                               <br>
                           </div>
 
-                            <br><br>
                             <table class="table table-hover" style="min-width: 600px; table-layout:fixed; overflow: auto;" id="OrderTableToggle">
                                 <thead>
                                     <tr>
@@ -141,38 +211,40 @@
                                   $DataLeitura = date('d/m/Y', strtotime($Date));
                                   ?>
                                     <tr>
-                                        <td><?php if ($row['Resolvido'] == "1") {echo "<i style='color: #60D439; cursor: help' class='fa fa-check fa-lg' title='Pedido resolvido' aria-hidden='true'></i>";} else {echo "<i style='color: #E8434E; cursor: help' class='fa fa-remove fa-lg' title='Pedido não resolvido' aria-hidden='true'></i>";}?></td>
-                                        <td><?=$row["Nome"]?></td>
-                                        <td><?=$DataLeitura?></td>
-                                        <td><?=$row["Sala"]?></td>
-                                        <td>
-                                          <a href="EditarIntervencao?Id=<?=$row["Id"];?>">
-                                            <i title="Editar" class="fa fa-pencil fa-lg" aria-hidden="true"></i>
-                                          <a href="VerificarIntervencao?Id=<?=$row["Id"];?>">
-                                            <i title="Ver todas as informações" class="fa fa-eye fa-lg" aria-hidden="true"></i>
-                                          </a>
-                                          <a href="javascript:;" class="deleteRecord" data-id="<?=$row["Id"];?>">
-                                            <i title="Eliminar" class="fa fa-times fa-lg" aria-hidden="true"></i>
-                                          </a>
-                                        </td>
+                                      <td><?php if ($row['Resolvido'] == "1") {echo "<i style='color: #60D439; cursor: help' class='fa fa-check fa-lg' title='Pedido resolvido' aria-hidden='true'></i>";} else {echo "<i style='color: #E8434E; cursor: help' class='fa fa-remove fa-lg' title='Pedido não resolvido' aria-hidden='true'></i>";}?></td>
+                                      <td><?=$row["Nome"]?></td>
+                                      <td><?=$DataLeitura?></td>
+                                      <td><?=$row["Sala"]?></td>
+                                      <td>
+                                        <a href="EditarIntervencao?Id=<?=$row["Id"];?>">
+                                          <i title="Editar" class="fa fa-pencil fa-lg" aria-hidden="true"></i>
+                                        <a href="VerificarIntervencao?Id=<?=$row["Id"];?>">
+                                          <i title="Ver todas as informações" class="fa fa-eye fa-lg" aria-hidden="true"></i>
+                                        </a>
+                                        <a href="javascript:;" class="deleteRecord" data-id="<?=$row["Id"];?>">
+                                          <i title="Eliminar" class="fa fa-times fa-lg" aria-hidden="true"></i>
+                                        </a>
+                                      </td>
                                     </tr>
-                                    <?php }} else { ?>
-                                      <tr>
-                                          <td><?php echo 'Não foram encontrados nenhuns dados.'?></td>
-                                          <td>&nbsp;N/D </td>
-                                          <td>&nbsp;N/D </td>
-                                          <td>&nbsp;N/D </td>
-                                          <td>&nbsp;N/D </td>
-                                      </tr>
-                                    <?php };?>
-                                </tbody>
-                            </table>
+                                  </tbody>
+                              </table>
+                                  <?php }} else { ?>
+                                    <tr>
+                                      <td>N/D</td>
+                                      <td>N/D </td>
+                                      <td>N/D </td>
+                                      <td>N/D </td>
+                                      <td>N/D </td>
+                                    </tr>
+                                  </tbody>
+                              </table>
+                              <p><u>Não foram encontrados nenhuns dados.</u></p><br>
+                                <?php };?>
                             <?php
-                              if (isset($_POST['filtros_utilizadores_submit'])) {
+                              if (isset($_POST['filtros_meusped_submit'])) {
 
                                 $stmt = $con->prepare("SELECT count(*) AS TotalDados FROM intervencoes INNER JOIN pedidos ON intervencoes.IdPedido = pedidos.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id INNER JOIN salas ON pedidos.IdSala = salas.Id WHERE intervencoes.IdProfessor = " .$LoggedID.";");
 
-                                $stmt->bind_param("ss", $Nome, $Tipo);
                                 $stmt->execute();
 
                                 $result = $stmt->get_result();

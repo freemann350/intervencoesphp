@@ -42,8 +42,6 @@
 
     $stmt = $con->prepare($Query);
 
-    /*ECHO $Query;*/
-
     $stmt->execute();
 
     $result = $stmt->get_result();
@@ -192,7 +190,6 @@
                                 <br>
                             </div>
 
-                            <br><br>
                             <table class="table table-hover" style="min-width: 600px; table-layout:fixed; overflow: auto;" id="OrderTableToggle">
                                 <thead>
                                     <tr>

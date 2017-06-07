@@ -1,12 +1,22 @@
 <?php
   if (!(isset($_GET["Id"])) || (trim($_GET["Id"]) == "") || !(is_numeric($_GET["Id"]))) {
-    header("Location: Inicial");
+    header("Location: 404");
   }
 
   $titulo = "Verificar Pedidos";
 
   require 'Shared/conn.php';
   require 'Shared/Restrict.php';
+
+  $stmt = $con->prepare("SELECT * FROM pedidos WHERE Id = ?");
+
+  $stmt->bind_param("i", $_GET['Id']);
+  $stmt->execute();
+  $result = $stmt->get_result();
+
+  if ($result->num_rows == 0) {
+    header("Location: 404");
+  }
 
   $stmt = $con->prepare(
   "SELECT pedidos.Id, pedidos.descricao, pedidos.Data, pedidos.Hora, pedidos.Resolvido, equipamentos.Nome, salas.Sala, concat_ws(' ', professores.Nome, professores.Apelido) NomeTodo FROM pedidos INNER JOIN Salas ON pedidos.IdSala = salas.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id INNER JOIN professores ON pedidos.IdProfessor = professores.Id WHERE pedidos.Id = ?;

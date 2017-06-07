@@ -11,6 +11,9 @@
   if ($LoggedRole == "3") {
     header("Location: 403");
   }
+
+  $Query = "SELECT pedidos.Id, equipamentos.Nome, salas.Sala, professores.Id AS IdProf, pedidos.Data, concat_ws(' ', professores.Nome, professores.Apelido) NomeTodo, pedidos.Resolvido FROM pedidos INNER JOIN Salas ON pedidos.IdSala = salas.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id INNER JOIN professores ON professores.Id = pedidos.IdProfessor WHERE Resolvido = '0'";
+
   if (isset($_POST['filtros_conspedidos_submit']) || (!empty($_POST['Data1'])) || (!empty($_POST['Data2'])) || (!empty($_POST['Equipamento'])) || (!empty($_POST['Bloco'])) || (!empty($_POST['Sala'])) || (!empty($_POST['Nome']))) {
     $Date1 = trim(mysqli_real_escape_string($con, $_POST['Data1']));
     $Date2 = trim(mysqli_real_escape_string($con, $_POST['Data2']));
@@ -20,79 +23,40 @@
     $Bloco = trim(mysqli_real_escape_string($con, $_POST['Bloco']));
     $Sala = trim(mysqli_real_escape_string($con, $_POST['Sala']));
 
-    $switch = true;
-
     if ((!empty($Date1)) && (!empty($Date2)) && (isset($Date1)) && (isset($Date2))) {
-
-      if ($switch){
-        $Query .= " WHERE ";
-        $switch = false;
-      } else {
-        $Query .= " AND ";
-      }
-
       $Date1 = str_replace('/', '-', $Date1);
       $Date1 = date('Y-m-d', strtotime($Date1));
 
       $Date2 = str_replace('/', '-', $Date2);
       $Date2 = date('Y-m-d', strtotime($Date2));
 
-      $Query .= " pedidos.Data BETWEEN '". $Date1 ."' AND '". $Date2 ."'";
+      $Query .= " AND pedidos.Data BETWEEN '". $Date1 ."' AND '". $Date2 ."'";
     }
 
     if ((!empty($Equipamento)) && (isset($Equipamento))) {
-      if ($switch){
-        $Query .= " WHERE ";
-        $switch = false;
-      } else {
-        $Query .= " AND ";
-      }
-
-      $Query .= " pedidos.IdEquipamento = " . $Equipamento;
+      $Query .= " AND pedidos.IdEquipamento = " . $Equipamento;
     }
 
     if ((!empty($Bloco)) && (isset($Bloco))) {
-      if ($switch){
-        $Query .= " WHERE ";
-        $switch = false;
-      } else {
-        $Query .= " AND ";
-      }
-
-      $Query .= " salas.IdBloco = " . $Bloco;
+      $Query .= " AND salas.IdBloco = " . $Bloco;
     }
 
     if ((!empty($Nome)) && (isset($Nome))) {
-      if ($switch){
-        $Query .= " WHERE ";
-        $switch = false;
-      } else {
-        $Query .= " AND ";
-      }
       $Nome = "%" . $Nome . "%";
-      $Query .= " concat_ws(' ', professores.Nome, professores.Apelido) LIKE " . $Nome;
+      $Query .= " AND concat_ws(' ', professores.Nome, professores.Apelido) LIKE " . $Nome;
     }
 
     if ((!empty($Sala)) && (isset($Sala))) {
-      if ($switch){
-        $Query .= " WHERE ";
-        $switch = false;
-      } else {
-        $Query .= " AND ";
-      }
-
-      $Query .= " pedidos.IdSala = " . $Sala;
+      $Query .= " AND pedidos.IdSala = " . $Sala;
     }
 
     $stmt = $con->prepare($Query);
-
-    /*ECHO $Query;*/
 
     $stmt->execute();
 
     $result = $stmt->get_result();
   } else {
-    $stmt = $con->prepare("SELECT pedidos.Id, equipamentos.Nome, salas.Sala, professores.Id AS IdProf,concat_ws(' ', professores.Nome, professores.Apelido) NomeTodo, pedidos.Resolvido FROM pedidos INNER JOIN Salas ON pedidos.IdSala = salas.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id INNER JOIN professores ON professores.Id = pedidos.IdProfessor WHERE Resolvido = '0';");
+    $stmt = $con->prepare($Query);
 
     $stmt->execute();
 
@@ -209,11 +173,11 @@
                               <br>
                           </div>
 
-                            <br><br>
                             <table class="table table-hover" style="min-width: 600px; table-layout:fixed; overflow: auto;" id="OrderTableToggle">
                                 <thead>
                                     <tr>
                                         <th>Equipamento</th>
+                                        <th>Data pedido</th>
                                         <th>Professor</th>
                                         <th>Sala</th>
                                         <th>Ação</th>
@@ -223,9 +187,12 @@
                                   <?php
                                   if ($result->num_rows != 0) {
                                     while ($row = $result->fetch_assoc()) {
+                                    $Date = str_replace('-', '/', $row['Data']);
+                                    $Date = date('d/m/Y', strtotime($Date));
                                   ?>
                                   <tr>
                                       <td><?=$row['Nome']?></td>
+                                      <td><?=$Date?></td>
                                       <td><a href="Perfil?Id=<?=$row['IdProf']?>"><?=$row['NomeTodo']?></a></td>
                                       <td><?=$row['Sala']?></td>
                                       <td>

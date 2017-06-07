@@ -21,7 +21,6 @@
     $switch = true;
 
     if ((!empty($Date1)) && (!empty($Date2)) && (isset($Date1)) && (isset($Date2))) {
-
       if ($switch){
         $Query .= " WHERE ";
         $switch = false;
@@ -83,8 +82,6 @@
     }
 
     $stmt = $con->prepare($Query);
-
-    /*ECHO $Query;*/
 
     $stmt->execute();
 
@@ -226,7 +223,6 @@
                               <br>
                           </div>
 
-                            <br><br>
                               <table class="table table-hover" style="min-width: 600px; table-layout:fixed; overflow: auto;" id="OrderTableToggle">
                                 <thead>
                                   <tr>
@@ -243,12 +239,12 @@
                                     if ($result->num_rows != 0) {
                                     while ($row = $result->fetch_assoc()) {
                                     $Date = str_replace('-', '/', $row['Data']);
-                                    $DataLeitura = date('d/m/Y', strtotime($Date));
+                                    $Date = date('d/m/Y', strtotime($Date));
                                   ?>
                                     <tr>
                                         <td><?php if ($row['Resolvido'] == "1") {echo "<b style='color: #60D439; cursor: help'><i class='fa fa-check fa-lg' title='Pedido resolvido' aria-hidden='true'></i></b>";} else {echo "<b style='color: #E8434E; cursor: help'><i class='fa fa-remove fa-lg' title='Pedido não resolvido' aria-hidden='true'></i></b>";}?></td>
                                         <td><?=$row["NomeEquip"]?></td>
-                                        <td><?=$DataLeitura?></td>
+                                        <td><?=$Date?></td>
                                         <td><a href="Perfil?Id=<?=$row['IdProf']?>"><?=$row['NomeProf']?></a></td>
                                         <td><?=$row["Sala"]?></td>
                                         <td>&nbsp;

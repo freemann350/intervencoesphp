@@ -1,6 +1,6 @@
 <?php
   if (!(isset($_GET["Id"])) || (trim($_GET["Id"]) == "") || !(is_numeric($_GET["Id"]))) {
-    header("Location: Inicial");
+    header("Location: 404");
   }
 
   $titulo = "Editar";
@@ -24,7 +24,7 @@
     $result = $stmt->get_result();
 
     if ($result->num_rows == 0) {
-      header("Location: Inicial");
+      header("Location: 404");
     }
 
     $intervencao = $result->fetch_assoc();

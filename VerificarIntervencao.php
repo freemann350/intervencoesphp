@@ -1,12 +1,23 @@
 <?php
 if (!(isset($_GET["Id"])) || (trim($_GET["Id"]) == "") || !(is_numeric($_GET["Id"]))) {
-  header("Location: Inicial");
+  header("Location: 404");
 }
 
-  $titulo = "Verificar Dados";
+  $titulo = "Verificar Intervenção";
 
   require 'Shared/conn.php';
   require 'Shared/Restrict.php';
+
+  #verifica se o utilizador existe
+  $stmt = $con->prepare("SELECT * FROM intervencoes WHERE Id = ?");
+
+  $stmt->bind_param("i", $_GET['Id']);
+  $stmt->execute();
+  $result = $stmt->get_result();
+
+  if ($result->num_rows == 0) {
+    header("Location: 404");
+  }
 
   $stmt = $con->prepare(
   "SELECT IdPedido, Data, Hora, Descricao, Resolvido, concat_ws(' ', professores.Nome, professores.Apelido) NomeTodo FROM intervencoes INNER JOIN professores ON intervencoes.IdProfessor = professores.Id WHERE intervencoes.Id = ?

@@ -8,11 +8,92 @@
   require 'Shared/conn.php';
   require 'Shared/Restrict.php';
 
-  $stmt = $con->prepare("SELECT intervencoes.Resolvido, intervencoes.Data, intervencoes.Id, salas.Sala, equipamentos.Nome, professores.Id AS IdProf, concat_ws(' ', professores.Nome, professores.Apelido) NomeTodo FROM intervencoes INNER JOIN pedidos ON intervencoes.IdPedido = pedidos.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id INNER JOIN salas ON pedidos.IdSala = salas.Id INNER JOIN professores ON intervencoes.IdProfessor = professores.Id");
+  $Query = "SELECT intervencoes.Resolvido, intervencoes.Data, intervencoes.Id, salas.Sala, equipamentos.Nome, professores.Id AS IdProf, concat_ws(' ', professores.Nome, professores.Apelido) NomeTodo FROM intervencoes INNER JOIN pedidos ON intervencoes.IdPedido = pedidos.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id INNER JOIN salas ON pedidos.IdSala = salas.Id INNER JOIN professores ON intervencoes.IdProfessor = professores.Id";
 
-  $stmt->execute();
+  if (isset($_POST['filtros_consint_submit']) || (!empty($_POST['Data1'])) || (!empty($_POST['Data2'])) || (!empty($_POST['Equipamento'])) || (!empty($_POST['Bloco'])) || (!empty($_POST['Sala'])) || (!empty($_POST['Nome']))) {
+    $Date1 = trim(mysqli_real_escape_string($con, $_POST['Data1']));
+    $Date2 = trim(mysqli_real_escape_string($con, $_POST['Data2']));
 
-  $result = $stmt->get_result();
+    $Equipamento = trim(mysqli_real_escape_string($con, $_POST['Equipamento']));
+    $Nome = trim(mysqli_real_escape_string($con, $_POST['Nome']));
+    $Bloco = trim(mysqli_real_escape_string($con, $_POST['Bloco']));
+    $Sala = trim(mysqli_real_escape_string($con, $_POST['Sala']));
+
+    $switch = true;
+
+    if ((!empty($Date1)) && (!empty($Date2)) && (isset($Date1)) && (isset($Date2))) {
+      if ($switch){
+        $Query .= " WHERE ";
+        $switch = false;
+      } else {
+        $Query .= " AND ";
+      }
+
+      $Date1 = str_replace('/', '-', $Date1);
+      $Date1 = date('Y-m-d', strtotime($Date1));
+
+      $Date2 = str_replace('/', '-', $Date2);
+      $Date2 = date('Y-m-d', strtotime($Date2));
+
+      $Query .= " pedidos.Data BETWEEN '". $Date1 ."' AND '". $Date2 ."'";
+    }
+
+    if ((!empty($Equipamento)) && (isset($Equipamento))) {
+      if ($switch){
+        $Query .= " WHERE ";
+        $switch = false;
+      } else {
+        $Query .= " AND ";
+      }
+
+      $Query .= " pedidos.IdEquipamento = " . $Equipamento;
+    }
+
+    if ((!empty($Bloco)) && (isset($Bloco))) {
+      if ($switch){
+        $Query .= " WHERE ";
+        $switch = false;
+      } else {
+        $Query .= " AND ";
+      }
+
+      $Query .= " salas.IdBloco = " . $Bloco;
+    }
+
+    if ((!empty($Nome)) && (isset($Nome))) {
+      if ($switch){
+        $Query .= " WHERE ";
+        $switch = false;
+      } else {
+        $Query .= " AND ";
+      }
+      $Nome = "%" . $Nome . "%";
+      $Query .= " concat_ws(' ', professores.Nome, professores.Apelido) LIKE " . $Nome;
+    }
+
+    if ((!empty($Sala)) && (isset($Sala))) {
+      if ($switch){
+        $Query .= " WHERE ";
+        $switch = false;
+      } else {
+        $Query .= " AND ";
+      }
+
+      $Query .= " pedidos.IdSala = " . $Sala;
+    }
+
+    $stmt = $con->prepare($Query);
+
+    $stmt->execute();
+
+    $result = $stmt->get_result();
+  } else {
+    $stmt = $con->prepare("SELECT intervencoes.Resolvido, intervencoes.Data, intervencoes.Id, salas.Sala, equipamentos.Nome, professores.Id AS IdProf, concat_ws(' ', professores.Nome, professores.Apelido) NomeTodo FROM intervencoes INNER JOIN pedidos ON intervencoes.IdPedido = pedidos.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id INNER JOIN salas ON pedidos.IdSala = salas.Id INNER JOIN professores ON intervencoes.IdProfessor = professores.Id");
+
+    $stmt->execute();
+
+    $result = $stmt->get_result();
+}
 ?>
 <!DOCTYPE html>
 <html lang="pt">
@@ -64,7 +145,7 @@
                                       </select>
                                   </div>
                                   <br>
-                                  
+
                                   <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por professor</h4>
                                   <div style="form-group">
                                     <input type="text" class="form-control" name="Nome" placeholder="Escreva aqui o nome do professor..." value="<?php if(isset($_POST['Nome'])) { echo $_POST['Nome'];}?>">
@@ -102,14 +183,12 @@
                                       <input type="radio" name="Ativo" class="radio-inline" value="" checked>
                                       <p style="cursor: pointer;" class="unselectable">Ambos</p>
                                     </label><br><br>
-                                    <input type="submit" class="btn btn-primary" name="filtros_utilizadores_submit" value="Procurar">
+                                    <input type="submit" class="btn btn-primary" name="filtros_consint_submit" value="Procurar">
                                   </div>
                               </form>
                               <hr>
                               <br>
                           </div>
-
-                            <br><br>
 
                             <table class="table table-hover" style="min-width: 600px; table-layout:fixed; overflow: auto;" id="OrderTableToggle">
                                 <thead>
@@ -153,7 +232,7 @@
                                 </tbody>
                             </table>
                             <?php
-                              if (isset($_POST['filtros_utilizadores_submit'])) {
+                              if (isset($_POST['filtros_consint_submit'])) {
 
                                 $stmt = $con->prepare("SELECT count(*) AS TotalDados FROM professores INNER JOIN roles ON professores.IdRole = roles.Id WHERE Nome LIKE ? AND professores.IdRole = ? AND Not professores.Id = " . $LoggedID);
 

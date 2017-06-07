@@ -1,6 +1,6 @@
 <?php
   if (!(isset($_GET["Id"])) || (trim($_GET["Id"]) == "") || !(is_numeric($_GET["Id"]))) {
-    header("Location: Inicial");
+    header("Location: 404");
   }
 
   $titulo = "Editar Equipamento";

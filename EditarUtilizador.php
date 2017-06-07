@@ -3,7 +3,7 @@
   require_once 'Shared/Restrict.php';
 
   if (!(isset($_GET["Id"])) || (trim($_GET["Id"]) == "") || (!is_numeric($_GET["Id"])) || ($_GET['Id']==$LoggedID)) {
-    header("Location: Inicial");
+    header("Location: 404");
   }
 
   $titulo = "Novo Utilizador";
@@ -24,7 +24,7 @@
   $utilizador = $result->fetch_assoc();
 
   if ($result->num_rows == 0) {
-    header("Location: Inicial");
+    header("Location: 404");
   }
 
   if (isset($_POST["editar_util_submit"])) {
