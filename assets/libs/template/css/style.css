@@ -1072,7 +1072,8 @@ PANELS CONFIGURATIONS
 
 .darkblue-panel {
     text-align: center;
-    background: #444c57;
+    background: #385870;
+    padding: 2px;
 }
 
 .darkblue-panel .darkblue-header {
@@ -1101,7 +1102,10 @@ PANELS CONFIGURATIONS
     font-weight: 700;
 }
 
-
+.darkblue-panel-p {
+  margin-top: 20%;
+  color: #DBDBDB;
+}
 /*Green Panel*/
 
 .green-panel {

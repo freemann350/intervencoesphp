@@ -84,6 +84,8 @@
     $resultQI = $stmtQI->get_result();
 
     $rowQI = $resultQI->fetch_assoc();
+
+
 ?>
 
 <body>
@@ -147,8 +149,7 @@
                 </div>
 
                 <div class="row mt">
-
-                    <div class="col-md-2 col-sm-6 col-md-offset-2 box0 ">
+                    <div class="col-md-2 col-sm-6 col-md-offset-2 box0">
                         <div class="box1">
                             <img class="imagesIndex" src="assets/img/Items/pc.png" height="160" width="130" style='max-width: 110%; max-height: 110%' draggable='false' ondragstart="return false;">
                             <h3><?=$rowPC['Total']?></h3>
@@ -176,6 +177,56 @@
                         <p class="unselectable" style="margin-bottom:7%">Total de intervenções feitas em Quadros Interativos</p>
                     </div>
                 </div>
+
+                <div class="row mt">
+                  <div class="col-sm-3" style="margin-bottom: 2%">
+                		<div class="darkblue-panel pn">
+                			<div class="darkblue-header">
+						  		      <h5>Equipamento com mais pedidos</h5>
+                			</div>
+                      <div class="centered">
+                        <h3 class="darkblue-panel-p">NOME DO UTILIZADOR</h3>
+                      </div>
+                        <p class="darkblue-panel-p"><i class="fa fa-pencil"></i> 122</p>
+                      </div>
+                		</div>
+
+                <div class="col-sm-3" style="margin-bottom: 2%">
+              		<div class="darkblue-panel pn">
+              			<div class="darkblue-header">
+					  		      <h5>Utilizador com mais intervenções</h5>
+              			</div>
+                    <div class="centered">
+                      <h3 class="darkblue-panel-p">Francisco Caneira</h3>
+                    </div>
+                      <p class="darkblue-panel-p"><i class="fa fa-pencil"></i> 122</p>
+                    </div>
+              		</div>
+
+                  <div class="col-sm-3" style="margin-bottom: 2%">
+                		<div class="darkblue-panel pn">
+                			<div class="darkblue-header">
+						  		      <h5>Bloco com mais pedidos</h5>
+                			</div>
+                      <div class="centered">
+                        <h3 class="darkblue-panel-p">Bloco B</h3>
+                      </div>
+                        <p class="darkblue-panel-p"><i class="fa fa-pencil"></i> 122</p>
+                      </div>
+                		</div>
+
+                    <div class="col-sm-3" style="margin-bottom: 2%">
+                  		<div class="darkblue-panel pn">
+                  			<div class="darkblue-header">
+  						  		      <h5>Equipamento com mais intervenções</h5>
+                  			</div>
+                        <div class="centered">
+                        <h3 class="darkblue-panel-p">NOME DO UTILIZADOR</h3>
+                      </div>
+                        <p class="darkblue-panel-p"><i class="fa fa-pencil"></i> 122</p>
+                      </div>
+                		</div>
+            	   </div>
               </section>
             <!-- /MAIN CONTENT -->
 

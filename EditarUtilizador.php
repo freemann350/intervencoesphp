@@ -39,16 +39,10 @@
     $Id = trim(mysqli_real_escape_string($con, $_POST['Id']));
     $Ativo = ((isset($_POST['Ativo'])) ? "1" : "0");
 
-    $options = [
-        'cost' => 11,
-    ];
-
-    $hash = password_hash($Password, PASSWORD_BCRYPT, $options);
-
     $stmt = $con->prepare(
     "UPDATE professores SET Nome = ?, Apelido = ?, Email = ?, Password = ?, Username = ?, IdRole = ?, Ativo = ? WHERE Id = ?");
 
-    $stmt->bind_param("sssssiii", $Nome, $Apelido, $Email, $hash, $Username, $Tipo, $Ativo, $Id);
+    $stmt->bind_param("sssssiii", $Nome, $Apelido, $Email, $Password, $Username, $Tipo, $Ativo, $Id);
 
     $stmt->execute();
 
