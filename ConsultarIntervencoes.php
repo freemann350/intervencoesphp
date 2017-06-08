@@ -9,6 +9,7 @@
   require 'Shared/Restrict.php';
 
   $Query = "SELECT intervencoes.Resolvido, intervencoes.Data, intervencoes.Id, salas.Sala, equipamentos.Nome, professores.Id AS IdProf, concat_ws(' ', professores.Nome, professores.Apelido) NomeTodo FROM intervencoes INNER JOIN pedidos ON intervencoes.IdPedido = pedidos.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id INNER JOIN salas ON pedidos.IdSala = salas.Id INNER JOIN professores ON intervencoes.IdProfessor = professores.Id";
+  $QueryCount = "SELECT count(*) AS TotalDados FROM intervencoes INNER JOIN pedidos ON intervencoes.IdPedido = pedidos.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id INNER JOIN salas ON pedidos.IdSala = salas.Id INNER JOIN professores ON intervencoes.IdProfessor = professores.Id";
 
   if (isset($_POST['filtros_consint_submit']) || (!empty($_POST['Data1'])) || (!empty($_POST['Data2'])) || (!empty($_POST['Equipamento'])) || (!empty($_POST['Bloco'])) || (!empty($_POST['Sala'])) || (!empty($_POST['Nome']))) {
     $Date1 = trim(mysqli_real_escape_string($con, $_POST['Data1']));
@@ -24,9 +25,11 @@
     if ((!empty($Date1)) && (!empty($Date2)) && (isset($Date1)) && (isset($Date2))) {
       if ($switch){
         $Query .= " WHERE ";
+        $QueryCount .= " WHERE ";
         $switch = false;
       } else {
         $Query .= " AND ";
+        $QueryCount .= " AND ";
       }
 
       $Date1 = str_replace('/', '-', $Date1);
@@ -35,52 +38,67 @@
       $Date2 = str_replace('/', '-', $Date2);
       $Date2 = date('Y-m-d', strtotime($Date2));
 
-      $Query .= " pedidos.Data BETWEEN '". $Date1 ."' AND '". $Date2 ."'";
+      $Query .= " intervencoes.Data BETWEEN '". $Date1 ."' AND '". $Date2 ."'";
+      $QueryCount .= " intervencoes.Data BETWEEN '". $Date1 ."' AND '". $Date2 ."'";
     }
 
     if ((!empty($Equipamento)) && (isset($Equipamento))) {
       if ($switch){
         $Query .= " WHERE ";
+        $QueryCount .= " WHERE ";
         $switch = false;
       } else {
         $Query .= " AND ";
+        $QueryCount .= " AND ";
       }
 
       $Query .= " pedidos.IdEquipamento = " . $Equipamento;
+      $QueryCount .= " pedidos.IdEquipamento = " . $Equipamento;
     }
 
     if ((!empty($Bloco)) && (isset($Bloco))) {
       if ($switch){
         $Query .= " WHERE ";
+        $QueryCount .= " WHERE ";
         $switch = false;
       } else {
         $Query .= " AND ";
+        $QueryCount .= " AND ";
       }
 
       $Query .= " salas.IdBloco = " . $Bloco;
+      $QueryCount .= " salas.IdBloco = " . $Bloco;
     }
 
     if ((!empty($Nome)) && (isset($Nome))) {
       if ($switch){
         $Query .= " WHERE ";
+        $QueryCount .= " WHERE ";
         $switch = false;
       } else {
         $Query .= " AND ";
+        $QueryCount .= " AND ";
       }
-      $Nome = "%" . $Nome . "%";
+      $Nome = "'%" . $Nome . "%'";
       $Query .= " concat_ws(' ', professores.Nome, professores.Apelido) LIKE " . $Nome;
+      $QueryCount .= " concat_ws(' ', professores.Nome, professores.Apelido) LIKE " . $Nome;
     }
 
     if ((!empty($Sala)) && (isset($Sala))) {
       if ($switch){
         $Query .= " WHERE ";
+        $QueryCount .= " WHERE ";
         $switch = false;
       } else {
         $Query .= " AND ";
+        $QueryCount .= " AND ";
       }
 
       $Query .= " pedidos.IdSala = " . $Sala;
+      $QueryCount .= " pedidos.IdSala = " . $Sala;
     }
+
+    echo $Query;
 
     $stmt = $con->prepare($Query);
 
@@ -88,12 +106,12 @@
 
     $result = $stmt->get_result();
   } else {
-    $stmt = $con->prepare("SELECT intervencoes.Resolvido, intervencoes.Data, intervencoes.Id, salas.Sala, equipamentos.Nome, professores.Id AS IdProf, concat_ws(' ', professores.Nome, professores.Apelido) NomeTodo FROM intervencoes INNER JOIN pedidos ON intervencoes.IdPedido = pedidos.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id INNER JOIN salas ON pedidos.IdSala = salas.Id INNER JOIN professores ON intervencoes.IdProfessor = professores.Id");
+    $stmt = $con->prepare($Query);
 
     $stmt->execute();
 
     $result = $stmt->get_result();
-}
+  }
 ?>
 <!DOCTYPE html>
 <html lang="pt">
@@ -115,7 +133,7 @@
 
         <!--MAIN CONTENT-->
         <section id="main-content">
-            <section class="wrapper site-min-height" id="wrapping" >
+            <section class="wrapper" id="wrapping" >
 
                 <h3><i class="fa fa-angle-right"></i> Todas as intervenções</h3>
 
@@ -142,6 +160,16 @@
                                   <div class="form-group">
                                       <select class="form-control" name="Equipamento">
                                         <option selected hidden value="">Escolha um equipamento...</option>
+                                        <?php
+                                          $stmt1 = $con->prepare("SELECT * FROM equipamentos WHERE Ativo = '1'");
+
+                                          $stmt1->execute();
+                                          $result1 = $stmt1->get_result();
+
+                                          while ($equip = $result1->fetch_assoc()) {
+                                        ?>
+                                        <option value="<?= $equip['Id'] ?>"><?=$equip["Nome"]; ?></option>
+                                        <?php } ?>
                                       </select>
                                   </div>
                                   <br>
@@ -155,16 +183,36 @@
 
                                   <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por Bloco</h4>
                                   <div class="form-group">
-                                      <select class="form-control" name="Bloco" onchange="getSalas(this);" id="bloco">
-                                        <option selected hidden value="">Escolha um bloco...</option>
-                                      </select>
+                                    <select class="form-control" name="Bloco" onchange="getSalas(this);">
+                                      <option selected hidden value="">Escolha um bloco...</option>
+                                      <?php
+                                        $stmt1 = $con->prepare("SELECT * FROM blocos");
+
+                                        $stmt1->execute();
+                                        $result1 = $stmt1->get_result();
+
+                                        while ($row1 = $result1->fetch_assoc()) {
+                                      ?>
+                                        <option value="<?= $row1['Id'] ?>"><?= $row1["Bloco"] ?></option>
+                                      <?php }; ?>
+                                    </select>
                                   </div>
                                   <br>
 
                                   <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por Sala</h4>
                                   <div class="form-group">
-                                    <select class="form-control" name="Sala" id="sala">
+                                    <select class="form-control" name="Sala">
                                       <option selected hidden value="">Escolha uma sala...</option>
+                                      <?php
+                                        $stmt1 = $con->prepare("SELECT * FROM salas");
+
+                                        $stmt1->execute();
+                                        $result1 = $stmt1->get_result();
+
+                                        while ($row1 = $result1->fetch_assoc()) {
+                                      ?>
+                                        <option value="<?=$row1["Id"]?>"><?=$row1["Sala"]?></option>
+                                      <?php } ?>
                                     </select>
                                   </div>
                                   <br>
@@ -211,7 +259,7 @@
                                     <tr>
                                         <td><?php if ($row['Resolvido'] == "1") {echo "<b style='color: #60D439; cursor: help'><i class='fa fa-check fa-lg' title='Pedido resolvido' aria-hidden='true'></i></b>";} else {echo "<b style='color: #E8434E; cursor: help'><i class='fa fa-remove fa-lg' title='Pedido não resolvido' aria-hidden='true'></i></b>";}?></td>                                        <td><?=$row["Nome"]?></td>
                                         <td><?=$DataLeitura?></td>
-                                        <td><a href="Perfil?Id=<?=$row['IdProf']?>"><?=$row['NomeTodo']?></td>
+                                        <td><a href="Perfil?Id=<?=$row['IdProf']?>" title="Ver perfil de <?=$row['NomeTodo']?>"><?=$row['NomeTodo']?></td>
                                         <td><?=$row["Sala"]?></td>
                                         <td>
                                           <a href="VerificarIntervencao?Id=<?=$row["Id"];?>">
@@ -221,45 +269,30 @@
                                     </tr>
                                     <?php }} else { ?>
                                       <tr>
-                                          <td><?php echo 'Não foram encontrados nenhuns dados.'?></td>
-                                          <td>&nbsp;N/D </td>
-                                          <td>&nbsp;N/D </td>
-                                          <td>&nbsp;N/D </td>
-                                          <td>&nbsp;N/D </td>
-                                          <td>&nbsp;N/D </td>
+                                          <td>N/D</td>
+                                          <td>N/D </td>
+                                          <td>N/D </td>
+                                          <td>N/D </td>
+                                          <td>N/D </td>
+                                          <td>N/D </td>
                                       </tr>
                                     <?php };?>
                                 </tbody>
                             </table>
                             <?php
-                              if (isset($_POST['filtros_consint_submit'])) {
+                              $stmt = $con->prepare($QueryCount);
 
-                                $stmt = $con->prepare("SELECT count(*) AS TotalDados FROM professores INNER JOIN roles ON professores.IdRole = roles.Id WHERE Nome LIKE ? AND professores.IdRole = ? AND Not professores.Id = " . $LoggedID);
+                              $stmt->execute();
 
-                                $stmt->bind_param("ss", $Nome, $Tipo);
-                                $stmt->execute();
+                              $result = $stmt->get_result();
 
-                                $result = $stmt->get_result();
+                              $row = $result->fetch_assoc();
 
-                                $row = $result->fetch_assoc();
-
-                                echo "Total de dados: " . $row['TotalDados']."<br><br>";
-
-                              } else {
-                                $stmt = $con->prepare("SELECT count(*) AS TotalDados FROM intervencoes INNER JOIN pedidos ON intervencoes.IdPedido = pedidos.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id INNER JOIN salas ON pedidos.IdSala = salas.Id INNER JOIN professores ON intervencoes.IdProfessor = professores.Id");
-
-                                $stmt->execute();
-
-                                $result = $stmt->get_result();
-
-                                $row = $result->fetch_assoc();
-                                echo "Total de dados: " . $row['TotalDados'] ."<br><br>";
-                              }
+                              echo "Total de dados: " . $row['TotalDados']."<br><br>";
                             ?>
                         </div>
                     </div>
                 </div>
-                <br><br><br>
             </section>
             <!-- /MAIN CONTENT -->
 

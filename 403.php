@@ -17,7 +17,7 @@
 
         <!--MAIN CONTENT-->
         <section>
-            <section class="wrapper site-min-height" id="wrapping">
+            <section class="wrapper" id="wrapping">
 
                 <h3><i class="fa fa-angle-right"></i> 403: Acesso Negado</h3>
 

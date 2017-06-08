@@ -11,17 +11,26 @@
     header("Location: 403");
   }
 
+  $Query = "SELECT * FROM equipamentos";
+  $QueryCount = "SELECT count(*) TotalDados FROM equipamentos";
+
   if (isset($_POST['filtros_equipamentos_submit'])) {
-    $Nome = "%" . $_POST["Equipamento"] . "%";
 
-    $stmt = $con->prepare("SELECT * FROM equipamentos WHERE Nome Like ?");
+    $Equipamento = trim(mysqli_real_escape_string($con, $_POST['Equipamento']));
 
-    $stmt->bind_param("s", $Nome);
+    if ((!empty($Equipamento)) && (isset($Equipamento))) {
+      $Equipamento = "'%" . $Equipamento . "%'";
+      $Query .= " WHERE Nome LIKE " . $Equipamento;
+      $QueryCount .= " WHERE Nome LIKE " . $Equipamento;
+    }
+
+    $stmt = $con->prepare($Query);
+
     $stmt->execute();
 
     $result = $stmt->get_result();
   } else {
-    $stmt = $con->prepare("SELECT * FROM equipamentos");
+    $stmt = $con->prepare($Query);
 
     $stmt->execute();
 
@@ -48,15 +57,17 @@
 
         <!--MAIN CONTENT-->
         <section id="main-content">
-            <section class="wrapper site-min-height" id="wrapping">
+            <section class="wrapper" id="wrapping">
               <?php
                 if (isset($_GET["msg"])) {
                   if ($_GET["msg"] == "1") {
               ?>
+                <br>
                 <div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><b>Sucesso!</b> Os dados foram alterados com êxito.</div>
               <?php
                 } elseif ($_GET["msg"] == "2") {
               ?>
+                <br>
                 <div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><b>Ocorreu um erro.</b> Se tal persistir, contacte um responsável técnico.</div>
               <?php
                 };
@@ -86,12 +97,13 @@
                               <hr>
                             </div>
                           <br><br><br>
-                          <a href="NovoEquipamento">+ Registar novo Equipamento</a>
+                          <a href="NovoEquipamento"  title="Adicionar um novo equipamento">+ Registar novo Equipamento</a>
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
-                                        <th>Nome</th>
-                                        <th>Ação</th>
+                                      <th>Ativo</th>
+                                      <th>Nome</th>
+                                      <th>Ação</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -100,20 +112,28 @@
                                     while ($row = $result->fetch_assoc()) {
                                   ?>
                                     <tr>
+                                      <td><?php if ($row['Ativo'] == "1"){ echo "<i style='color: #60D439; cursor: help' title='O equipamento encontra-se ativo' class='fa fa-check fa-lg' aria-hidden='true'></i>";} else { echo "<i style='color: #E8434E;cursor: help' title='O equipamento encontra-se inativo' class='fa fa-times fa-lg' aria-hidden='true'></i>"; }?></td>
                                       <td><?= $row["Nome"] ?></td>
                                       <td>
                                         <a href="EditarEquipamento?Id=<?=$row['Id'];?>">
                                           <i title="Editar Utilizador" class="fa fa-pencil fa-lg" aria-hidden="true"></i>
                                         </a>
+                                        <?php if ($row['Ativo'] == '1') {?>
                                         <a href="javascript:;" class="deleteRecord" data-id="<?=$row['Id'];?>">
-                                          <i title="Eliminar" class="fa fa-times fa-lg" aria-hidden="true"></i>
+                                          <i style="color: #E8434E" title="Inativar Utilizador" class="fa fa-times fa-lg" aria-hidden="true"></i>
                                         </a>
+                                      <?php } else {?>
+                                        <a href="javascript:;" class="activateRecord" data-id="<?=$row['Id'];?>">
+                                          <i style="color: #60D439" title="Ativar Utilizador" class="fa fa-check fa-lg" aria-hidden="true"></i>
+                                        </a>
+                                      <?php };?>
                                       </td>
                                     </tr>
                                   <?php }} else { ?>
                                     <tr>
-                                        <td><?php echo 'Não foram encontrados nenhuns dados.'?></td>
-                                        <td>&nbsp;N/D </td>
+                                      <td>N/D</td>
+                                      <td>N/D</td>
+                                      <td>N/D </td>
                                     </tr>
                                   <?php };?>
                                 </tbody>
@@ -121,9 +141,8 @@
                             <?php
                               if (isset($_POST['filtros_equipamentos_submit'])) {
 
-                                $stmt = $con->prepare("SELECT count(*) AS TotalDados FROM equipamentos WHERE Nome Like ?");
+                                $stmt = $con->prepare($QueryCount);
 
-                                $stmt->bind_param("s", $Nome);
                                 $stmt->execute();
 
                                 $result = $stmt->get_result();
@@ -133,7 +152,7 @@
                                 echo "Total de dados: " . $row['TotalDados']."<br><br>";
 
                               } else {
-                                $stmt = $con->prepare("SELECT count(*) AS TotalDados FROM equipamentos");
+                                $stmt = $con->prepare($QueryCount);
 
                                 $stmt->execute();
 
@@ -143,14 +162,14 @@
                                 echo "Total de dados: " . $row['TotalDados'] ."<br><br>";
                               }
                             ?>
-                            <a href="NovoEquipamento">+ Registar novo Equipamento</a>
+                            <a href="NovoEquipamento" title="Adicionar um novo equipamento">+ Registar novo Equipamento</a>
                             <br>
                         </div>
                     </div>
                 </div>
-
             </section>
         </section>
+
         <!-- /MAIN CONTENT -->
 
         <?php #FOOTER INCLUDE
@@ -166,12 +185,39 @@
       let id = $(this).attr("data-id");
       $.confirm({
           title: 'Sair',
-          content: 'Tem a certeza que pretende eliminar este registo?',
+          content: 'Tem a certeza que pretende inativar este equipamento?',
           buttons: {
               Sim: function() {
                 $.ajax({
                   method: "GET",
-                  url: "ajax/deleteEquipamento.php?id=" + id,
+                  url: "ajax/inativarEquip.php?id=" + id,
+                  success: function(data) {
+                    if (data == "1") {
+                      window.location.href = location.href.split('?')[0] + "?msg=1"
+                    } else {
+                      window.location.href = location.href.split('?')[0] + "?msg=2"
+                    }
+                  }
+                });
+              },
+              Não: function() {
+
+              },
+
+          }
+      });
+    });
+
+    $('.activateRecord').click(function() {
+      let id = $(this).attr("data-id");
+      $.confirm({
+          title: 'Sair',
+          content: 'Tem a certeza que pretende ativar este equipamento?',
+          buttons: {
+              Sim: function() {
+                $.ajax({
+                  method: "GET",
+                  url: "ajax/ativarEquip.php?id=" + id,
                   success: function(data) {
                     if (data == "1") {
                       window.location.href = location.href.split('?')[0] + "?msg=1"

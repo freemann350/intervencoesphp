@@ -1,5 +1,5 @@
 <?php
-  $titulo = "Consultar Pedidos";
+  $titulo = "Resolução de Pedidos";
   $datepickerInclude = true;
   $removeInclude =  true;
   $filtrosInclude =  true;
@@ -13,6 +13,7 @@
   }
 
   $Query = "SELECT pedidos.Id, equipamentos.Nome, salas.Sala, professores.Id AS IdProf, pedidos.Data, concat_ws(' ', professores.Nome, professores.Apelido) NomeTodo, pedidos.Resolvido FROM pedidos INNER JOIN Salas ON pedidos.IdSala = salas.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id INNER JOIN professores ON professores.Id = pedidos.IdProfessor WHERE Resolvido = '0'";
+  $QueryCount = "SELECT count(*) TotalDados FROM pedidos INNER JOIN Salas ON pedidos.IdSala = salas.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id INNER JOIN professores ON professores.Id = pedidos.IdProfessor WHERE Resolvido = '0'";
 
   if (isset($_POST['filtros_conspedidos_submit']) || (!empty($_POST['Data1'])) || (!empty($_POST['Data2'])) || (!empty($_POST['Equipamento'])) || (!empty($_POST['Bloco'])) || (!empty($_POST['Sala'])) || (!empty($_POST['Nome']))) {
     $Date1 = trim(mysqli_real_escape_string($con, $_POST['Data1']));
@@ -31,23 +32,28 @@
       $Date2 = date('Y-m-d', strtotime($Date2));
 
       $Query .= " AND pedidos.Data BETWEEN '". $Date1 ."' AND '". $Date2 ."'";
+      $QueryCount .= " AND pedidos.Data BETWEEN '". $Date1 ."' AND '". $Date2 ."'";
     }
 
     if ((!empty($Equipamento)) && (isset($Equipamento))) {
       $Query .= " AND pedidos.IdEquipamento = " . $Equipamento;
+      $QueryCount .= " AND pedidos.IdEquipamento = " . $Equipamento;
     }
 
     if ((!empty($Bloco)) && (isset($Bloco))) {
       $Query .= " AND salas.IdBloco = " . $Bloco;
+      $QueryCount .= " AND salas.IdBloco = " . $Bloco;
     }
 
     if ((!empty($Nome)) && (isset($Nome))) {
-      $Nome = "%" . $Nome . "%";
+      $Nome = "'%" . $Nome . "%'";
       $Query .= " AND concat_ws(' ', professores.Nome, professores.Apelido) LIKE " . $Nome;
+      $QueryCount .= " AND concat_ws(' ', professores.Nome, professores.Apelido) LIKE " . $Nome;
     }
 
     if ((!empty($Sala)) && (isset($Sala))) {
       $Query .= " AND pedidos.IdSala = " . $Sala;
+      $QueryCount .=" AND pedidos.IdSala = " . $Sala;
     }
 
     $stmt = $con->prepare($Query);
@@ -62,6 +68,7 @@
 
     $result = $stmt->get_result();
   }
+
 ?>
 <!DOCTYPE html>
 <html lang="pt">
@@ -84,12 +91,11 @@
 
         <!--MAIN CONTENT-->
         <section id="main-content">
-            <section class="wrapper site-min-height" id="wrapping">
+            <section class="wrapper" id="wrapping">
 
-                <h3><i class="fa fa-angle-right"></i> Todos os pedidos</h3>
+                <h3><i class="fa fa-angle-right"></i> Resolução de Pedidos</h3>
 
                 <div class="row mt">
-                    <br>
                     <div class="col-lg-12" >
                         <div class="form-panel" style="overflow: auto;">
                           <div class="col-lg-12" id="filtrosheader" style="min-width: 620px;">
@@ -113,7 +119,7 @@
                                       <select class="form-control" name="Equipamento">
                                         <option selected hidden value="">Escolha um equipamento...</option>
                                         <?php
-                                          $stmt1 = $con->prepare("SELECT * FROM equipamentos");
+                                          $stmt1 = $con->prepare("SELECT * FROM equipamentos WHERE Ativo = '1'");
 
                                           $stmt1->execute();
                                           $result1 = $stmt1->get_result();
@@ -207,45 +213,31 @@
                                   </tr>
                                   <?php }} else { ?>
                                     <tr>
-                                        <td><?php echo 'Não foram encontrados nenhuns dados.'?></td>
-                                        <td>&nbsp;N/D </td>
-                                        <td>&nbsp;N/D </td>
-                                        <td>&nbsp;N/D </td>
+                                        <td>N/D</td>
+                                        <td>N/D </td>
+                                        <td>N/D </td>
+                                        <td>N/D </td>
                                     </tr>
                                   <?php }?>
                                 </tbody>
                             </table>
                             <?php
-                              if (isset($_POST['filtros_utilizadores_submit'])) {
+                              $stmt = $con->prepare($QueryCount);
 
-                                $stmt = $con->prepare("SELECT count(*) AS TotalDados FROM professores INNER JOIN roles ON professores.IdRole = roles.Id WHERE Nome LIKE ? AND professores.IdRole = ? AND Not professores.Id = " . $LoggedID);
+                              $stmt->execute();
 
-                                $stmt->bind_param("ss", $Nome, $Tipo);
-                                $stmt->execute();
+                              $result = $stmt->get_result();
 
-                                $result = $stmt->get_result();
+                              $row = $result->fetch_assoc();
 
-                                $row = $result->fetch_assoc();
-
-                                echo "Total de dados: " . $row['TotalDados']."<br><br>";
-
-                              } else {
-                                $stmt = $con->prepare("SELECT count(*) AS TotalDados FROM pedidos INNER JOIN Salas ON pedidos.IdSala = salas.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id INNER JOIN professores ON professores.Id = pedidos.IdProfessor WHERE Resolvido = '0';");
-
-                                $stmt->execute();
-
-                                $result = $stmt->get_result();
-
-                                $row = $result->fetch_assoc();
-                                echo "Total de dados: " . $row['TotalDados'] ."<br><br>";
-                              }
+                              echo "Total de dados: " . $row['TotalDados']."<br><br>";
                             ?>
                         </div>
                     </div>
                 </div>
               </section>
           </section>
-          <div style="padding-bottom: 30px;"></div>
+
           <!-- /MAIN CONTENT -->
 
           <?php #FOOTER INCLUDE

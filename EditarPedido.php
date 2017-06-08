@@ -83,7 +83,7 @@
 
         <!--MAIN CONTENT-->
         <section id="main-content">
-            <section class="wrapper site-min-height"><br>
+            <section class="wrapper"><br>
                 <h3><i class="fa fa-angle-right"></i> Registo de Pedidos - Editar</h3>
                 <div class="row mt">
                     <div class="form-panel">
@@ -122,7 +122,7 @@
                                     <select class="form-control" name="Equipamento" required>
                                       <option value="0" selected disabled hidden>Escolha o Equipamento...</option>
                                       <?php
-                                        $stmt = $con->prepare("SELECT * FROM equipamentos");
+                                        $stmt = $con->prepare("SELECT * FROM equipamentos WHERE Ativo = '1'");
 
                                         $stmt->execute();
                                         $result = $stmt->get_result();

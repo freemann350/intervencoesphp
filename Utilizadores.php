@@ -11,18 +11,32 @@
     header("Location: 403");
   }
 
+  $Query = "SELECT concat_ws(' ', nome, apelido) NomeTodo, email, Ativo, professores.Id, professores.IdRole, roles.role FROM professores inner join roles on professores.idrole = roles.id WHERE Not professores.Id = " . $LoggedID . " ";
+  $QueryCount = "SELECT count(*) AS TotalDados FROM professores WHERE Not professores.Id = " . $LoggedID . " ";
+
   if (isset($_POST['filtros_utilizadores_submit'])) {
-    $Tipo = "%" . trim(mysqli_real_escape_string($con, $_POST['Tipo'])) . "%";
-    $Nome = "%" . trim(mysqli_real_escape_string($con, $_POST['Nome'])) . "%";
 
-    $stmt = $con->prepare("SELECT concat_ws(' ', nome, apelido) nome, email, Ativo, professores.Id, professores.IdRole, roles.role FROM professores inner join roles on professores.idrole = roles.id WHERE concat_ws(' ', nome, apelido) LIKE ? AND professores.IdRole = ? AND Not professores.Id = " . $LoggedID);
+    $Nome = trim(mysqli_real_escape_string($con, $_POST['Nome']));
+    $Tipo = trim(mysqli_real_escape_string($con, $_POST['Tipo']));
 
-    $stmt->bind_param("ss", $Nome, $Tipo);
+    if ((!empty($Nome)) && (isset($Nome))) {
+      $Nome = "'%" . $Nome . "%'";
+      $Query .= "AND concat_ws(' ', nome, apelido) LIKE " . $Nome ;
+      $QueryCount .= "AND concat_ws(' ', nome, apelido) LIKE " . $Nome;
+    }
+
+    if ((!empty($Tipo)) && (isset($Tipo))) {
+      $Query .= " AND professores.IdRole = " . $Tipo;
+      $QueryCount .= " AND professores.IdRole = " . $Tipo;
+    }
+
+    $stmt = $con->prepare($Query);
+
     $stmt->execute();
 
     $result = $stmt->get_result();
   } else {
-    $stmt = $con->prepare("SELECT concat_ws(' ', nome, apelido) nome, email, Ativo, professores.Id, professores.IdRole, roles.role FROM professores inner join roles on professores.idrole = roles.id WHERE Not professores.Id = " . $LoggedID /*. " AND ativo = 1"*/);
+    $stmt = $con->prepare($Query);
 
     $stmt->execute();
 
@@ -49,7 +63,7 @@
 
         <!--MAIN CONTENT-->
         <section id="main-content">
-            <section class="wrapper site-min-height">
+            <section class="wrapper">
               <?php
                 if (isset($_GET["msg"])) {
                   if ($_GET["msg"] == "1") {
@@ -126,7 +140,7 @@
                             </div>
 
                             <br><br><br>
-                            <a href="NovoUtilizador">+ Registar novo Utilizador</a>
+                            <a href="NovoUtilizador" title="Adicionar um novo utilizador">+ Registar novo Utilizador</a>
                             <table class="table table-hover nav-collapse" style="min-width: 600px; table-layout:fixed; overflow: auto;" id="OrderTableToggle">
                                 <thead>
                                     <tr>
@@ -143,7 +157,7 @@
                                   ?>
                                     <tr>
                                       <td><?php if ($row['Ativo'] == "1"){ echo "<i style='color: #60D439; cursor: help' title='O utilizador encontra-se ativo' class='fa fa-check fa-lg' aria-hidden='true'></i>";} else { echo "<i style='color: #E8434E;cursor: help' title='O utilizador encontra-se inativo' class='fa fa-times fa-lg' aria-hidden='true'></i>"; }?></td>
-                                      <td><a href="Perfil?Id=<?=$row['Id']?>"><?= $row["nome"] ?></a></td>
+                                      <td><a href="Perfil?Id=<?=$row['Id']?>" title="Ver perfil de <?=$row['NomeTodo']?>"><?= $row["NomeTodo"] ?></a></td>
                                       <td><?= $row["role"] ?></td>
                                       <td>
                                         <a href="EditarUtilizador?Id=<?=$row['Id']?>">
@@ -154,20 +168,20 @@
                                         </a>
                                         <?php if ($row['Ativo'] == '1') {?>
                                         <a href="javascript:;" class="deleteRecord" data-id="<?=$row['Id'];?>">
-                                          <i style="color: #60D439" title="Inativar Utilizador" class="fa fa-check fa-lg" aria-hidden="true"></i>
+                                          <i style="color: #E8434E" title="Inativar Utilizador" class="fa fa-times fa-lg" aria-hidden="true"></i>
                                         </a>
                                       <?php } else {?>
                                         <a href="javascript:;" class="activateRecord" data-id="<?=$row['Id'];?>">
-                                          <i style="color: #E8434E" title="Ativar Utilizador" class="fa fa-times fa-lg" aria-hidden="true"></i>
+                                          <i style="color: #60D439" title="Ativar Utilizador" class="fa fa-check fa-lg" aria-hidden="true"></i>
                                         </a>
                                       <?php };?>
                                     </tr>
                                   <?php }} else { ?>
                                     <tr>
-                                      <td><?php echo 'Não foram encontrados nenhuns dados.'?></td>
-                                      <td>&nbsp;N/D </td>
-                                      <td>&nbsp;N/D </td>
-                                      <td>&nbsp;N/D </td>
+                                      <td>N/D</td>
+                                      <td>N/D </td>
+                                      <td>N/D </td>
+                                      <td>N/D </td>
                                     </tr>
                                     <?php };?>
                                 </tbody>
@@ -175,9 +189,8 @@
                             <?php
                               if (isset($_POST['filtros_utilizadores_submit'])) {
 
-                                $stmt = $con->prepare("SELECT count(*) AS TotalDados FROM professores inner join roles on professores.idrole = roles.id WHERE concat_ws(' ', nome, apelido) LIKE ? AND professores.IdRole LIKE ? AND Not professores.Id = " . $LoggedID);
+                                $stmt = $con->prepare($QueryCount);
 
-                                $stmt->bind_param("ss", $Nome, $Tipo);
                                 $stmt->execute();
 
                                 $result = $stmt->get_result();
@@ -187,7 +200,7 @@
                                 echo "Total de dados: " . $row['TotalDados']."<br><br>";
 
                               } else {
-                                $stmt = $con->prepare("SELECT count(*) AS TotalDados FROM professores");
+                                $stmt = $con->prepare($QueryCount);
 
                                 $stmt->execute();
 
@@ -197,7 +210,7 @@
                                 echo "Total de dados: " . $row['TotalDados'] ."<br><br>";
                               }
                             ?>
-                            <a href="NovoUtilizador">+ Registar novo Utilizador</a>
+                            <a href="NovoUtilizador" title="Adicionar um novo utilizador">+ Registar novo Utilizador</a>
                             <br>
                         </div>
                     </div>
@@ -205,7 +218,7 @@
 
             </section>
         </section>
-        <div style="padding-bottom: 30px;"></div>
+
         <!-- /MAIN CONTENT -->
 
         <?php #FOOTER INCLUDE

@@ -54,7 +54,7 @@
 
         <!--MAIN CONTENT-->
         <section id="main-content">
-            <section class="wrapper site-min-height" id="wrapping">
+            <section class="wrapper" id="wrapping">
 
                 <h3><i class="fa fa-angle-right"></i> Ver perfil</h3>
 

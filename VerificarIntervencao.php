@@ -55,7 +55,7 @@ if (!(isset($_GET["Id"])) || (trim($_GET["Id"]) == "") || !(is_numeric($_GET["Id
 
         <!--MAIN CONTENT-->
         <section id="main-content">
-            <section class="wrapper site-min-height">
+            <section class="wrapper">
                 <h3><i class="fa fa-angle-right"></i> Intervenções - Visualização de dados</h3>
                 <div class="row mt">
                     <div class="form-panel">

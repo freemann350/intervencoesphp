@@ -52,7 +52,7 @@
 
         <!--MAIN CONTENT-->
         <section id="main-content">
-            <section class="wrapper site-min-height">
+            <section class="wrapper">
               <?php
                 if (isset($msg) && (isset($_POST['pedido_submit']))) {
                   if ($msg = "1") {
@@ -105,7 +105,7 @@
                                     <select class="form-control" name="Equipamento" required>
                                       <option value="0" selected disabled hidden>Escolha o Equipamento...</option>
                                       <?php
-                                        $stmt = $con->prepare("SELECT * FROM equipamentos");
+                                        $stmt = $con->prepare("SELECT * FROM equipamentos WHERE Ativo = '1'");
 
                                         $stmt->execute();
                                         $result = $stmt->get_result();

@@ -14,6 +14,8 @@
 
   $Query = "SELECT intervencoes.Resolvido, intervencoes.Id, salas.Sala, equipamentos.Nome, intervencoes.Data FROM intervencoes INNER JOIN pedidos ON intervencoes.IdPedido = pedidos.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id INNER JOIN salas ON pedidos.IdSala = salas.Id INNER JOIN blocos ON blocos.Id = salas.IdBloco WHERE intervencoes.IdProfessor = " . $LoggedID . " ";
 
+  $QueryCount = "SELECT count(*) TotalDados FROM intervencoes INNER JOIN pedidos ON intervencoes.IdPedido = pedidos.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id INNER JOIN salas ON pedidos.IdSala = salas.Id INNER JOIN blocos ON blocos.Id = salas.IdBloco WHERE intervencoes.IdProfessor = " . $LoggedID . " ";
+
   if (isset($_POST['filtros_meusped_submit']) || (!empty($_POST['Data1'])) || (!empty($_POST['Data2'])) || (!empty($_POST['Equipamento'])) || (!empty($_POST['Bloco'])) || (!empty($_POST['Sala'])) || (!empty($_POST['Nome']))) {
     $Date1 = trim(mysqli_real_escape_string($con, $_POST['Data1']));
     $Date2 = trim(mysqli_real_escape_string($con, $_POST['Data2']));
@@ -29,19 +31,23 @@
       $Date2 = str_replace('/', '-', $Date2);
       $Date2 = date('Y-m-d', strtotime($Date2));
 
-      $Query .= " AND intervencoes.Data BETWEEN '". $Date1 ."' AND '". $Date2 ."'";
+      $Query .= " AND pedidos.Data BETWEEN '". $Date1 ."' AND '". $Date2 ."'";
+      $QueryCount .= " AND pedidos.Data BETWEEN '". $Date1 ."' AND '". $Date2 ."'";
     }
 
     if ((!empty($Equipamento)) && (isset($Equipamento))) {
       $Query .= " AND pedidos.IdEquipamento = " . $Equipamento;
+      $QueryCount .= " AND pedidos.IdEquipamento = " . $Equipamento;
     }
 
     if ((!empty($Bloco)) && (isset($Bloco))) {
       $Query .= " AND salas.IdBloco = " . $Bloco;
+      $QueryCount .=" AND salas.IdBloco = " . $Bloco;
     }
 
     if ((!empty($Sala)) && (isset($Sala))) {
       $Query .= " AND pedidos.IdSala = " . $Sala;
+      $QueryCount .=" AND pedidos.IdSala = " . $Sala;
     }
 
     #echo $Query;
@@ -81,7 +87,7 @@
 
         <!--MAIN CONTENT-->
         <section id="main-content">
-            <section class="wrapper site-min-height"  >
+            <section class="wrapper"  >
               <?php
                 if (isset($_GET["msg"])) {
                   if ($_GET["msg"] == "1") {
@@ -123,7 +129,7 @@
                                       <select class="form-control" name="Equipamento">
                                         <option selected hidden value="">Escolha um equipamento...</option>
                                         <?php
-                                          $stmt1 = $con->prepare("SELECT * FROM equipamentos");
+                                          $stmt1 = $con->prepare("SELECT * FROM equipamentos WHERE Ativo = '1'");
 
                                           $stmt1->execute();
                                           $result1 = $stmt1->get_result();
@@ -193,31 +199,31 @@
                               <br>
                           </div>
 
-                            <table class="table table-hover" style="min-width: 600px; table-layout:fixed; overflow: auto;" id="OrderTableToggle">
-                                <thead>
-                                    <tr>
-                                      <th>Resolvido</th>
-                                      <th>Equipamento</th>
-                                      <th>Data resolv.</th>
-                                      <th>Sala</th>
-                                      <th>Ação</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                  <?php
-                                  if ($result->num_rows != 0) {
-                                  while ($row = $result->fetch_assoc()) {
-                                  $Date = str_replace('-', '/', $row['Data']);
-                                  $DataLeitura = date('d/m/Y', strtotime($Date));
-                                  ?>
-                                    <tr>
-                                      <td><?php if ($row['Resolvido'] == "1") {echo "<i style='color: #60D439; cursor: help' class='fa fa-check fa-lg' title='Pedido resolvido' aria-hidden='true'></i>";} else {echo "<i style='color: #E8434E; cursor: help' class='fa fa-remove fa-lg' title='Pedido não resolvido' aria-hidden='true'></i>";}?></td>
-                                      <td><?=$row["Nome"]?></td>
+                          <table class="table table-hover" style="min-width: 600px; table-layout:fixed; overflow: auto;" id="OrderTableToggle">
+                              <thead>
+                                  <tr>
+                                    <th>Resolvido</th>
+                                    <th>Equipamento</th>
+                                    <th>Data de resolução</th>
+                                    <th>Sala</th>
+                                    <th>Ação</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                <?php
+                                if ($result->num_rows != 0) {
+                                while ($row = $result->fetch_assoc()) {
+                                $Date = str_replace('-', '/', $row['Data']);
+                                $DataLeitura = date('d/m/Y', strtotime($Date));
+                                ?>
+                                  <tr>
+                                      <td><?php if ($row['Resolvido'] == "1") {echo "<b style='color: #60D439; cursor: help'><i class='fa fa-check fa-lg' title='Pedido resolvido' aria-hidden='true'></i></b>";} else {echo "<b style='color: #E8434E; cursor: help'><i class='fa fa-remove fa-lg' title='Pedido não resolvido' aria-hidden='true'></i></b>";}?></td>                                        <td><?=$row["Nome"]?></td>
                                       <td><?=$DataLeitura?></td>
                                       <td><?=$row["Sala"]?></td>
                                       <td>
                                         <a href="EditarIntervencao?Id=<?=$row["Id"];?>">
                                           <i title="Editar" class="fa fa-pencil fa-lg" aria-hidden="true"></i>
+                                        </a>
                                         <a href="VerificarIntervencao?Id=<?=$row["Id"];?>">
                                           <i title="Ver todas as informações" class="fa fa-eye fa-lg" aria-hidden="true"></i>
                                         </a>
@@ -225,51 +231,34 @@
                                           <i title="Eliminar" class="fa fa-times fa-lg" aria-hidden="true"></i>
                                         </a>
                                       </td>
-                                    </tr>
-                                  </tbody>
-                              </table>
+                                  </tr>
                                   <?php }} else { ?>
                                     <tr>
-                                      <td>N/D</td>
-                                      <td>N/D </td>
-                                      <td>N/D </td>
-                                      <td>N/D </td>
-                                      <td>N/D </td>
+                                        <td>N/D</td>
+                                        <td>N/D</td>
+                                        <td>N/D</td>
+                                        <td>N/D</td>
+                                        <td>N/D</td>
                                     </tr>
-                                  </tbody>
-                              </table>
-                              <p><u>Não foram encontrados nenhuns dados.</u></p><br>
-                                <?php };?>
+                                  <?php };?>
+                              </tbody>
+                          </table>
                             <?php
-                              if (isset($_POST['filtros_meusped_submit'])) {
+                              $stmt = $con->prepare($QueryCount);
 
-                                $stmt = $con->prepare("SELECT count(*) AS TotalDados FROM intervencoes INNER JOIN pedidos ON intervencoes.IdPedido = pedidos.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id INNER JOIN salas ON pedidos.IdSala = salas.Id WHERE intervencoes.IdProfessor = " .$LoggedID.";");
+                              $stmt->execute();
 
-                                $stmt->execute();
+                              $result = $stmt->get_result();
 
-                                $result = $stmt->get_result();
-
-                                $row = $result->fetch_assoc();
-
-                                echo "Total de dados: " . $row['TotalDados']."<br><br>";
-
-                              } else {
-                                $stmt = $con->prepare("SELECT count(*) AS TotalDados FROM intervencoes INNER JOIN pedidos ON intervencoes.IdPedido = pedidos.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id INNER JOIN salas ON pedidos.IdSala = salas.Id WHERE intervencoes.IdProfessor = " .$LoggedID.";");
-
-                                $stmt->execute();
-
-                                $result = $stmt->get_result();
-
-                                $row = $result->fetch_assoc();
-                                echo "Total de dados: " . $row['TotalDados'] ."<br><br>";
-                              }
+                              $row = $result->fetch_assoc();
+                              echo "Total de dados: " . $row['TotalDados'] ."<br><br>";
                             ?>
                         </div>
                     </div>
                 </div>
               </section>
           </section>
-          <div style="padding-bottom: 30px;"></div>
+
           <!-- /MAIN CONTENT -->
 
           <?php #FOOTER INCLUDE

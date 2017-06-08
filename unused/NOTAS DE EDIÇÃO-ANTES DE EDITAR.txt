@@ -91,3 +91,11 @@ EDI��O DIA 02/03/017
   - LIGEIRA ALTERAÇÃO DA POSIÇÃO DO FORM DO LOGIN;
   - FIX DE OUTROS VÁRIOS PROBLEMAS;
   - ATUALIZAÇÃO PARA BOOTSTRAP 3.3.7;
+
+--------------------------------------------------------------------------------------------------------------------------
+DASHBOARD (INICIAL.PHP)
+
+  - UTILIZADOR COM MAIS INTERVENÇÕES
+  - EQUIPAMENTO COM MAIS INTERVENÇÕES
+  - BLOCO COM MAIS PEDIDOS
+  - GRÁFICO DE BARRAS COM A QUANTIDADE DE PEDIDOS POR BLOCO

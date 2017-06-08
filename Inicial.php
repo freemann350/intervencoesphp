@@ -12,6 +12,80 @@
       include 'Shared/Head.php'
 ?>
 
+<?php
+    #Bloco A - Total de intervenções
+    $stmtBlA = $con->prepare("SELECT count(*) AS Total FROM intervencoes INNER JOIN pedidos ON intervencoes.IdPedido = pedidos.Id INNER JOIN salas ON pedidos.IdSala = salas.Id WHERE salas.IdBloco = 1");
+
+    $stmtBlA->execute();
+
+    $resultBlA = $stmtBlA->get_result();
+
+    $rowBlA = $resultBlA->fetch_assoc();
+
+    #Bloco B - Total de intervenções
+    $stmtBlB = $con->prepare("SELECT count(*) AS Total FROM intervencoes INNER JOIN pedidos ON intervencoes.IdPedido = pedidos.Id INNER JOIN salas ON pedidos.IdSala = salas.Id WHERE salas.IdBloco = 2");
+
+    $stmtBlB->execute();
+
+    $resultBlB = $stmtBlB->get_result();
+
+    $rowBlB = $resultBlB->fetch_assoc();
+
+    #Bloco C - Total de intervenções
+    $stmtBlC = $con->prepare("SELECT count(*) AS Total FROM intervencoes INNER JOIN pedidos ON intervencoes.IdPedido = pedidos.Id INNER JOIN salas ON pedidos.IdSala = salas.Id WHERE salas.IdBloco = 3");
+
+    $stmtBlC->execute();
+
+    $resultBlC = $stmtBlC->get_result();
+
+    $rowBlC = $resultBlC->fetch_assoc();
+
+    #Bloco D - Total de intervenções
+    $stmtBlD = $con->prepare("SELECT count(*) AS Total FROM intervencoes INNER JOIN pedidos ON intervencoes.IdPedido = pedidos.Id INNER JOIN salas ON pedidos.IdSala = salas.Id WHERE salas.IdBloco = 4");
+
+    $stmtBlD->execute();
+
+    $resultBlD = $stmtBlD->get_result();
+
+    $rowBlD = $resultBlD->fetch_assoc();
+
+    #Bloco E - Total de intervenções
+    $stmtBlE = $con->prepare("SELECT count(*) AS Total FROM intervencoes INNER JOIN pedidos ON intervencoes.IdPedido = pedidos.Id INNER JOIN salas ON pedidos.IdSala = salas.Id WHERE salas.IdBloco = 5");
+
+    $stmtBlE->execute();
+
+    $resultBlE = $stmtBlE->get_result();
+
+    $rowBlE = $resultBlE->fetch_assoc();
+
+    #Computador - Total de intervenções
+    $stmtPC = $con->prepare("SELECT count(*) AS Total FROM intervencoes INNER JOIN pedidos ON intervencoes.IdPedido = pedidos.Id WHERE pedidos.IdEquipamento = 1");
+
+    $stmtPC->execute();
+
+    $resultPC = $stmtPC->get_result();
+
+    $rowPC = $resultPC->fetch_assoc();
+
+    #Projetor - Total de intervenções
+    $stmtPJ = $con->prepare("SELECT count(*) AS Total FROM intervencoes INNER JOIN pedidos ON intervencoes.IdPedido = pedidos.Id WHERE pedidos.IdEquipamento = 2");
+
+    $stmtPJ->execute();
+
+    $resultPJ = $stmtPJ->get_result();
+
+    $rowPJ = $resultPJ->fetch_assoc();
+
+    #Quadro interativo - Total de intervenções
+    $stmtQI = $con->prepare("SELECT count(*) AS Total FROM intervencoes INNER JOIN pedidos ON intervencoes.IdPedido = pedidos.Id WHERE pedidos.IdEquipamento = 3");
+
+    $stmtQI->execute();
+
+    $resultQI = $stmtQI->get_result();
+
+    $rowQI = $resultQI->fetch_assoc();
+?>
+
 <body>
 
     <section id="container">
@@ -25,7 +99,7 @@
 
         <!--MAIN CONTENT-->
         <section id="main-content">
-            <section class="wrapper site-min-height" id="wrapping">
+            <section class="wrapper" id="wrapping">
 
                 <h3><i class="fa fa-angle-right"></i> Página inicial</h3>
 
@@ -34,7 +108,7 @@
                     <div class="col-md-2 col-sm-6 col-md-offset-1 box0">
                         <div class="box1">
                             <span class="unselectable">A</span>
-                            <h3>1</h3>
+                            <h3><?=$rowBlA['Total']?></h3>
                         </div>
                         <p class="unselectable">Total de intervenções feitas no Bloco A</p>
                     </div>
@@ -42,7 +116,7 @@
                     <div class="col-md-2 col-sm-6 box0">
                         <div class="box1">
                             <span class="unselectable">B</span>
-                            <h3>2</h3>
+                            <h3><?=$rowBlB['Total']?></h3>
                         </div>
                         <p class="unselectable">Total de intervenções feitas no Bloco B</p>
                     </div>
@@ -50,7 +124,7 @@
                     <div class="col-md-2 col-sm-6 box0">
                         <div class="box1">
                             <span class="unselectable">C</span>
-                            <h3>3</h3>
+                            <h3><?=$rowBlC['Total']?></h3>
                         </div>
                         <p class="unselectable">Total de intervenções feitas no Bloco C</p>
                     </div>
@@ -58,7 +132,7 @@
                     <div class="col-md-2 col-sm-6 box0">
                         <div class="box1">
                             <span class="unselectable">D</span>
-                            <h3>4</h3>
+                            <h3><?=$rowBlD['Total']?></h3>
                         </div>
                         <p class="unselectable">Total de intervenções feitas no Bloco D</p>
                     </div>
@@ -66,7 +140,7 @@
                     <div class="col-md-2 col-sm-12 box0">
                         <div class="box1">
                             <span class="unselectable">E</span>
-                            <h3>5</h3>
+                            <h3><?=$rowBlE['Total']?></h3>
                         </div>
                         <p class="unselectable">Total de intervenções feitas no Bloco E</p>
                     </div>
@@ -77,7 +151,7 @@
                     <div class="col-md-2 col-sm-6 col-md-offset-2 box0 ">
                         <div class="box1">
                             <img class="imagesIndex" src="assets/img/Items/pc.png" height="160" width="130" style='max-width: 110%; max-height: 110%' draggable='false' ondragstart="return false;">
-                            <h3>5</h3>
+                            <h3><?=$rowPC['Total']?></h3>
                         </div>
                         <p class="unselectable">Total de intervenções feitas em Computadores</p>
                     </div>
@@ -87,7 +161,7 @@
                     <div class="col-md-2 col-sm-6 box0 ">
                         <div class="box1">
                             <img class="imagesIndex" src="assets/img/Items/projetor.png" height="160" width="150" style='max-width: 110%; max-height: 110%' draggable='false' ondragstart="return false;">
-                            <h3>5</h3>
+                            <h3><?=$rowPJ['Total']?></h3>
                         </div>
                         <p class="unselectable">Total de intervenções feitas em Projetores</p>
                     </div>
@@ -97,7 +171,7 @@
                     <div class="col-md-2 col-sm-12 box0 ">
                         <div class="box1">
                             <img class="imagesIndex" src="assets/img/Items/qi.png" height="160" width="160" style='max-width: 110%; max-height: 110%' draggable='false' ondragstart="return false;">
-                            <h3>5</h3>
+                            <h3><?=$rowQI['Total']?></h3>
                         </div>
                         <p class="unselectable" style="margin-bottom:7%">Total de intervenções feitas em Quadros Interativos</p>
                     </div>
