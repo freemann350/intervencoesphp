@@ -11,6 +11,16 @@
     header("Location: 403");
   }
 
+  ################################################################################
+  if (!isset($_GET['p']) or !is_numeric($_GET['p'])) {
+    //we give the value of the starting row to 0 because nothing was found in URL
+    $p = 0;
+    //otherwise we take the value from the URL
+  } else {
+    $p = (int)$_GET['p'];
+  }
+  ################################################################################
+
   $Query = "SELECT concat_ws(' ', nome, apelido) NomeTodo, email, Ativo, professores.Id, professores.IdRole, roles.role FROM professores inner join roles on professores.idrole = roles.id WHERE Not professores.Id = " . $LoggedID . " ";
   $QueryCount = "SELECT count(*) AS TotalDados FROM professores WHERE Not professores.Id = " . $LoggedID . " ";
 
@@ -35,13 +45,27 @@
     $stmt->execute();
 
     $result = $stmt->get_result();
+
   } else {
+
+    $Query .= " LIMIT $p , 5";
     $stmt = $con->prepare($Query);
 
     $stmt->execute();
 
     $result = $stmt->get_result();
+
   }
+  ################################################################################
+
+  /*$pages = ceil($tot_rows / $p); // calc pages
+
+  /*$data = array(); // start out array
+  $data['si']        = ($curr_page * $p) - $p; // what row to start at
+  $data['pages']     = $pages;                   // add the pages
+  $data['curr_page'] = $curr_page;               // Whats the current page
+  echo $pages;*/
+  ################################################################################
 ?>
 <!DOCTYPE html>
 <html lang="pt">
@@ -215,7 +239,22 @@
                         </div>
                     </div>
                 </div>
+                <div class="btn-group" style="margin-left: 10px">
+                  <?PHP
+                  $prev = $p - 5;
 
+                  //only print a "Previous" link if a "Next" was clicked
+                  if ($prev >= 0) {
+                    echo '<a class="btn btn-default" href="'.$_SERVER['PHP_SELF'].'?p='.$prev.'">Anterior</a>';
+                  } else {
+                    echo '<a class="btn btn-default" href="#">Anterior</a>';
+                  }
+                  echo '<a class="btn btn-default" href="'.$_SERVER['PHP_SELF'].'?p='.($p+5).'">1</a>';
+                  echo '<a class="btn btn-default active" href="'.$_SERVER['PHP_SELF'].'?p='.($p+5).'">2</a>';
+                  echo '<a class="btn btn-default" href="'.$_SERVER['PHP_SELF'].'?p='.($p+5).'">3</a>';
+                  echo '<a class="btn btn-default" href="'.$_SERVER['PHP_SELF'].'?p='.($p+5).'">Seguinte</a>';
+                  ?>
+                </div>
             </section>
         </section>
 

@@ -101,7 +101,4 @@ DASHBOARD (INICIAL.PHP)
   - BLOCO COM MAIS PEDIDOS
   - GRÁFICO DE BARRAS COM A QUANTIDADE DE PEDIDOS POR BLOCO
 
-select  IdProfessor, count(IdProfessor)
-from intervencoes
-group by IdProfessor
-order by count(IdProfessor) desc LIMIT 1
+select  IdProfessor, count(IdProfessor) from intervencoes group by IdProfessor order by count(IdProfessor) desc LIMIT 1

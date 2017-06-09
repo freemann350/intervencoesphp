@@ -85,6 +85,42 @@
 
     $rowQI = $resultQI->fetch_assoc();
 
+    #Equipamento com mais pedidos
+    $stmtEP = $con->prepare("SELECT equipamentos.Nome, count(IdEquipamento) AS TotalEquip FROM pedidos INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id GROUP BY IdEquipamento ORDER BY count(IdEquipamento) DESC LIMIT 1");
+
+    $stmtEP->execute();
+
+    $resultEP = $stmtEP->get_result();
+
+    $rowEP = $resultEP->fetch_assoc();
+
+    #Utilizador com mais intervenções
+    $stmtUI = $con->prepare("SELECT concat_ws(' ', professores.Nome, professores.Apelido) NomeTodo, IdProfessor, count(IdProfessor) AS TotalProf FROM intervencoes INNER JOIN professores ON intervencoes.IdProfessor = professores.Id GROUP BY IdProfessor ORDER BY count(IdProfessor) DESC LIMIT 1");
+
+    $stmtUI->execute();
+
+    $resultUI = $stmtUI->get_result();
+
+    $rowUI = $resultUI->fetch_assoc();
+
+
+    #Utilizador com mais pedidos
+    $stmtUP = $con->prepare("SELECT concat_ws(' ', professores.Nome, professores.Apelido) NomeTodo, IdProfessor, count(IdProfessor) AS TotalProf FROM pedidos INNER JOIN professores ON pedidos.IdProfessor = professores.Id GROUP BY IdProfessor ORDER BY count(IdProfessor) DESC LIMIT 1");
+
+    $stmtUP->execute();
+
+    $resultUP = $stmtUP->get_result();
+
+    $rowUP = $resultUP->fetch_assoc();
+
+    #Bloco com mais pedidos
+    $stmtBP = $con->prepare("SELECT blocos.Bloco, count(IdBloco) AS TotalBloco FROM pedidos INNER JOIN salas ON pedidos.IdSala = salas.Id INNER JOIN blocos ON salas.IdBloco = blocos.Id GROUP BY IdBloco ORDER BY count(IdBloco) DESC LIMIT 1");
+
+    $stmtBP->execute();
+
+    $resultBP = $stmtBP->get_result();
+
+    $rowBP = $resultBP->fetch_assoc();
 
 ?>
 
@@ -185,9 +221,9 @@
 						  		      <h5>Equipamento com mais pedidos</h5>
                 			</div>
                       <div class="centered">
-                        <h3 class="darkblue-panel-p">NOME DO UTILIZADOR</h3>
+                        <h4 class="darkblue-panel-p"><?=$rowEP['Nome']?></h4>
                       </div>
-                        <p class="darkblue-panel-p"><i class="fa fa-pencil"></i> 122</p>
+                        <p title="Quantidade de pedidos feitos neste equipamento" class="darkblue-panel-p hoverhelp"><i class="fa fa-pencil"></i> <?=$rowEP['TotalEquip']?></p>
                       </div>
                 		</div>
 
@@ -197,9 +233,9 @@
 					  		      <h5>Utilizador com mais intervenções</h5>
               			</div>
                     <div class="centered">
-                      <h3 class="darkblue-panel-p">Francisco Caneira</h3>
+                      <h4 class="darkblue-panel-p" title="Ver perfil de <?=$rowUI['NomeTodo']?>"><a class="darkblue-panel-link" href="Perfil?Id=<?=$rowUI['IdProfessor']?>"><?=$rowUI['NomeTodo']?></a></h4>
                     </div>
-                      <p class="darkblue-panel-p"><i class="fa fa-pencil"></i> 122</p>
+                      <p class="darkblue-panel-p hoverhelp" title="Quantidade de intervenções feitas por este utilizador" ><i class="fa fa-wrench"></i> <?=$rowUI['TotalProf']?></p>
                     </div>
               		</div>
 
@@ -209,21 +245,21 @@
 						  		      <h5>Bloco com mais pedidos</h5>
                 			</div>
                       <div class="centered">
-                        <h3 class="darkblue-panel-p">Bloco B</h3>
+                        <h4 class="darkblue-panel-p"><?=$rowBP['Bloco']?></h4>
                       </div>
-                        <p class="darkblue-panel-p"><i class="fa fa-pencil"></i> 122</p>
+                        <p class="darkblue-panel-p hoverhelp" title="Quantidade de pedidos feitos para este bloco"><i class="fa fa-pencil"></i> <?=$rowBP['TotalBloco']?></p>
                       </div>
                 		</div>
 
                     <div class="col-sm-3" style="margin-bottom: 2%">
                   		<div class="darkblue-panel pn">
                   			<div class="darkblue-header">
-  						  		      <h5>Equipamento com mais intervenções</h5>
+  						  		      <h5>Utilizador com mais pedidos</h5>
                   			</div>
                         <div class="centered">
-                        <h3 class="darkblue-panel-p">NOME DO UTILIZADOR</h3>
+                        <h4 class="darkblue-panel-p"><a class="darkblue-panel-link" title="Ver perfil de <?=$rowUP['NomeTodo']?>" href="Perfil?Id=<?=$rowUP['IdProfessor']?>"><?=$rowUP['NomeTodo']?></a></h4>
                       </div>
-                        <p class="darkblue-panel-p"><i class="fa fa-pencil"></i> 122</p>
+                        <p class="darkblue-panel-p hoverhelp" title="Quantidade de pedidos feitos por este utilizador"><i class="fa fa-pencil"></i> <?=$rowUP['TotalProf']?></p>
                       </div>
                 		</div>
             	   </div>

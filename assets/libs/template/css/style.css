@@ -1071,9 +1071,14 @@ PANELS CONFIGURATIONS
 /* Dark Blue*/
 
 .darkblue-panel {
-    text-align: center;
-    background: #385870;
-    padding: 2px;
+  text-align: center;
+  background: #385870;
+  padding: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  overflow-x: auto;
 }
 
 .darkblue-panel .darkblue-header {
@@ -1102,9 +1107,13 @@ PANELS CONFIGURATIONS
     font-weight: 700;
 }
 
-.darkblue-panel-p {
-  margin-top: 20%;
+.darkblue-panel-p,
+.darkblue-panel-p a {
   color: #DBDBDB;
+}
+
+.darkblue-panel-link:hover {
+  color: #ADADAD;
 }
 /*Green Panel*/
 
@@ -2538,7 +2547,8 @@ label.my-valid-class {
   color: #E81A27 ;
 }
 
-#disabledDelete:hover {
+#disabledDelete:hover,
+.hoverhelp:hover {
   cursor: help;
 }
 
