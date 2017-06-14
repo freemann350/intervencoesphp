@@ -11,23 +11,22 @@
     header("Location: 403");
   }
 
-  ################################################################################
-  if (!isset($_GET['p']) or !is_numeric($_GET['p'])) {
-    //we give the value of the starting row to 0 because nothing was found in URL
-    $p = 0;
-    //otherwise we take the value from the URL
-  } else {
-    $p = (int)$_GET['p'];
-  }
-  ################################################################################
-
   $Query = "SELECT concat_ws(' ', nome, apelido) NomeTodo, email, Ativo, professores.Id, professores.IdRole, roles.role FROM professores inner join roles on professores.idrole = roles.id WHERE Not professores.Id = " . $LoggedID . " ";
   $QueryCount = "SELECT count(*) AS TotalDados FROM professores WHERE Not professores.Id = " . $LoggedID . " ";
 
-  if (isset($_POST['filtros_utilizadores_submit'])) {
+  if (isset($_GET['p'])) {
+    $pg = $_GET['p'];
+  } else {
+    $pg = 1;
+  }
 
-    $Nome = trim(mysqli_real_escape_string($con, $_POST['Nome']));
-    $Tipo = trim(mysqli_real_escape_string($con, $_POST['Tipo']));
+  $per_page = 4;
+  $pfunc = ceil($pg*$per_page) - $per_page;
+
+  if (isset($_GET['filtros_utilizadores_submit']) && (isset($_GET['Nome']) || isset($_GET['Tipo']))) {
+
+    $Nome = trim(mysqli_real_escape_string($con, $_GET['Nome']));
+    $Tipo = trim(mysqli_real_escape_string($con, $_GET['Tipo']));
 
     if ((!empty($Nome)) && (isset($Nome))) {
       $Nome = "'%" . $Nome . "%'";
@@ -40,6 +39,7 @@
       $QueryCount .= " AND professores.IdRole = " . $Tipo;
     }
 
+    $Query .= " LIMIT $pfunc, $per_page";
     $stmt = $con->prepare($Query);
 
     $stmt->execute();
@@ -47,25 +47,13 @@
     $result = $stmt->get_result();
 
   } else {
-
-    $Query .= " LIMIT $p , 5";
+    $Query .= "LIMIT $pfunc, $per_page";
     $stmt = $con->prepare($Query);
 
     $stmt->execute();
 
     $result = $stmt->get_result();
-
-  }
-  ################################################################################
-
-  /*$pages = ceil($tot_rows / $p); // calc pages
-
-  /*$data = array(); // start out array
-  $data['si']        = ($curr_page * $p) - $p; // what row to start at
-  $data['pages']     = $pages;                   // add the pages
-  $data['curr_page'] = $curr_page;               // Whats the current page
-  echo $pages;*/
-  ################################################################################
+  };
 ?>
 <!DOCTYPE html>
 <html lang="pt">
@@ -115,11 +103,11 @@
 
                             <div class="col-lg-12" id="filtrosdiv" style="display: none; min-width: 620px;">
                                 <br>
-                                <form class="form-horizontal style-form" method="post">
+                                <form class="form-horizontal style-form" method="get">
                                     <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por tipo de utilizador</h4>
                                       <div style="margin-left:10px;">
                                         <select class="form-control" name="Tipo">
-                                          <option selected hidden value="">Escolha o tipo de utilizador...</option>
+                                          <option selected value="">Escolha o tipo de utilizador...</option>
                                             <?php
                                               $stmt1 = $con->prepare("SELECT * FROM roles");
 
@@ -129,7 +117,7 @@
                                               while ($roles = $result1->fetch_assoc()) {
                                             ?>
 
-                                            <option value="<?= $roles['Id'] ?>" <?= ((isset($_POST["Tipo"]) && $_POST["Tipo"] == $roles["Id"]) ? "selected='selected'" : "") ?>><?=$roles["Role"]; ?></option>
+                                            <option value="<?= $roles['Id'] ?>" <?= ((isset($_GET["Tipo"]) && $_GET["Tipo"] == $roles["Id"]) ? "selected='selected'" : "") ?>><?=$roles["Role"]; ?></option>
                                             <?php } ?>
                                         </select>
                                     </div>
@@ -138,7 +126,7 @@
                                     <br>
                                     <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por professor</h4>
                                     <div style="margin-left:10px;">
-                                      <input type="text" class="form-control" name="Nome" placeholder="Escreva aqui o nome do professor..." value="<?php if(isset($_POST['Nome'])) { echo $_POST['Nome'];}?>">
+                                      <input type="text" class="form-control" name="Nome" placeholder="Escreva aqui o nome do professor..." value="<?php if(isset($_GET['Nome'])) { echo $_GET['Nome'];}?>">
                                     </div>
                                     <br>
 
@@ -211,7 +199,7 @@
                                 </tbody>
                             </table>
                             <?php
-                              if (isset($_POST['filtros_utilizadores_submit'])) {
+                              if (isset($_GET['filtros_utilizadores_submit'])) {
 
                                 $stmt = $con->prepare($QueryCount);
 
@@ -240,23 +228,59 @@
                     </div>
                 </div>
                 <div class="btn-group" style="margin-left: 10px">
-                  <?PHP
-                  $prev = $p - 5;
 
-                  //only print a "Previous" link if a "Next" was clicked
-                  if ($prev >= 0) {
-                    echo '<a class="btn btn-default" href="'.$_SERVER['PHP_SELF'].'?p='.$prev.'">Anterior</a>';
-                  } else {
-                    echo '<a class="btn btn-default" href="#">Anterior</a>';
-                  }
-                  echo '<a class="btn btn-default" href="'.$_SERVER['PHP_SELF'].'?p='.($p+5).'">1</a>';
-                  echo '<a class="btn btn-default active" href="'.$_SERVER['PHP_SELF'].'?p='.($p+5).'">2</a>';
-                  echo '<a class="btn btn-default" href="'.$_SERVER['PHP_SELF'].'?p='.($p+5).'">3</a>';
-                  echo '<a class="btn btn-default" href="'.$_SERVER['PHP_SELF'].'?p='.($p+5).'">Seguinte</a>';
-                  ?>
                 </div>
             </section>
         </section>
+
+        <div class="btn-group">
+          <a onclick="insertParameter('p', 1)" class="btn btn-default">Primeiro</a>
+          <?php
+              $maxPages = $maxpages;
+              $pageMaxDiff = $maxPages - $pg;
+              $pagesRendered = 0;
+
+              if ($maxPages <= 5) {
+                for ($i = 1; $i <= $maxPages; $i++) {
+          ?>
+          <a onclick="insertParameter('p', @i)" class="btn btn-default <?=($pg == $i) ? "active" : ""?>"><?=$i?></a>
+          <?php
+                };
+              } else {
+                if ($pg < 3) {
+                  for ($i = 1; $i <= $pg; $i++) {
+          ?>
+          <a onclick="insertParameter('p', @i)" class="btn btn-default <?=($pg == $i) ? "active" : ""?>"><?=$i?></a>
+          <?php
+                    $pagesRendered++;
+                  }
+                  $max = (5 - $pagesRendered > $maxPages) ? $maxPages : (5 - $pagesRendered);
+
+                  for ($i = $pg + 1; $i <= 5; $i++) {
+          ?>
+          <a onclick="insertParameter('p', @i)" class="btn btn-default <?=($pg == $i) ? "active" : ""?>"><?=$i?></a>
+          <?php
+          $pagesRendered++;
+                  }
+                } elseif ($pageMaxDiff < 3) {
+                  for ($i = $maxPages - 4; $i <= $maxPages; $i++) {
+          ?>
+          <a onclick="insertParameter('p', @i)" class="btn btn-default <?=($pg == $i) ? "active" : ""?>"><?=$i?></a>
+          <?php
+            $pagesRendered++;
+                  }
+                } else {
+                  for ($i = $pg - 2; $i <= $pg + 2; $i++) {
+          ?>
+          <a onclick="insertParameter('p', @i)" class="btn btn-default <?=($pg == $i) ? "active" : ""?>"><?=$i?></a>
+          <?php
+          $pagesRendered++;
+                  }
+                }
+              }
+          ?>
+          <a onclick="insertParameter('p', @maxPages)" class="btn btn-default">Último</a>
+      </div>
 
         <!-- /MAIN CONTENT -->
 

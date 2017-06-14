@@ -14,9 +14,9 @@
   $Query = "SELECT * FROM equipamentos";
   $QueryCount = "SELECT count(*) TotalDados FROM equipamentos";
 
-  if (isset($_POST['filtros_equipamentos_submit'])) {
+  if (isset($_GET['filtros_equipamentos_submit']) && (isset($_GET['Equipamento']))) {
 
-    $Equipamento = trim(mysqli_real_escape_string($con, $_POST['Equipamento']));
+    $Equipamento = trim(mysqli_real_escape_string($con, $_GET['Equipamento']));
 
     if ((!empty($Equipamento)) && (isset($Equipamento))) {
       $Equipamento = "'%" . $Equipamento . "%'";
@@ -85,11 +85,11 @@
                             </div>
 
                             <div class="col-lg-12" id="filtrosdiv" style="display: none; min-width: 620px;">
-                              <form class="form-horizontal style-form" method="post">
+                              <form class="form-horizontal style-form" method="GET">
                                 <br>
                                 <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por nome de equipamento</h4>
                                 <div style="margin-left:10px;">
-                                  <input type="text" class="form-control" name="Equipamento" placeholder="Escreva aqui o nome do equipamento..." value="<?php if (Isset($_POST['Equipamento'])) { echo $_POST['Equipamento'];};?>">
+                                  <input type="text" class="form-control" name="Equipamento" placeholder="Escreva aqui o nome do equipamento..." value="<?php if (Isset($_GET['Equipamento'])) { echo $_GET['Equipamento'];};?>">
                                   <br>
                                   <input type="submit" class="btn btn-primary" name="filtros_equipamentos_submit" value="Procurar">
                                 </div>
@@ -139,7 +139,7 @@
                                 </tbody>
                             </table>
                             <?php
-                              if (isset($_POST['filtros_equipamentos_submit'])) {
+                              if (isset($_GET['filtros_equipamentos_submit'])) {
 
                                 $stmt = $con->prepare($QueryCount);
 

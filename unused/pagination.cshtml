@@ -1,0 +1,67 @@
+<ul class="pagination pagination-sm clearfix block">
+    <li>
+        <a onclick="insertParameter('p', 1)">Primeiro</a>
+    </li>
+    <?php
+        $page = (int)ViewData["page"];
+        $maxPages = Convert.ToInt32((decimal)ViewData["maxpages"]);
+        $pageMaxDiff = maxPages - page;
+        $pagesRendered = 0;
+
+        if (maxPages <= 5)
+        {
+            for (int i = 1; i <= maxPages; i++)
+            {
+                <li class="<?=(page == i) ? "active" : ""?>">
+                    <a onclick="insertParameter('p', @i)">@i</a>
+                </li>
+            }
+        }
+        else
+        {
+            if (page < 3)
+            {
+                for (int i = 1; i <= page; i++)
+                {
+                    <li class="<?=(page == i) ? "active" : ""?>">
+                        <a onclick="insertParameter('p', @i)">@i</a>
+                    </li>
+                    pagesRendered++;
+                }
+
+                var max = (5 - pagesRendered > maxPages) ? maxPages : (5 - pagesRendered);
+
+                for (int i = page + 1; i <= 5; i++)
+                {
+                    <li>
+                        <a onclick="insertParameter('p', @i)">@i</a>
+                    </li>
+                    pagesRendered++;
+                }
+            }
+            else if (pageMaxDiff < 3)
+            {
+                for (int i = maxPages - 4; i <= maxPages; i++)
+                {
+                    <li class="<?=(page == i) ? "active" : ""?>">
+                        <a onclick="insertParameter('p', @i)">@i</a>
+                    </li>
+                    pagesRendered++;
+                }
+            }
+            else
+            {
+                for (int i = page - 2; i <= page + 2; i++)
+                {
+                    <li class="<?=(page == i) ? "active" : ""?>">
+                        <a onclick="insertParameter('p', @i)">@i</a>
+                    </li>
+                    pagesRendered++;
+                }
+            }
+        }
+    ?>
+    <li>
+        <a onclick="insertParameter('p', @maxPages)">Último</a>
+    </li>
+</ul>

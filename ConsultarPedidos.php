@@ -11,14 +11,14 @@
   $Query = "SELECT pedidos.Id, equipamentos.Nome AS NomeEquip, salas.Sala, pedidos.Data, concat_ws(' ', professores.Nome, professores.Apelido) NomeTodo, professores.Id AS IdProf, pedidos.Resolvido FROM pedidos INNER JOIN professores ON pedidos.IdProfessor = professores.Id INNER JOIN Salas ON pedidos.IdSala = salas.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id";
   $QueryCount = "SELECT count(*) AS TotalDados FROM pedidos INNER JOIN professores ON pedidos.IdProfessor = professores.Id INNER JOIN Salas ON pedidos.IdSala = salas.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id";
 
-  if (isset($_POST['filtros_conspedidos_submit']) || (!empty($_POST['Data1'])) || (!empty($_POST['Data2'])) || (!empty($_POST['Equipamento'])) || (!empty($_POST['Bloco'])) || (!empty($_POST['Sala'])) || (!empty($_POST['Nome']))) {
-    $Date1 = trim(mysqli_real_escape_string($con, $_POST['Data1']));
-    $Date2 = trim(mysqli_real_escape_string($con, $_POST['Data2']));
+  if (isset($_GET['filtros_conspedidos_submit']) || (!empty($_GET['Data1'])) || (!empty($_GET['Data2'])) || (!empty($_GET['Equipamento'])) || (!empty($_GET['Bloco'])) || (!empty($_GET['Sala'])) || (!empty($_GET['Nome']))) {
+    $Date1 = trim(mysqli_real_escape_string($con, $_GET['Data1']));
+    $Date2 = trim(mysqli_real_escape_string($con, $_GET['Data2']));
 
-    $Equipamento = trim(mysqli_real_escape_string($con, $_POST['Equipamento']));
-    $Nome = trim(mysqli_real_escape_string($con, $_POST['Nome']));
-    $Bloco = trim(mysqli_real_escape_string($con, $_POST['Bloco']));
-    $Sala = trim(mysqli_real_escape_string($con, $_POST['Sala']));
+    $Equipamento = trim(mysqli_real_escape_string($con, $_GET['Equipamento']));
+    $Nome = trim(mysqli_real_escape_string($con, $_GET['Nome']));
+    $Bloco = trim(mysqli_real_escape_string($con, $_GET['Bloco']));
+    $Sala = trim(mysqli_real_escape_string($con, $_GET['Sala']));
 
     $switch = true;
 
@@ -150,7 +150,7 @@
 
                             <div class="col-lg-12" id="filtrosdiv" style="display: none; min-width: 620px;">
                                 <br>
-                                <form class="style-form" method="post">
+                                <form class="style-form" method="GET">
                                   <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar entre datas</h4>
                                   <div class="input-group input-daterange">
                                       <input type="text" class="form-control" placeholder="DD/MM/AAAA" name="Data1">
@@ -162,7 +162,7 @@
                                   <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por equipamento</h4>
                                   <div class="form-group">
                                       <select class="form-control" name="Equipamento">
-                                        <option selected hidden value="">Escolha um equipamento...</option>
+                                        <option selected value="">Escolha um equipamento...</option>
                                         <?php
                                           $stmt1 = $con->prepare("SELECT * FROM equipamentos WHERE Ativo = '1'");
 
@@ -179,7 +179,7 @@
 
                                   <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por professor</h4>
                                   <div class="form-group">
-                                    <input type="text" class="form-control" name="Nome" placeholder="Escreva aqui o nome do professor..." value="<?php if(isset($_POST['Nome'])) { echo $_POST['Nome'];}?>">
+                                    <input type="text" class="form-control" name="Nome" placeholder="Escreva aqui o nome do professor..." value="<?php if(isset($_GET['Nome'])) { echo $_GET['Nome'];}?>">
                                   </div>
                                   <br>
 
@@ -187,7 +187,7 @@
                                   <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por Bloco</h4>
                                   <div class="form-group">
                                     <select class="form-control" name="Bloco" onchange="getSalas(this);">
-                                      <option selected hidden value="">Escolha um bloco...</option>
+                                      <option selected value="">Escolha um bloco...</option>
                                       <?php
                                         $stmt1 = $con->prepare("SELECT * FROM blocos");
 
@@ -205,7 +205,7 @@
                                   <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por Sala</h4>
                                   <div class="form-group">
                                     <select class="form-control" name="Sala">
-                                      <option selected hidden value="">Escolha uma sala...</option>
+                                      <option selected value="">Escolha uma sala...</option>
                                       <?php
                                         $stmt1 = $con->prepare("SELECT * FROM salas");
 
