@@ -1,8 +1,9 @@
 <?php
-  $titulo = "Gestão de Utilizadores";
+  $titulo = "Gestão de utilizadores";
   $removeInclude = true;
   $filtrosInclude = true;
   $PuActive = true;
+  $paginatejs = true;
 
   require 'Shared/conn.php';
   require 'Shared/Restrict.php';
@@ -14,15 +15,22 @@
   $Query = "SELECT concat_ws(' ', nome, apelido) NomeTodo, email, Ativo, professores.Id, professores.IdRole, roles.role FROM professores inner join roles on professores.idrole = roles.id WHERE Not professores.Id = " . $LoggedID . " ";
   $QueryCount = "SELECT count(*) AS TotalDados FROM professores WHERE Not professores.Id = " . $LoggedID . " ";
 
+  #PAGINAÇÃO
   if (isset($_GET['p'])) {
     $pg = $_GET['p'];
   } else {
     $pg = 1;
   }
 
-  $per_page = 4;
+  if ($pg < '1'){
+    header("Location: Utilizadores");
+  }
+
+
+  $per_page = 25;
   $pfunc = ceil($pg*$per_page) - $per_page;
 
+  #FILTROS (VALIDAÇÃO E SELEÇÃO)
   if (isset($_GET['filtros_utilizadores_submit']) && (isset($_GET['Nome']) || isset($_GET['Tipo']))) {
 
     $Nome = trim(mysqli_real_escape_string($con, $_GET['Nome']));
@@ -227,65 +235,14 @@
                         </div>
                     </div>
                 </div>
-                <div class="btn-group" style="margin-left: 10px">
-
-                </div>
+                <?php require("Shared/Paginate.php") ?>
             </section>
         </section>
-
-        <div class="btn-group">
-          <a onclick="insertParameter('p', 1)" class="btn btn-default">Primeiro</a>
-          <?php
-              $maxPages = $maxpages;
-              $pageMaxDiff = $maxPages - $pg;
-              $pagesRendered = 0;
-
-              if ($maxPages <= 5) {
-                for ($i = 1; $i <= $maxPages; $i++) {
-          ?>
-          <a onclick="insertParameter('p', @i)" class="btn btn-default <?=($pg == $i) ? "active" : ""?>"><?=$i?></a>
-          <?php
-                };
-              } else {
-                if ($pg < 3) {
-                  for ($i = 1; $i <= $pg; $i++) {
-          ?>
-          <a onclick="insertParameter('p', @i)" class="btn btn-default <?=($pg == $i) ? "active" : ""?>"><?=$i?></a>
-          <?php
-                    $pagesRendered++;
-                  }
-                  $max = (5 - $pagesRendered > $maxPages) ? $maxPages : (5 - $pagesRendered);
-
-                  for ($i = $pg + 1; $i <= 5; $i++) {
-          ?>
-          <a onclick="insertParameter('p', @i)" class="btn btn-default <?=($pg == $i) ? "active" : ""?>"><?=$i?></a>
-          <?php
-          $pagesRendered++;
-                  }
-                } elseif ($pageMaxDiff < 3) {
-                  for ($i = $maxPages - 4; $i <= $maxPages; $i++) {
-          ?>
-          <a onclick="insertParameter('p', @i)" class="btn btn-default <?=($pg == $i) ? "active" : ""?>"><?=$i?></a>
-          <?php
-            $pagesRendered++;
-                  }
-                } else {
-                  for ($i = $pg - 2; $i <= $pg + 2; $i++) {
-          ?>
-          <a onclick="insertParameter('p', @i)" class="btn btn-default <?=($pg == $i) ? "active" : ""?>"><?=$i?></a>
-          <?php
-          $pagesRendered++;
-                  }
-                }
-              }
-          ?>
-          <a onclick="insertParameter('p', @maxPages)" class="btn btn-default">Último</a>
-      </div>
 
         <!-- /MAIN CONTENT -->
 
         <?php #FOOTER INCLUDE
-          include 'Shared\Footer.php';
+          include 'Shared/Footer.php';
         ?>
     </section>
 
@@ -348,6 +305,7 @@
           }
       });
     });
+
     </script>
 </body>
 

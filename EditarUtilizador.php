@@ -34,7 +34,7 @@
     $Email = trim(mysqli_real_escape_string($con, $_POST['Email']));
     $Username = trim(mysqli_real_escape_string($con, $_POST['Username']));
     $Tipo = trim(mysqli_real_escape_string($con, $_POST['Tipo']));
-    $Id = trim(mysqli_real_escape_string($con, $_POST['Id']));
+    $Id = trim(mysqli_real_escape_string($con, $_GET["Id"]));
     $Ativo = ((isset($_POST['Ativo'])) ? "1" : "0");
 
     $stmt = $con->prepare(
@@ -50,7 +50,7 @@
   if (isset($_POST["editar_pwd_submit"])) {
     if ($_POST['Password'] == $_POST['Password2']) {
     // Escape user inputs for security
-    $Id = trim(mysqli_real_escape_string($con, $_POST['Id']));
+    $Id = trim(mysqli_real_escape_string($con, $_GET["Id"]));
     $Password = trim(mysqli_real_escape_string($con,$_POST['Password']));
 
     $stmt = $con->prepare(
@@ -90,7 +90,6 @@
                     <div class="form-panel">
                       <h3><i class="fa fa-angle-right"></i> Editar dados principais de utilizador</h3><br>
                         <form class="form-horizontal style-form" method="POST" action="<?= $_SERVER["PHP_SELF"] ?>" id="EditarUtilizador">
-                          <input type="hidden" value="<?=$_GET["Id"]?>" name="Id">
                             <div class="form-group">
                                 <br>
                                 <label class="col-sm-2 col-sm-2 control-label">Nome</label>
@@ -157,16 +156,15 @@
                           <h3><i class="fa fa-angle-right"></i> Editar Palavra-Passe</h3>
                           <br>
                             <form class="form-horizontal style-form" method="POST" id="EditarPassword">
-                              <input type="hidden" value="<?=$_GET["Id"]?>" name="Id">
                                 <div class="form-group">
                                   <label class="col-sm-2 col-sm-2 control-label">Palavra-Passe</label>
                                   <div class="col-sm-10">
-                                    <input type="password" class="form-control" name="Password" placeholder="••••••" value="<?=$utilizador['Password']?>" id="pw1" required>
+                                    <input type="password" class="form-control" name="Password" placeholder="••••••" id="pw1" required>
                                     <br>
                                   </div><br>
                                   <label class="col-sm-2 col-sm-2 control-label">Confirmar Palavra-Passe</label>
                                   <div class="col-sm-10">
-                                    <input type="password" class="form-control" name="Password2" placeholder="••••••" value="<?=$utilizador['Password']?>" required>
+                                    <input type="password" class="form-control" name="Password2" placeholder="••••••" required>
                                     <br>
                                     <input type="submit" class="btn btn-primary" value="Submeter" name="editar_pwd_submit">
                                   </div>

@@ -3,7 +3,7 @@
     header("Location: 404");
   }
 
-  $titulo = "Editar Equipamento";
+  $titulo = "Editar equipamento";
 
   require 'Shared/conn.php';
   require 'Shared/Restrict.php';
@@ -25,7 +25,7 @@
   if (isset($_POST["editar_equip_submit"])) {
     // Escape user inputs for security
     $Nome = trim(mysqli_real_escape_string($con, $_POST['Nome']));
-    $Id = trim(mysqli_real_escape_string($con, $_POST['Id']));
+    $Id = trim(mysqli_real_escape_string($con, $_GET['Id']));
 
     $stmt = $con->prepare("UPDATE equipamentos SET Nome = ? WHERE Id = ?");
 
@@ -60,7 +60,6 @@
                     <div class="form-panel">
                         <form class="form-horizontal style-form" method="POST" action="<?= $_SERVER["PHP_SELF"] ?>">
                             <div class="form-group">
-                              <input type="hidden" name="Id" value="<?=$_GET['Id']?>">
                                 <br>
                                 <label class="col-sm-2 col-sm-2 control-label">Nome</label>
                                 <div class="col-sm-10">

@@ -7,10 +7,10 @@
 
   if (isset($_POST["editar_perfil_submit"])) {
     // Escape strings para prevenção de MySQL injection
-    $Id = trim(mysqli_real_escape_string($con, $_POST['Id']));
-    $Nome = trim(mysqli_real_escape_string($con, $_POST['Nome']));;
-    $Apelido = trim(mysqli_real_escape_string($con, $_POST['Apelido']));;
-    $Email = trim(mysqli_real_escape_string($con, $_POST['Email']));;
+    $Id = $LoggedID;
+    $Nome = trim(mysqli_real_escape_string($con, $_POST['Nome']));
+    $Apelido = trim(mysqli_real_escape_string($con, $_POST['Apelido']));
+    $Email = trim(mysqli_real_escape_string($con, $_POST['Email']));
 
     $stmt = $con->prepare(
     "UPDATE professores
@@ -56,7 +56,6 @@
                             <br>
                             <form class="form-horizontal style-form" method="post" action="<?=$_SERVER["PHP_SELF"] ?>">
                                 <div class="form-group">
-                                  <input type="hidden" name="Id" value="<?=$LoggedID?>">
                                   <label class="col-sm-2 col-sm-2 control-label">Imagem</label>
                                   <div class="col-sm-10">
                                     <img src="assets\img\User\profile_img.png" style="width:20%; height:20%;"><br><br>

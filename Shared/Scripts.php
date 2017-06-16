@@ -1,4 +1,4 @@
-
+<!--SCRIPTS-->
   <script src="assets\libs\jquery\dist\jquery.min.js"></script>
   <script src="assets\libs\bootstrap\dist\js\bootstrap.min.js"></script>
 
@@ -22,28 +22,28 @@
 
   <?php
     #FILE INPUT PLUGIN
-    if (isset($fileinputInclude) && ($fileinputInclude = true)) {
+    if (isset($fileinputInclude) && ($fileinputInclude)) {
   ?>
   <script src="assets\libs\template\js\fileinput.js"></script>
   <?php };?>
 
   <?php
     #REMOVE PLUGIN
-    if (isset($removeInclude) && ($removeInclude = true)) {
+    if (isset($removeInclude) && ($removeInclude)) {
   ?>
   <script src="assets\libs\template\js\remove.js"></script>
   <?php  };?>
 
   <?php
     #ANIMAÇÃO FILTROS PLUGIN
-    if (isset($filtrosInclude) && ($filtrosInclude = true)) {
+    if (isset($filtrosInclude) && ($filtrosInclude)) {
   ?>
   <script type="text/javascript" src="assets\libs\template\js\filtrosanimate.js"></script>
   <?php };?>
 
   <?php
     #BACKSTRETCH PLUGIN
-    if (isset($backstretchInclude) && ($backstretchInclude = true)) {
+    if (isset($backstretchInclude) && ($backstretchInclude)) {
   ?>
   <script type="text/javascript" src="assets\libs\jquery-backstretch\jquery.backstretch.min.js"></script>
   <script>
@@ -52,7 +52,7 @@
   <?php };?>
   <?php
     #BACKSTRETCH PLUGIN
-    if (isset($timepickerInclude) && ($timepickerInclude = true)) {
+    if (isset($timepickerInclude) && ($timepickerInclude)) {
   ?>
   <script src="assets\libs\clockpicker\dist\jquery-clockpicker.min.js"></script>
   <script src="assets\libs\clockpicker\dist\bootstrap-clockpicker.js"></script>
@@ -65,7 +65,7 @@
   </script>
 <?php };?>
 
-<?php if (isset($validatejs) && ($validatejs = true)) {?>
+<?php if (isset($validatejs) && ($validatejs)) {?>
   <script src="assets\libs\jquery-validation\dist\jquery.validate.js"></script>
   <script src="assets\libs\jquery-validation\src\localization\messages_pt_PT.js"> </script>
 <?php };?>
@@ -74,3 +74,8 @@
         window.history.back();
     }
   </script>
+
+<?php if (isset($paginatejs) && ($paginatejs)) {?>
+  <script src="assets\libs\template\js\paginate.js"></script>
+<?php } ?>
+<!--SCRIPTS END-->

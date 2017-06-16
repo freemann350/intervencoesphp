@@ -3,7 +3,7 @@ if (!(isset($_GET["Id"])) || (trim($_GET["Id"]) == "") || !(is_numeric($_GET["Id
   header("Location: 404");
 }
 
-  $titulo = "Verificar Intervenção";
+  $titulo = "Verificar intervenção";
 
   require 'Shared/conn.php';
   require 'Shared/Restrict.php';

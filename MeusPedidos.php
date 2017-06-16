@@ -1,5 +1,5 @@
 <?php
-  $titulo = "Meus Pedidos";
+  $titulo = "Os meus pedidos";
   $datepickerInclude = true;
   $removeInclude = true;
   $filtrosInclude = true;
@@ -98,7 +98,7 @@
                 }
               ?>
 
-                <h3><i class="fa fa-angle-right"></i> Os meus Pedidos</h3>
+                <h3><i class="fa fa-angle-right"></i> Os meus pedidos</h3>
 
                 <div class="row mt">
                   <div class="col-lg-12">

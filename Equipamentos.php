@@ -1,5 +1,5 @@
 <?php
-  $titulo = "Gestão de Equipamentos";
+  $titulo = "Gestão de equipamentos";
   $removeInclude = true;
   $filtrosInclude =  true;
   $EqActive = true;
@@ -116,15 +116,15 @@
                                       <td><?= $row["Nome"] ?></td>
                                       <td>
                                         <a href="EditarEquipamento?Id=<?=$row['Id'];?>">
-                                          <i title="Editar Utilizador" class="fa fa-pencil fa-lg" aria-hidden="true"></i>
+                                          <i title="Editar equipamento" class="fa fa-pencil fa-lg" aria-hidden="true"></i>
                                         </a>
                                         <?php if ($row['Ativo'] == '1') {?>
                                         <a href="javascript:;" class="deleteRecord" data-id="<?=$row['Id'];?>">
-                                          <i style="color: #E8434E" title="Inativar Utilizador" class="fa fa-times fa-lg" aria-hidden="true"></i>
+                                          <i style="color: #E8434E" title="Inativar equipamento" class="fa fa-times fa-lg" aria-hidden="true"></i>
                                         </a>
                                       <?php } else {?>
                                         <a href="javascript:;" class="activateRecord" data-id="<?=$row['Id'];?>">
-                                          <i style="color: #60D439" title="Ativar Utilizador" class="fa fa-check fa-lg" aria-hidden="true"></i>
+                                          <i style="color: #60D439" title="Ativar equipamento" class="fa fa-check fa-lg" aria-hidden="true"></i>
                                         </a>
                                       <?php };?>
                                       </td>

@@ -18,21 +18,21 @@
 
     <?php
       #DATEPICKER
-      if (isset($datepickerInclude) && ($datepickerInclude = true)) {
+      if (isset($datepickerInclude) && ($datepickerInclude)) {
     ?>
     <link rel="stylesheet" href="assets\libs\bootstrap-datepicker\dist\css\bootstrap-datepicker3.min.css">
     <?php };?>
 
     <?php
       #TIMEPICKER
-      if (isset($timepickerInclude) && ($timepickerInclude = true)) {
+      if (isset($timepickerInclude) && ($timepickerInclude)) {
     ?>
     <link href="assets\libs\clockpicker\dist\jquery-clockpicker.min.css" rel="stylesheet">
     <?php };?>
 
     <?php
       #FILE INPUT
-      if (isset($fileinputInclude) && ($fileinputInclude = true)) {
+      if (isset($fileinputInclude) && ($fileinputInclude)) {
     ?>
     <link href="assets\libs\template\css\fileinput.css" rel="stylesheet">
     <?php };?>

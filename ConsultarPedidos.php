@@ -1,5 +1,5 @@
 <?php
-  $titulo = "Consultar Pedidos";
+  $titulo = "Consultar pedidos";
   $datepickerInclude = true;
   $removeInclude =  true;
   $filtrosInclude =  true;

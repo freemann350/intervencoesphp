@@ -1,5 +1,5 @@
 <?php
-  $titulo = "Resolução de Pedidos";
+  $titulo = "Resolução de pedidos";
   $datepickerInclude = true;
   $removeInclude =  true;
   $filtrosInclude =  true;
@@ -93,7 +93,7 @@
         <section id="main-content">
             <section class="wrapper" id="wrapping">
 
-                <h3><i class="fa fa-angle-right"></i> Resolução de Pedidos</h3>
+                <h3><i class="fa fa-angle-right"></i> Resolução de pedidos</h3>
 
                 <div class="row mt">
                     <div class="col-lg-12" >

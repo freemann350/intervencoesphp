@@ -1,5 +1,5 @@
 <?php
-  $titulo = "Consultar Equipamento";
+  $titulo = "Consultar intervenções";
   $datepickerInclude = true;
   $removeInclude =  true;
   $filtrosInclude =  true;

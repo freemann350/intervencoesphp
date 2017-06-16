@@ -68,7 +68,7 @@
                   }
                 }
               ?>
-                <h3><i class="fa fa-angle-right"></i> Registo de pedidos</h3>
+                <h3><i class="fa fa-angle-right"></i> Registo de pedido</h3>
                 <div class="row mt">
                     <div class="form-panel">
                         <form class="form-horizontal style-form" id="RegistarPedido" method="POST" action="<?= $_SERVER["PHP_SELF"] ?>">

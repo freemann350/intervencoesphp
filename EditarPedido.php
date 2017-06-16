@@ -3,7 +3,7 @@
     header("Location: 404");
   }
 
-  $titulo = "Editar";
+  $titulo = "Editar pedido";
   $datepickerInclude = true;
   $removeInclude =  true;
   $filtrosInclude =  true;
@@ -38,7 +38,7 @@
 
   if (isset($_POST["editar_pedidos_submit"]) && (isset($_POST["Bloco"])) && (isset($_POST["Sala"])) && (isset($_POST["Equipamento"])) && (isset($_POST["Data"])) && (isset($_POST["Hora"])) && (isset($_POST["Descricao"])) && ($_POST["Equipamento"] !== '0')) {
     // Escape strings para prevenção de MySQL injection
-    $Id = trim(mysqli_real_escape_string($con, $_POST['Id']));
+    $Id = trim(mysqli_real_escape_string($con, $_GET['Id']));
     $Sala = trim(mysqli_real_escape_string($con, $_POST['Sala']));
     $Equipamento = trim(mysqli_real_escape_string($con, $_POST['Equipamento']));
     $Data = trim(mysqli_real_escape_string($con, $_POST['Data']));
@@ -84,13 +84,12 @@
         <!--MAIN CONTENT-->
         <section id="main-content">
             <section class="wrapper"><br>
-                <h3><i class="fa fa-angle-right"></i> Registo de Pedidos - Editar</h3>
+                <h3><i class="fa fa-angle-right"></i> Registo de Pedidos - Edição</h3>
                 <div class="row mt">
                     <div class="form-panel">
                         <form class="form-horizontal style-form" method="POST" id="EditarPedido" action="<?= $_SERVER["PHP_SELF"] ?>">
                             <div class="form-group">
                                 <br>
-                                <input type="hidden" value="<?=$pedido['Id']?>" name="Id">
 
                                 <label class="col-sm-2 col-sm-2 control-label">Bloco</label>
                                 <div class="col-sm-10">

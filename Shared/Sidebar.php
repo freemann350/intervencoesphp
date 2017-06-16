@@ -6,7 +6,7 @@
           <h5 class="centered"><?= $LoggedNome ?></h5></a>
 
           <li class="mt">
-              <a <?php if (isset($PiActive) && ($PiActive = true)){?> class="active" <?php };?>href="Inicial">
+              <a <?php if (isset($PiActive) && ($PiActive)){?> class="active" <?php };?>href="Inicial">
                   <i class="fa fa-home"></i>
                   <span>Página inicial</span>
               </a>
@@ -14,40 +14,40 @@
 
           <?php if ($LoggedRole == "1") { ?>
           <li class="sub-menu">
-              <a <?php if ((isset($PuActive) && ($PuActive = true)) || (isset($EqActive) && ($EqActive = true))){?> class="active" <?php };?>  href="javascript:;">
+              <a <?php if ((isset($PuActive) && ($PuActive)) || (isset($EqActive) && ($EqActive))){?> class="active" <?php };?>  href="javascript:;">
                   <i class="fa fa-user"></i>
                   <span>Administração</span>
               </a>
               <ul class="sub">
-                  <li <?php if (isset($PuActive) && ($PuActive = true)){?> class="active" <?php };?>><a href="Utilizadores" style="background: transparent;">Utilizadores</a></li>
-                  <li <?php if (isset($EqActive) && ($EqActive = true)){?> class="active" <?php };?>><a href="Equipamentos" style="background: transparent;">Equipamentos</a></li>
+                  <li <?php if (isset($PuActive) && ($PuActive)){?> class="active" <?php };?>><a href="Utilizadores" style="background: transparent;">Utilizadores</a></li>
+                  <li <?php if (isset($EqActive) && ($EqActive)){?> class="active" <?php };?>><a href="Equipamentos" style="background: transparent;">Equipamentos</a></li>
               </ul>
           </li>
           <?php }?>
 
             <li class="sub-menu">
-                <a <?php if ((isset($PrpActive) && ($PrpActive = true)) || (isset($PmpActive) && ($PmpActive = true)) || (isset($PcpActive) && ($PcpActive = true))){?> class="active" <?php };?> href="javascript:;">
+                <a <?php if ((isset($PrpActive) && ($PrpActive)) || (isset($PmpActive) && ($PmpActive)) || (isset($PcpActive) && ($PcpActive))){?> class="active" <?php };?> href="javascript:;">
                     <i class="fa fa-pencil-square-o"></i>
                     <span>Pedidos</span>
                 </a>
                 <ul class="sub">
-                    <li<?php if (isset($PrpActive) && ($PrpActive = true)){?> class="active" <?php };?>><a href="RegistarPedido" style="background: transparent;">Registar Pedido</a></li>
-                    <li<?php if (isset($PmpActive) && ($PmpActive = true)){?> class="active" <?php };?>><a href="MeusPedidos" style="background: transparent;">Os Meus Pedidos</a></li>
-                    <li<?php if (isset($PcpActive) && ($PcpActive = true)){?> class="active" <?php };?>><a href="ConsultarPedidos" style="background: transparent;">Consultar Pedidos</a></li>
+                    <li<?php if (isset($PrpActive) && ($PrpActive)){?> class="active" <?php };?>><a href="RegistarPedido" style="background: transparent;">Registar Pedido</a></li>
+                    <li<?php if (isset($PmpActive) && ($PmpActive)){?> class="active" <?php };?>><a href="MeusPedidos" style="background: transparent;">Os Meus Pedidos</a></li>
+                    <li<?php if (isset($PcpActive) && ($PcpActive)){?> class="active" <?php };?>><a href="ConsultarPedidos" style="background: transparent;">Consultar Pedidos</a></li>
                 </ul>
             </li>
 
             <li class="sub-menu">
-                <a <?php if ((isset($PmiActive) && ($PmiActive = true)) || (isset($PciActive) && ($PciActive = true)) || (isset($PrActive) && ($PrActive = true)) ){?> class="active" <?php };?> href="javascript:;">
+                <a <?php if ((isset($PmiActive) && ($PmiActive)) || (isset($PciActive) && ($PciActive)) || (isset($PrActive) && ($PrActive)) ){?> class="active" <?php };?> href="javascript:;">
                     <i class="fa fa-wrench"></i>
                     <span>Intervenções</span>
                 </a>
                 <ul class="sub">
                   <?php if (($LoggedRole == "1") || ($LoggedRole == "2")) { ?>
-                    <li <?php if (isset($PrActive) && ($PrActive = true)){?> class="active" <?php };?>><a href="ResolverPedidos" style="background: transparent;">Resolver Pedidos</a></li>
-                    <li <?php if (isset($PmiActive) && ($PmiActive = true)){?> class="active" <?php };?>><a href="MinhasIntervencoes" style="background: transparent;">As Minhas Intervenções</a></li>
+                    <li <?php if (isset($PrActive) && ($PrActive)){?> class="active" <?php };?>><a href="ResolverPedidos" style="background: transparent;">Resolver Pedidos</a></li>
+                    <li <?php if (isset($PmiActive) && ($PmiActive)){?> class="active" <?php };?>><a href="MinhasIntervencoes" style="background: transparent;">As Minhas Intervenções</a></li>
                 <?php };?>
-                    <li <?php if (isset($PciActive) && ($PciActive = true)){?> class="active" <?php };?>><a href="ConsultarIntervencoes" style="background: transparent;">Consultar Intervenções</a></li>
+                    <li <?php if (isset($PciActive) && ($PciActive)){?> class="active" <?php };?>><a href="ConsultarIntervencoes" style="background: transparent;">Consultar Intervenções</a></li>
                 </ul>
             </li>
         </ul>

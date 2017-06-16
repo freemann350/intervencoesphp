@@ -1,5 +1,5 @@
 <?php
-  $titulo = "Minhas Intervenções";
+  $titulo = "As minhas intervenções";
   $datepickerInclude = true;
   $filtrosInclude = true;
   $removeInclude = true;

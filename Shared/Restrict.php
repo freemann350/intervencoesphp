@@ -1,7 +1,5 @@
 <?php
 
-define("ProjectPath", dirname(__DIR__));
-
 if (!session_id()) {
   session_start();
 }

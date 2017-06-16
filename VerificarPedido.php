@@ -3,7 +3,7 @@
     header("Location: 404");
   }
 
-  $titulo = "Verificar Pedidos";
+  $titulo = "Verificar pedidos";
 
   require 'Shared/conn.php';
   require 'Shared/Restrict.php';

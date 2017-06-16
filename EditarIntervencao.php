@@ -3,7 +3,7 @@
     header("Location: 404");
   }
 
-  $titulo = "Editar";
+  $titulo = "Editar intervenção";
   $datepickerInclude = true;
   $removeInclude =  true;
   $filtrosInclude =  true;
@@ -84,7 +84,7 @@
         <!--MAIN CONTENT-->
         <section id="main-content">
             <section class="wrapper">
-                <h3><i class="fa fa-angle-right"></i> Registo de intervenções - Editar</h3>
+                <h3><i class="fa fa-angle-right"></i> Registo de intervenções - Edição</h3>
                 <div class="row mt">
                     <div class="form-panel">
 
