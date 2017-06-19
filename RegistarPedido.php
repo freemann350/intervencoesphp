@@ -71,7 +71,7 @@
                 <h3><i class="fa fa-angle-right"></i> Registo de pedido</h3>
                 <div class="row mt">
                     <div class="form-panel">
-                        <form class="form-horizontal style-form" id="RegistarPedido" method="POST" action="<?= $_SERVER["PHP_SELF"] ?>">
+                        <form class="form-horizontal style-form" id="RegistarPedido" method="POST">
                             <div class="form-group">
                                 <br>
 
@@ -94,7 +94,7 @@
 
                                 <label class="col-sm-2 col-sm-2 control-label">Sala</label>
                                 <div class="col-sm-10">
-                                  <select id="sala" disabled class="form-control" name="Sala" required>
+                                  <select id="sala" disabled class="form-control" name="Sala" required onchange="getEquip(this);">
                                     <option value="0" selected disabled hidden>Escolha a Sala...</option>
                                   </select>
                                     <br>
@@ -102,18 +102,8 @@
 
                                 <label class="col-sm-2 col-sm-2 control-label">Equipamento</label>
                                 <div class="col-sm-10">
-                                    <select class="form-control" name="Equipamento" required>
+                                    <select id="equipamento" class="form-control" name="Equipamento" required>
                                       <option value="0" selected disabled hidden>Escolha o Equipamento...</option>
-                                      <?php
-                                        $stmt = $con->prepare("SELECT * FROM equipamentos WHERE Ativo = '1'");
-
-                                        $stmt->execute();
-                                        $result = $stmt->get_result();
-
-                                        while ($row = $result->fetch_assoc()) {
-                                      ?>
-                                        <option value="<?= $row['Id'] ?>"><?= $row["Nome"] ?></option>
-                                      <?php }; ?>
                                     </select>
                                     <br>
                                 </div>

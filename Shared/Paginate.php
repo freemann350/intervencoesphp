@@ -1,7 +1,6 @@
-<?php  if ($row['TotalDados'] > $per_page) {?>
 <div class="btn-group" style="margin-left: 10px">
   <?php if ($pg == 1) { ?>
-  <a onclick="insertParameter('p', 1)" class="btn btn-default"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a>
+  <a class="btn btn-default"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a>
   <a class="btn btn-default"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
 
   <?php } else { ?>
@@ -11,7 +10,11 @@
   <?php } ?>
 
   <?php
-      $maxPages = ceil($row['TotalDados'] / $per_page);
+      if ($row['TotalDados'] > 0){
+        $maxPages = ceil($row['TotalDados'] / $per_page);
+      } else {
+        $maxPages = ceil(1 / $per_page);
+      }
       #ceiling(query sem limit / maximo de dados p/pág)
       $pageMaxDiff = $maxPages - $pg;
       $pagesRendered = 0;
@@ -62,11 +65,4 @@
   <a onclick="insertParameter('p', <?=$pg+1?>)" class="btn btn-default"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
   <a onclick="insertParameter('p', <?=$maxPages?>)" class="btn btn-default"><i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
 <?php } ?>
-
-<?php if ($pg>$maxPages){ ?>
-  <script>
-    window.location.replace("Utilizadores");
-  </script>
-<?php } ?>
 </div>
-<?php } ?>

@@ -1,8 +1,8 @@
 <?php
-  $titulo = "Gestão de equipamentos";
+  $titulo = "Gestão de tipos de equipamentos";
   $removeInclude = true;
   $filtrosInclude =  true;
-  $EqActive = true;
+  $PTEqActive = true;
   $paginatejs = true;
 
   require 'Shared/conn.php';
@@ -20,79 +20,25 @@
   }
 
   if ($pg < '1'){
-    header("Location: Equipamentos");
+    header("Location: TipoEquipamento");
   }
 
   $per_page = 15;
   $pfunc = ceil($pg*$per_page) - $per_page;
 
-  $Query = "SELECT equipamentos.Id, equipamentos.Nome, equipamentos.Ativo, salas.Sala, tipoequipamento.TipoEquipamento FROM equipamentos INNER JOIN salas ON salas.Id = equipamentos.IdSala INNER JOIN tipoequipamento ON equipamentos.IdTipo = tipoequipamento.Id";
-  $QueryCount = "SELECT count(*) TotalDados FROM equipamentos";
+  $Query = "SELECT * FROM tipoequipamento";
+  $QueryCount = "SELECT count(*) TotalDados FROM tipoequipamento";
 
-  if (isset($_GET['filtros_equipamentos_submit']) || (isset($_GET['Equipamento']))) {
+  if (isset($_GET['filtros_equipamentos_submit']) && (isset($_GET['Equipamento']))) {
 
-    $Tipo = trim(mysqli_real_escape_string($con, $_GET['Tipo']));
-    $Bloco = trim(mysqli_real_escape_string($con, $_GET['Bloco']));
-    $Sala = trim(mysqli_real_escape_string($con, $_GET['Sala']));
     $Equipamento = trim(mysqli_real_escape_string($con, $_GET['Equipamento']));
 
-    $switch = true;
-
-    if ((!empty($Tipo)) && (isset($Tipo))) {
-      if ($switch){
-        $Query .= " WHERE ";
-        $QueryCount .= " WHERE ";
-        $switch = false;
-      } else {
-        $Query .= " AND ";
-        $QueryCount .= " AND ";
-      }
-      $Query .= " WHERE IdTipo = " . $Equipamento;
-      $QueryCount .= " WHERE IdTipo = " . $Equipamento;
-    }
-
-    if ((!empty($Bloco)) && (isset($Bloco))) {
-      if ($switch){
-        $Query .= " WHERE ";
-        $QueryCount .= " WHERE ";
-        $switch = false;
-      } else {
-        $Query .= " AND ";
-        $QueryCount .= " AND ";
-      }
-      $Query .= " WHERE salas.IdBloco = " . $Equipamento;
-      $QueryCount .= " WHERE salas.IdBloco = " . $Equipamento;
-    }
-
-    if ((!empty($Sala)) && (isset($Sala))) {
-      if ($switch){
-        $Query .= " WHERE ";
-        $QueryCount .= " WHERE ";
-        $switch = false;
-      } else {
-        $Query .= " AND ";
-        $QueryCount .= " AND ";
-      }
-      $Query .= " WHERE salas.Id = " . $Tipo;
-      $QueryCount .= " WHERE salas.Id = " . $Tipo;
-    }
-
-
     if ((!empty($Equipamento)) && (isset($Equipamento))) {
-      if ($switch){
-        $Query .= " WHERE ";
-        $QueryCount .= " WHERE ";
-        $switch = false;
-      } else {
-        $Query .= " AND ";
-        $QueryCount .= " AND ";
-      }
       $Equipamento = "'%" . $Equipamento . "%'";
-      $Query .= " WHERE Nome LIKE " . $Equipamento;
-      $QueryCount .= " WHERE Nome LIKE " . $Equipamento;
+      $Query .= " WHERE TipoEquipamento LIKE " . $Equipamento;
+      $QueryCount .= " WHERE TipoEquipamento LIKE " . $Equipamento;
     }
-
-    $Query .= " LIMIT $pfunc, $per_page";
+    $Query .= "LIMIT $pfunc, $per_page";
 
     $stmt = $con->prepare($Query);
 
@@ -146,7 +92,7 @@
               };
               ?>
 
-                <h3><i class="fa fa-angle-right"></i> Gestão de equipamentos</h3>
+                <h3><i class="fa fa-angle-right"></i> Gestão de tipos de equipamentos</h3>
 
                 <div class="row mt">
                     <div class="col-lg-12">
@@ -159,64 +105,7 @@
                             <div class="col-lg-12" id="filtrosdiv" style="display: none; min-width: 620px;">
                               <form class="form-horizontal style-form" method="GET">
                                 <br>
-                                <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por tipo de equipamento</h4>
-                                <div style="margin-left:10px;">
-                                  <select class="form-control" name="Tipo">
-                                    <option selected value="">Escolha um equipamento...</option>
-                                    <?php
-                                      $stmt1 = $con->prepare("SELECT * FROM tipoequipamento");
-
-                                      $stmt1->execute();
-                                      $result1 = $stmt1->get_result();
-
-                                      while ($tipo = $result1->fetch_assoc()) {
-                                    ?>
-
-                                    <option value="<?= $tipo['Id'] ?>"><?=$tipo["TipoEquipamento"]; ?></option>
-                                    <?php } ?>
-                                  </select>
-                                </div>
-                                <br>
-
-                                <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por Bloco</h4>
-                                <div style="margin-left:10px;">
-                                  <select class="form-control" name="Bloco">
-                                    <option selected value="">Escolha um equipamento...</option>
-                                    <?php
-                                      $stmt1 = $con->prepare("SELECT * FROM blocos");
-
-                                      $stmt1->execute();
-                                      $result1 = $stmt1->get_result();
-
-                                      while ($sala = $result1->fetch_assoc()) {
-                                    ?>
-
-                                    <option value="<?= $sala['Id'] ?>"><?=$sala['Bloco']; ?></option>
-                                    <?php } ?>
-                                  </select>
-                                </div>
-                                <br>
-
-                                <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por Sala</h4>
-                                <div style="margin-left:10px;">
-                                  <select class="form-control" name="Sala">
-                                    <option selected value="">Escolha um equipamento...</option>
-                                    <?php
-                                      $stmt1 = $con->prepare("SELECT * FROM salas");
-
-                                      $stmt1->execute();
-                                      $result1 = $stmt1->get_result();
-
-                                      while ($sala = $result1->fetch_assoc()) {
-                                    ?>
-
-                                    <option value="<?= $sala['Id'] ?>"><?=$sala['Sala']; ?></option>
-                                    <?php } ?>
-                                  </select>
-                                </div>
-                                <br>
-
-                                <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por nome do equipamento</h4>
+                                <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por nome de equipamento</h4>
                                 <div style="margin-left:10px;">
                                   <input type="text" class="form-control" name="Equipamento" placeholder="Escreva aqui o nome do equipamento..." value="<?php if (Isset($_GET['Equipamento'])) { echo $_GET['Equipamento'];};?>">
                                   <br>
@@ -226,14 +115,12 @@
                               <hr>
                             </div>
                           <br><br><br>
-                          <a href="NovoEquipamento"  title="Adicionar um novo equipamento">+ Registar novo equipamento</a>
+                          <a href="NovoTipoEquipamento"  title="Adicionar um novo tipo de equipamento">+ Registar novo tipo de equipamento</a>
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
                                       <th>Ativo</th>
                                       <th>Nome</th>
-                                      <th>Tipo</th>
-                                      <th>Sala</th>
                                       <th>Ação</th>
                                     </tr>
                                 </thead>
@@ -243,24 +130,19 @@
                                     while ($row = $result->fetch_assoc()) {
                                   ?>
                                     <tr>
-                                      <td><?php if ($row['Ativo'] == "1"){ echo "<i style='color: #60D439; cursor: help' title='O equipamento encontra-se ativo' class='fa fa-check fa-lg' aria-hidden='true'></i>";} else { echo "<i style='color: #E8434E;cursor: help' title='O equipamento encontra-se inativo' class='fa fa-times fa-lg' aria-hidden='true'></i>"; }?></td>
-                                      <td><?=$row["Nome"]?></td>
-                                      <td><?=$row["TipoEquipamento"]?></td>
-                                      <td><?=$row["Sala"]?></td>
+                                      <td><?php if ($row['Ativo'] == "1"){ echo "<i style='color: #60D439; cursor: help' title='O tipo de equipamento encontra-se ativo' class='fa fa-check fa-lg' aria-hidden='true'></i>";} else { echo "<i style='color: #E8434E;cursor: help' title='O tipo de equipamento encontra-se inativo' class='fa fa-times fa-lg' aria-hidden='true'></i>"; }?></td>
+                                      <td><?= $row["TipoEquipamento"] ?></td>
                                       <td>
-                                        <a href="EditarEquipamento?Id=<?=$row['Id'];?>">
-                                          <i title="Editar equipamento" class="fa fa-pencil fa-lg" aria-hidden="true"></i>
-                                        </a>
-                                        <a href="VerificarEquipamento?Id=<?=$row['Id'];?>">
-                                          <i title="Ver Todas as informações" class="fa fa-eye fa-lg" aria-hidden="true"></i>
+                                        <a href="EditarTipoEquipamento?Id=<?=$row['Id'];?>">
+                                          <i title="Editar tipo de equipamento" class="fa fa-pencil fa-lg" aria-hidden="true"></i>
                                         </a>
                                         <?php if ($row['Ativo'] == '1') {?>
                                         <a href="javascript:;" class="deleteRecord" data-id="<?=$row['Id'];?>">
-                                          <i style="color: #E8434E" title="Inativar equipamento" class="fa fa-times fa-lg" aria-hidden="true"></i>
+                                          <i style="color: #E8434E" title="Inativar tipo de equipamento" class="fa fa-times fa-lg" aria-hidden="true"></i>
                                         </a>
                                       <?php } else {?>
                                         <a href="javascript:;" class="activateRecord" data-id="<?=$row['Id'];?>">
-                                          <i style="color: #60D439" title="Ativar equipamento" class="fa fa-check fa-lg" aria-hidden="true"></i>
+                                          <i style="color: #60D439" title="Ativar tipo de equipamento" class="fa fa-check fa-lg" aria-hidden="true"></i>
                                         </a>
                                       <?php };?>
                                       </td>
@@ -269,8 +151,7 @@
                                     <tr>
                                       <td>N/D</td>
                                       <td>N/D</td>
-                                      <td>N/D</td>
-                                      <td>N/D</td>
+                                      <td>N/D </td>
                                     </tr>
                                   <?php };?>
                                 </tbody>
@@ -299,7 +180,7 @@
                                 echo "Total de dados: " . $row['TotalDados'] ."<br><br>";
                               }
                             ?>
-                            <a href="NovoEquipamento" title="Adicionar um novo equipamento">+ Registar novo equipamento</a>
+                            <a href="NovoTipoEquipamento" title="Adicionar um novo tipo de equipamento">+ Registar novo tipo de equipamento</a>
                             <br>
                         </div>
                     </div>
@@ -335,7 +216,7 @@
               Sim: function() {
                 $.ajax({
                   method: "GET",
-                  url: "ajax/inativarEquip.php?id=" + id,
+                  url: "ajax/inativarTipoEquip.php?id=" + id,
                   success: function(data) {
                     if (data == "1") {
                       window.location.href = location.href.split('?')[0] + "?msg=1"
@@ -362,7 +243,7 @@
               Sim: function() {
                 $.ajax({
                   method: "GET",
-                  url: "ajax/ativarEquip.php?id=" + id,
+                  url: "ajax/ativarTipoEquip.php?id=" + id,
                   success: function(data) {
                     if (data == "1") {
                       window.location.href = location.href.split('?')[0] + "?msg=1"

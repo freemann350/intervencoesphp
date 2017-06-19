@@ -5,6 +5,7 @@ $('#datepicker-registos .input-group.date').datepicker({
   autoclose: true,
   todayHighlight: true,
   startDate: "01-01-2017",
+  daysOfWeekDisabled: [0,6],
   endDate: "today"
 });
 

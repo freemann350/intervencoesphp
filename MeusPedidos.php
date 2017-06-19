@@ -4,9 +4,24 @@
   $removeInclude = true;
   $filtrosInclude = true;
   $PmpActive = true;
+  $paginatejs = true;
 
   require 'Shared/conn.php';
   require 'Shared/Restrict.php';
+
+  #PAGINAÇÃO
+  if (isset($_GET['p'])) {
+    $pg = $_GET['p'];
+  } else {
+    $pg = 1;
+  }
+
+  if ($pg < '1'){
+    header("Location: MeusPedidos");
+  }
+
+  $per_page = 15;
+  $pfunc = ceil($pg*$per_page) - $per_page;
 
   $Query = "SELECT pedidos.Id, equipamentos.Nome AS NomeEquip, pedidos.Data, salas.Sala, pedidos.Resolvido FROM pedidos INNER JOIN Salas ON pedidos.IdSala = salas.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id INNER JOIN Blocos ON salas.IdBloco = Blocos.Id WHERE pedidos.IdProfessor = " . $LoggedID;
   $QueryCount = "SELECT count(*) TotalDados FROM pedidos INNER JOIN Salas ON pedidos.IdSala = salas.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id INNER JOIN Blocos ON salas.IdBloco = Blocos.Id WHERE pedidos.IdProfessor = " . $LoggedID;
@@ -44,6 +59,7 @@
       $Query .= " AND pedidos.IdSala = " . $Sala;
       $QueryCount .=" AND pedidos.IdSala = " . $Sala;
     }
+    $Query .= " LIMIT $pfunc, $per_page";
 
     $stmt = $con->prepare($Query);
 
@@ -52,6 +68,7 @@
     $result = $stmt->get_result();
 
   } else {
+    $Query .= " LIMIT $pfunc, $per_page";
 
     $stmt = $con->prepare($Query);
 
@@ -261,14 +278,24 @@
                         </div>
                     </div>
                 </div>
-            </section>
-            <!-- /MAIN CONTENT -->
+              </div>
+              <?php #PAGINAÇÃO SCRIPT
+                require("Shared/Paginate.php");
 
-            <?php #FOOTER INCLUDE
-              include 'Shared\Footer.php';
-            ?>
-        </section>
-    </section>
+                if ($pg>$maxPages){ ?>
+                  <script>
+                    window.location.replace("MeusPedidos");
+                  </script>
+              <?php } ?>
+          </section>
+      </section>
+
+      <!-- /MAIN CONTENT -->
+
+      <?php #FOOTER INCLUDE
+        include 'Shared/Footer.php';
+      ?>
+  </section>
 
     <?php #HEADER INCLUDE
           include 'Shared/Scripts.php'

@@ -56,7 +56,7 @@
         <section id="main-content">
             <section class="wrapper" id="wrapping">
 
-                <h3><i class="fa fa-angle-right"></i> Ver perfil</h3>
+                <h3><i class="fa fa-angle-right"></i> <?=$row['Nome']?></h3>
 
                 <div class="row mt">
                     <div class="col-lg-12">
@@ -69,14 +69,6 @@
                                     <img src="assets\img\User\profile_img.png" style="width:20%; height:20%;"><br><br>
                                   </div>
                                   <br>
-
-                                  <label class="col-sm-2 col-sm-2 control-label"><b>Nome</b></label>
-                                  <div class="col-sm-10">
-                                      <p class="form-control-static">
-                                        <?=$row['Nome']?>
-                                      </p>
-                                      <br>
-                                  </div>
 
                                   <label class="col-sm-2 col-sm-2 control-label"><b>Email</b></label>
                                   <div class="col-sm-10">

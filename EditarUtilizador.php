@@ -89,7 +89,7 @@
                 <div class="row mt">
                     <div class="form-panel">
                       <h3><i class="fa fa-angle-right"></i> Editar dados principais de utilizador</h3><br>
-                        <form class="form-horizontal style-form" method="POST" action="<?= $_SERVER["PHP_SELF"] ?>" id="EditarUtilizador">
+                        <form class="form-horizontal style-form" method="POST" id="EditarUtilizador">
                             <div class="form-group">
                                 <br>
                                 <label class="col-sm-2 col-sm-2 control-label">Nome</label>

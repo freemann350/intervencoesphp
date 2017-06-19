@@ -4,6 +4,7 @@
   $filtrosInclude = true;
   $removeInclude = true;
   $PmiActive = true;
+  $paginatejs = true;
 
   require 'Shared/conn.php';
   require 'Shared/Restrict.php';
@@ -11,6 +12,20 @@
   if ($LoggedRole == "3") {
     header("Location: 403");
   }
+
+  #PAGINAÇÃO
+  if (isset($_GET['p'])) {
+    $pg = $_GET['p'];
+  } else {
+    $pg = 1;
+  }
+
+  if ($pg < '1'){
+    header("Location: MinhasIntervencoes");
+  }
+
+  $per_page = 15;
+  $pfunc = ceil($pg*$per_page) - $per_page;
 
   $Query = "SELECT intervencoes.Resolvido, intervencoes.Id, salas.Sala, equipamentos.Nome, intervencoes.Data FROM intervencoes INNER JOIN pedidos ON intervencoes.IdPedido = pedidos.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id INNER JOIN salas ON pedidos.IdSala = salas.Id INNER JOIN blocos ON blocos.Id = salas.IdBloco WHERE intervencoes.IdProfessor = " . $LoggedID . " ";
 
@@ -49,6 +64,7 @@
       $Query .= " AND pedidos.IdSala = " . $Sala;
       $QueryCount .=" AND pedidos.IdSala = " . $Sala;
     }
+    $Query .= " LIMIT $pfunc, $per_page";
 
     $stmt = $con->prepare($Query);
 
@@ -56,6 +72,7 @@
 
     $result = $stmt->get_result();
   } else {
+    $Query .= " LIMIT $pfunc, $per_page";
 
     $stmt = $con->prepare($Query);
 
@@ -254,15 +271,22 @@
                         </div>
                     </div>
                 </div>
-              </section>
-          </section>
+                <?php #PAGINAÇÃO SCRIPT
+                  require("Shared/Paginate.php");
+                    if ($pg>$maxPages)  {?>
+                      <script>
+                        window.location.replace("MinhasIntervencoes");
+                      </script>
+                  <?php } ?>
+            </section>
+        </section>
 
-          <!-- /MAIN CONTENT -->
+        <!-- /MAIN CONTENT -->
 
-          <?php #FOOTER INCLUDE
-            include 'Shared\Footer.php';
-          ?>
-      </section>
+        <?php #FOOTER INCLUDE
+          include 'Shared/Footer.php';
+        ?>
+    </section>
 
     <?php #HEADER INCLUDE
           include 'Shared/Scripts.php'

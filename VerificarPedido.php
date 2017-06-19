@@ -98,9 +98,9 @@
 
                                 <label class="col-sm-2 col-sm-2 control-label"><b>Resolvido</b></label>
                                 <div class="col-sm-10">
-                                    <p class="form-control-static"><?php if ($row['Resolvido'] =='1') { echo 'Sim';} else {echo 'Não';}?></p>
-                                    <br>
-                                        <input type="button" class="btn btn-primary" value="Voltar" onclick="goBack()">
+                                  <p class="form-control-static"><?php if ($row['Resolvido'] =='1') { echo 'Sim';} else {echo 'Não';}?></p>
+                                  <br>
+                                  <input type="button" class="btn btn-primary" value="Voltar" onclick="goBack()">
                                 </div>
                             </div>
                         </form>

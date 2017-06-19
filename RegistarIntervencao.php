@@ -100,7 +100,7 @@
                                     <span class="input-group-addon time-get-color">
                                         <span class="glyphicon glyphicon-time"></span>
                                     </span>
-                                  <input type="text" placeholder="HH:MM" class="form-control" value="<?php echo date('h:i', strtotime('-1 hour')); ?>" name="Hora"
+                                  <input type="text" placeholder="HH:MM" class="form-control" value="<?php if (isset($_POST['Hora'])) { echo $_POST['Hora']; } else { echo (date('H:i', strtotime('-1 hour'))); }; ?>" name="Hora"
                                   readonly required>
                                   </div>
                                     <br>

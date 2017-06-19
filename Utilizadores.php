@@ -12,9 +12,6 @@
     header("Location: 403");
   }
 
-  $Query = "SELECT concat_ws(' ', nome, apelido) NomeTodo, email, Ativo, professores.Id, professores.IdRole, roles.role FROM professores inner join roles on professores.idrole = roles.id WHERE Not professores.Id = " . $LoggedID . " ";
-  $QueryCount = "SELECT count(*) AS TotalDados FROM professores WHERE Not professores.Id = " . $LoggedID . " ";
-
   #PAGINAÇÃO
   if (isset($_GET['p'])) {
     $pg = $_GET['p'];
@@ -26,9 +23,12 @@
     header("Location: Utilizadores");
   }
 
-
-  $per_page = 25;
+  $per_page = 15;
   $pfunc = ceil($pg*$per_page) - $per_page;
+
+  $Query = "SELECT concat_ws(' ', nome, apelido) NomeTodo, email, Ativo, professores.Id, professores.IdRole, roles.role FROM professores inner join roles on professores.idrole = roles.id WHERE Not professores.Id = " . $LoggedID . " ";
+  $QueryCount = "SELECT count(*) AS TotalDados FROM professores WHERE Not professores.Id = " . $LoggedID . " ";
+
 
   #FILTROS (VALIDAÇÃO E SELEÇÃO)
   if (isset($_GET['filtros_utilizadores_submit']) && (isset($_GET['Nome']) || isset($_GET['Tipo']))) {
@@ -235,16 +235,23 @@
                         </div>
                     </div>
                 </div>
-                <?php require("Shared/Paginate.php") ?>
-            </section>
-        </section>
+              <?php #PAGINAÇÃO SCRIPT
+                require("Shared/Paginate.php");
 
-        <!-- /MAIN CONTENT -->
+                if ($pg>$maxPages){ ?>
+                  <script>
+                    window.location.replace("Utilizadores");
+                  </script>
+              <?php } ?>
+          </section>
+      </section>
 
-        <?php #FOOTER INCLUDE
-          include 'Shared/Footer.php';
-        ?>
-    </section>
+      <!-- /MAIN CONTENT -->
+
+      <?php #FOOTER INCLUDE
+        include 'Shared/Footer.php';
+      ?>
+  </section>
 
     <?php #HEADER INCLUDE
           include 'Shared/Scripts.php'
