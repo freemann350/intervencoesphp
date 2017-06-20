@@ -31,7 +31,7 @@
 
   $QueryCount = "SELECT count(*) TotalDados FROM intervencoes INNER JOIN pedidos ON intervencoes.IdPedido = pedidos.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id INNER JOIN salas ON pedidos.IdSala = salas.Id INNER JOIN blocos ON blocos.Id = salas.IdBloco WHERE intervencoes.IdProfessor = " . $LoggedID . " ";
 
-  if (isset($_GET['filtros_meusped_submit']) || (!empty($_GET['Data1'])) || (!empty($_GET['Data2'])) || (!empty($_GET['Equipamento'])) || (!empty($_GET['Bloco'])) || (!empty($_GET['Sala'])) || (!empty($_GET['Nome']))) {
+  if (isset($_GET['filtros_meusped_submit']) || (isset($_GET['Data1'])) || (isset($_GET['Data2'])) || (isset($_GET['Equipamento'])) || (isset($_GET['Bloco'])) || (isset($_GET['Sala'])) || (isset($_GET['Nome']))) {
     $Date1 = trim(mysqli_real_escape_string($con, $_GET['Data1']));
     $Date2 = trim(mysqli_real_escape_string($con, $_GET['Data2']));
 

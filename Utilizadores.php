@@ -161,7 +161,7 @@
 
                             <br><br><br>
                             <a href="NovoUtilizador" title="Adicionar um novo utilizador">+ Registar novo Utilizador</a>
-                            <table class="table table-hover nav-collapse" style="min-width: 600px; table-layout:fixed; overflow: auto;" id="OrderTableToggle">
+                            <table class="table table-hover nav-collapse" style="min-width: 600px; table-layout:fixed; overflow: auto;">
                                 <thead>
                                     <tr>
                                       <th>Ativo</th>

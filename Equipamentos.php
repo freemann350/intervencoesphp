@@ -27,9 +27,9 @@
   $pfunc = ceil($pg*$per_page) - $per_page;
 
   $Query = "SELECT equipamentos.Id, equipamentos.Nome, equipamentos.Ativo, salas.Sala, tipoequipamento.TipoEquipamento FROM equipamentos INNER JOIN salas ON salas.Id = equipamentos.IdSala INNER JOIN tipoequipamento ON equipamentos.IdTipo = tipoequipamento.Id";
-  $QueryCount = "SELECT count(*) TotalDados FROM equipamentos";
+  $QueryCount = "SELECT count(*) TotalDados FROM equipamentos INNER JOIN salas ON salas.Id = equipamentos.IdSala INNER JOIN tipoequipamento ON equipamentos.IdTipo = tipoequipamento.Id";
 
-  if (isset($_GET['filtros_equipamentos_submit']) || (isset($_GET['Equipamento']))) {
+  if ((isset($_GET['filtros_equipamentos_submit'])) || (isset($_GET['Equipamento'])) || (isset($_GET['Tipo'])) || (isset($_GET['Bloco'])) || (isset($_GET['Sala']))) {
 
     $Tipo = trim(mysqli_real_escape_string($con, $_GET['Tipo']));
     $Bloco = trim(mysqli_real_escape_string($con, $_GET['Bloco']));
@@ -47,8 +47,8 @@
         $Query .= " AND ";
         $QueryCount .= " AND ";
       }
-      $Query .= " WHERE IdTipo = " . $Equipamento;
-      $QueryCount .= " WHERE IdTipo = " . $Equipamento;
+      $Query .= " IdTipo = " . $Tipo;
+      $QueryCount .= " IdTipo = " . $Tipo;
     }
 
     if ((!empty($Bloco)) && (isset($Bloco))) {
@@ -60,8 +60,8 @@
         $Query .= " AND ";
         $QueryCount .= " AND ";
       }
-      $Query .= " WHERE salas.IdBloco = " . $Equipamento;
-      $QueryCount .= " WHERE salas.IdBloco = " . $Equipamento;
+      $Query .= " salas.IdBloco = " . $Bloco;
+      $QueryCount .= " salas.IdBloco = " . $Bloco;
     }
 
     if ((!empty($Sala)) && (isset($Sala))) {
@@ -73,8 +73,8 @@
         $Query .= " AND ";
         $QueryCount .= " AND ";
       }
-      $Query .= " WHERE salas.Id = " . $Tipo;
-      $QueryCount .= " WHERE salas.Id = " . $Tipo;
+      $Query .= " salas.Id = " . $Sala;
+      $QueryCount .= " salas.Id = " . $Sala;
     }
 
 
@@ -88,12 +88,11 @@
         $QueryCount .= " AND ";
       }
       $Equipamento = "'%" . $Equipamento . "%'";
-      $Query .= " WHERE Nome LIKE " . $Equipamento;
-      $QueryCount .= " WHERE Nome LIKE " . $Equipamento;
+      $Query .= " Nome LIKE " . $Equipamento;
+      $QueryCount .= " Nome LIKE " . $Equipamento;
     }
-
+    echo $Query;
     $Query .= " LIMIT $pfunc, $per_page";
-
     $stmt = $con->prepare($Query);
 
     $stmt->execute();
@@ -150,7 +149,7 @@
 
                 <div class="row mt">
                     <div class="col-lg-12">
-                        <div class="form-panel">
+                        <div class="form-panel" style="overflow: auto;">
                           <div class="col-lg-12" id="filtrosheader" style="min-width: 620px;">
                                 <span class="float-xs-left" id="filtrostext">Filtros</span>
                                 <span class="float-xs-right" id="filtrosdown"><i>(Carregue nesta barra para filtrar a informação)</i>&nbsp;&nbsp; <i class="fa fa-caret-down" id="caret-spin"></i></span>
@@ -162,7 +161,7 @@
                                 <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por tipo de equipamento</h4>
                                 <div style="margin-left:10px;">
                                   <select class="form-control" name="Tipo">
-                                    <option selected value="">Escolha um equipamento...</option>
+                                    <option selected value="">Escolha um tipo de equipamento...</option>
                                     <?php
                                       $stmt1 = $con->prepare("SELECT * FROM tipoequipamento");
 
@@ -181,7 +180,7 @@
                                 <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por Bloco</h4>
                                 <div style="margin-left:10px;">
                                   <select class="form-control" name="Bloco">
-                                    <option selected value="">Escolha um equipamento...</option>
+                                    <option selected value="">Escolha um bloco...</option>
                                     <?php
                                       $stmt1 = $con->prepare("SELECT * FROM blocos");
 
@@ -200,7 +199,7 @@
                                 <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por Sala</h4>
                                 <div style="margin-left:10px;">
                                   <select class="form-control" name="Sala">
-                                    <option selected value="">Escolha um equipamento...</option>
+                                    <option selected value="">Escolha uma sala...</option>
                                     <?php
                                       $stmt1 = $con->prepare("SELECT * FROM salas");
 
@@ -225,9 +224,10 @@
                               </form>
                               <hr>
                             </div>
+
                           <br><br><br>
                           <a href="NovoEquipamento"  title="Adicionar um novo equipamento">+ Registar novo equipamento</a>
-                            <table class="table table-hover">
+                            <table class="table table-hover nav-collapse" style="min-width: 600px; table-layout:fixed; overflow: auto;">
                                 <thead>
                                     <tr>
                                       <th>Ativo</th>
@@ -267,6 +267,7 @@
                                     </tr>
                                   <?php }} else { ?>
                                     <tr>
+                                      <td>N/D</td>
                                       <td>N/D</td>
                                       <td>N/D</td>
                                       <td>N/D</td>

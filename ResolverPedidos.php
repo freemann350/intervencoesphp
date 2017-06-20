@@ -30,7 +30,7 @@
   $Query = "SELECT pedidos.Id, equipamentos.Nome, salas.Sala, professores.Id AS IdProf, pedidos.Data, concat_ws(' ', professores.Nome, professores.Apelido) NomeTodo, pedidos.Resolvido FROM pedidos INNER JOIN Salas ON pedidos.IdSala = salas.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id INNER JOIN professores ON professores.Id = pedidos.IdProfessor WHERE Resolvido = '0'";
   $QueryCount = "SELECT count(*) TotalDados FROM pedidos INNER JOIN Salas ON pedidos.IdSala = salas.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id INNER JOIN professores ON professores.Id = pedidos.IdProfessor WHERE Resolvido = '0'";
 
-  if (isset($_GET['filtros_conspedidos_submit']) || (!empty($_GET['Data1'])) || (!empty($_GET['Data2'])) || (!empty($_GET['Equipamento'])) || (!empty($_GET['Bloco'])) || (!empty($_GET['Sala'])) || (!empty($_GET['Nome']))) {
+  if (isset($_GET['filtros_conspedidos_submit']) || ((isset($_GET['Data1'])) && (isset($_GET['Data2']))) || (isset($_GET['Equipamento'])) || (isset($_GET['Bloco'])) || (isset($_GET['Sala'])) || (isset($_GET['Nome']))) {
     $Date1 = trim(mysqli_real_escape_string($con, $_GET['Data1']));
     $Date2 = trim(mysqli_real_escape_string($con, $_GET['Data2']));
 
@@ -232,9 +232,10 @@
                                   <?php }} else { ?>
                                     <tr>
                                         <td>N/D</td>
-                                        <td>N/D </td>
-                                        <td>N/D </td>
-                                        <td>N/D </td>
+                                        <td>N/D</td>
+                                        <td>N/D</td>
+                                        <td>N/D</td>
+                                        <td>N/D</td>
                                     </tr>
                                   <?php }?>
                                 </tbody>

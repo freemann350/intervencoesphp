@@ -26,7 +26,7 @@
   $Query = "SELECT pedidos.Id, equipamentos.Nome AS NomeEquip, salas.Sala, pedidos.Data, concat_ws(' ', professores.Nome, professores.Apelido) NomeTodo, professores.Id AS IdProf, pedidos.Resolvido FROM pedidos INNER JOIN professores ON pedidos.IdProfessor = professores.Id INNER JOIN Salas ON pedidos.IdSala = salas.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id";
   $QueryCount = "SELECT count(*) AS TotalDados FROM pedidos INNER JOIN professores ON pedidos.IdProfessor = professores.Id INNER JOIN Salas ON pedidos.IdSala = salas.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id";
 
-  if (isset($_GET['filtros_conspedidos_submit']) || (!empty($_GET['Data1'])) || (!empty($_GET['Data2'])) || (!empty($_GET['Equipamento'])) || (!empty($_GET['Bloco'])) || (!empty($_GET['Sala'])) || (!empty($_GET['Nome']))) {
+  if (isset($_GET['filtros_conspedidos_submit']) || (isset($_GET['Data1'])) || (isset($_GET['Data2'])) || (isset($_GET['Equipamento'])) || (isset($_GET['Bloco'])) || (isset($_GET['Sala'])) || (isset($_GET['Nome']))) {
     $Date1 = trim(mysqli_real_escape_string($con, $_GET['Data1']));
     $Date2 = trim(mysqli_real_escape_string($con, $_GET['Data2']));
 
@@ -176,34 +176,33 @@
                                   </div>
                                   <br>
 
-                                  <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por equipamento</h4>
-                                  <div class="form-group">
-                                      <select class="form-control" name="Equipamento">
-                                        <option selected value="">Escolha um equipamento...</option>
-                                        <?php
-                                          $stmt1 = $con->prepare("SELECT * FROM equipamentos WHERE Ativo = '1'");
-
-                                          $stmt1->execute();
-                                          $result1 = $stmt1->get_result();
-
-                                          while ($equip = $result1->fetch_assoc()) {
-                                        ?>
-                                        <option value="<?= $equip['Id'] ?>"><?=$equip["Nome"]; ?></option>
-                                        <?php } ?>
-                                      </select>
-                                  </div>
-                                  <br>
-
                                   <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por professor</h4>
                                   <div class="form-group">
                                     <input type="text" class="form-control" name="Nome" placeholder="Escreva aqui o nome do professor..." value="<?php if(isset($_GET['Nome'])) { echo $_GET['Nome'];}?>">
                                   </div>
                                   <br>
 
+                                  <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por tipo de equipamento</h4>
+                                  <div class="form-group">
+                                      <select class="form-control" name="TipoEquipamento">
+                                        <option selected value="">Escolha um tipo de equipamento...</option>
+                                        <?php
+                                          $stmt1 = $con->prepare("SELECT * FROM tipoequipamento WHERE Ativo = '1'");
+
+                                          $stmt1->execute();
+                                          $result1 = $stmt1->get_result();
+
+                                          while ($equip = $result1->fetch_assoc()) {
+                                        ?>
+                                        <option value="<?= $equip['Id'] ?>"><?=$equip["TipoEquipamento"]; ?></option>
+                                        <?php } ?>
+                                      </select>
+                                  </div>
+                                  <br>
 
                                   <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por Bloco</h4>
                                   <div class="form-group">
-                                    <select class="form-control" name="Bloco" onchange="getSalas(this);">
+                                    <select id ="bloco" class="form-control" name="Bloco" onchange="getSalas(this);">
                                       <option selected value="">Escolha um bloco...</option>
                                       <?php
                                         $stmt1 = $con->prepare("SELECT * FROM blocos");
@@ -221,18 +220,14 @@
 
                                   <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por Sala</h4>
                                   <div class="form-group">
-                                    <select class="form-control" name="Sala">
-                                      <option selected value="">Escolha uma sala...</option>
-                                      <?php
-                                        $stmt1 = $con->prepare("SELECT * FROM salas");
+                                    <select id="sala" class="form-control" name="Sala" onchange="getEquip(this);">
+                                    </select>
+                                  </div>
+                                  <br>
 
-                                        $stmt1->execute();
-                                        $result1 = $stmt1->get_result();
-
-                                        while ($row1 = $result1->fetch_assoc()) {
-                                      ?>
-                                        <option value="<?=$row1["Id"]?>"><?=$row1["Sala"]?></option>
-                                      <?php } ?>
+                                  <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por equipamento</h4>
+                                  <div class="form-group">
+                                    <select id="equipamento" class="form-control" name="Equipamento">
                                     </select>
                                   </div>
                                   <br>

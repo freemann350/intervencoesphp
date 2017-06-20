@@ -86,7 +86,7 @@
     $rowQI = $resultQI->fetch_assoc();
 
     #Equipamento com mais pedidos
-    $stmtEP = $con->prepare("SELECT equipamentos.Nome, count(IdEquipamento) AS TotalEquip FROM pedidos INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id GROUP BY IdEquipamento ORDER BY count(IdEquipamento) DESC LIMIT 1");
+    $stmtEP = $con->prepare("SELECT equipamentos.Id, equipamentos.Nome, count(IdEquipamento) AS TotalEquip FROM pedidos INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id GROUP BY IdEquipamento ORDER BY count(IdEquipamento) DESC LIMIT 1");
 
     $stmtEP->execute();
 
@@ -221,10 +221,17 @@
 						  		      <h5>Equipamento com mais pedidos</h5>
                 			</div>
                       <div class="centered">
-                        <h4 class="darkblue-panel-p"><?=$rowEP['Nome']?></h4>
+                        <?php if (!empty($rowEP['Id']) && (!empty($rowEP['Nome'])) && ($rowEP['TotalEquip'] !== '0')) {?>
+                        <h4 class="darkblue-panel-p" title="Ver dados do equipamento <?=$rowEP['Nome']?>"><a class="darkblue-panel-link" href="VerificarEquipamento?Id=<?=$rowEP['Id']?>"><?=$rowEP['Nome']?></a></h4>
                       </div>
                         <p title="Quantidade de pedidos feitos neste equipamento" class="darkblue-panel-p hoverhelp"><i class="fa fa-pencil"></i> <?=$rowEP['TotalEquip']?></p>
                       </div>
+                        <?php } else { ?>
+                          <h4 class="darkblue-panel-p">N/D</a></h4>
+                        </div>
+                          <p title="Quantidade de pedidos feitos neste equipamento" class="darkblue-panel-p hoverhelp"><i class="fa fa-pencil"></i> 0</p>
+                        </div>
+                        <?php } ?>
                 		</div>
 
                 <div class="col-sm-3" style="margin-bottom: 2%">
@@ -233,10 +240,17 @@
 					  		      <h5>Utilizador com mais intervenções</h5>
               			</div>
                     <div class="centered">
+                      <?php if (!empty($rowUI['IdProfessor']) && (!empty($rowUI['NomeTodo'])) && ($rowUI['TotalProf'] !== '0')) {?>
                       <h4 class="darkblue-panel-p" title="Ver perfil de <?=$rowUI['NomeTodo']?>"><a class="darkblue-panel-link" href="Perfil?Id=<?=$rowUI['IdProfessor']?>"><?=$rowUI['NomeTodo']?></a></h4>
                     </div>
                       <p class="darkblue-panel-p hoverhelp" title="Quantidade de intervenções feitas por este utilizador" ><i class="fa fa-wrench"></i> <?=$rowUI['TotalProf']?></p>
                     </div>
+                    <?php } else { ?>
+                      <h4 class="darkblue-panel-p">N/D</h4>
+                    </div>
+                      <p class="darkblue-panel-p hoverhelp" title="Quantidade de intervenções feitas por este utilizador" ><i class="fa fa-wrench"></i> 0</p>
+                    </div>
+                    <?php } ?>
               		</div>
 
                   <div class="col-sm-3" style="margin-bottom: 2%">
@@ -245,9 +259,15 @@
 						  		      <h5>Bloco com mais pedidos</h5>
                 			</div>
                       <div class="centered">
+                        <?php if (!empty($rowBP['Bloco']) && ($rowBP['TotalBloco'] !== '0')) {?>
                         <h4 class="darkblue-panel-p"><?=$rowBP['Bloco']?></h4>
                       </div>
                         <p class="darkblue-panel-p hoverhelp" title="Quantidade de pedidos feitos para este bloco"><i class="fa fa-pencil"></i> <?=$rowBP['TotalBloco']?></p>
+                        <?php } else { ?>
+                          <h4 class="darkblue-panel-p">N/D</h4>
+                        </div>
+                          <p class="darkblue-panel-p hoverhelp" title="Quantidade de pedidos feitos para este bloco"><i class="fa fa-pencil"></i> 0</p>
+                        <?php } ?>
                       </div>
                 		</div>
 
@@ -257,9 +277,15 @@
   						  		      <h5>Utilizador com mais pedidos</h5>
                   			</div>
                         <div class="centered">
+                        <?php if ((!empty($rowUP['NomeTodo'])) && (!empty($rowUP['IdProfessor'])) && ($rowUI['TotalProf'] !== '0')) {?>
                         <h4 class="darkblue-panel-p"><a class="darkblue-panel-link" title="Ver perfil de <?=$rowUP['NomeTodo']?>" href="Perfil?Id=<?=$rowUP['IdProfessor']?>"><?=$rowUP['NomeTodo']?></a></h4>
                       </div>
                         <p class="darkblue-panel-p hoverhelp" title="Quantidade de pedidos feitos por este utilizador"><i class="fa fa-pencil"></i> <?=$rowUP['TotalProf']?></p>
+                        <?php } else { ?>
+                        <h4 class="darkblue-panel-p">N/D</h4>
+                      </div>
+                        <p class="darkblue-panel-p hoverhelp" title="Quantidade de pedidos feitos por este utilizador"><i class="fa fa-pencil"></i> 0</p>
+                        <?php } ?>
                       </div>
                 		</div>
             	   </div>

@@ -38,7 +38,7 @@
       $Query .= " WHERE TipoEquipamento LIKE " . $Equipamento;
       $QueryCount .= " WHERE TipoEquipamento LIKE " . $Equipamento;
     }
-    $Query .= "LIMIT $pfunc, $per_page";
+    $Query .= " LIMIT $pfunc, $per_page";
 
     $stmt = $con->prepare($Query);
 
@@ -96,7 +96,7 @@
 
                 <div class="row mt">
                     <div class="col-lg-12">
-                        <div class="form-panel">
+                        <div class="form-panel" style="overflow: auto;">
                           <div class="col-lg-12" id="filtrosheader" style="min-width: 620px;">
                                 <span class="float-xs-left" id="filtrostext">Filtros</span>
                                 <span class="float-xs-right" id="filtrosdown"><i>(Carregue nesta barra para filtrar a informação)</i>&nbsp;&nbsp; <i class="fa fa-caret-down" id="caret-spin"></i></span>
@@ -116,7 +116,7 @@
                             </div>
                           <br><br><br>
                           <a href="NovoTipoEquipamento"  title="Adicionar um novo tipo de equipamento">+ Registar novo tipo de equipamento</a>
-                            <table class="table table-hover">
+                            <table class="table table-hover nav-collapse" style="min-width: 600px; table-layout:fixed; overflow: auto;">
                                 <thead>
                                     <tr>
                                       <th>Ativo</th>

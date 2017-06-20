@@ -23,13 +23,14 @@
   $per_page = 15;
   $pfunc = ceil($pg*$per_page) - $per_page;
 
-  $Query = "SELECT pedidos.Id, equipamentos.Nome AS NomeEquip, pedidos.Data, salas.Sala, pedidos.Resolvido FROM pedidos INNER JOIN Salas ON pedidos.IdSala = salas.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id INNER JOIN Blocos ON salas.IdBloco = Blocos.Id WHERE pedidos.IdProfessor = " . $LoggedID;
+  $Query = "SELECT pedidos.Id, equipamentos.IdTipo, equipamentos.Nome AS NomeEquip, pedidos.Data, salas.Sala, pedidos.Resolvido FROM pedidos INNER JOIN Salas ON pedidos.IdSala = salas.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id INNER JOIN Blocos ON salas.IdBloco = Blocos.Id WHERE pedidos.IdProfessor = " . $LoggedID;
   $QueryCount = "SELECT count(*) TotalDados FROM pedidos INNER JOIN Salas ON pedidos.IdSala = salas.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id INNER JOIN Blocos ON salas.IdBloco = Blocos.Id WHERE pedidos.IdProfessor = " . $LoggedID;
 
-  if (isset($_GET['filtros_meuspedidos_submit']) || (!empty($_GET['Data1'])) || (!empty($_GET['Data2'])) || (!empty($_GET['Equipamento'])) || (!empty($_GET['Bloco'])) || (!empty($_GET['Sala']))) {
+  if (isset($_GET['filtros_meuspedidos_submit']) || (isset($_GET['Data1'])) || (isset($_GET['Data2'])) || (isset($_GET['Equipamento'])) || (isset($_GET['Bloco'])) || (isset($_GET['Sala']))) {
     $Date1 = trim(mysqli_real_escape_string($con, $_GET['Data1']));
     $Date2 = trim(mysqli_real_escape_string($con, $_GET['Data2']));
 
+    $TipoEquipamento = trim(mysqli_real_escape_string($con, $_GET['TipoEquipamento']));
     $Equipamento = trim(mysqli_real_escape_string($con, $_GET['Equipamento']));
     $Bloco = trim(mysqli_real_escape_string($con, $_GET['Bloco']));
     $Sala = trim(mysqli_real_escape_string($con, $_GET['Sala']));
@@ -43,6 +44,11 @@
 
       $Query .= " AND pedidos.Data BETWEEN '". $Date1 ."' AND '". $Date2 ."'";
       $QueryCount .= " AND pedidos.Data BETWEEN '". $Date1 ."' AND '". $Date2 ."'";
+    }
+
+    if ((!empty($TipoEquipamento)) && (isset($TipoEquipamento))) {
+      $Query .= " AND equipamentos.IdTipo = " . $TipoEquipamento;
+      $QueryCount .= " AND equipamentos.IdTipo = " . $TipoEquipamento;
     }
 
     if ((!empty($Equipamento)) && (isset($Equipamento))) {
@@ -136,19 +142,19 @@
                                     </div>
                                     <br>
 
-                                    <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por equipamento</h4>
+                                    <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por tipo de equipamento</h4>
                                     <div class="form-group">
-                                        <select class="form-control" name="Equipamento">
-                                          <option selected value="">Escolha um equipamento...</option>
+                                        <select class="form-control" name="TipoEquipamento">
+                                          <option selected value="">Escolha um tipo de equipamento...</option>
                                           <?php
-                                            $stmt1 = $con->prepare("SELECT * FROM equipamentos WHERE Ativo = '1'");
+                                            $stmt1 = $con->prepare("SELECT * FROM tipoequipamento WHERE Ativo = '1'");
 
                                             $stmt1->execute();
                                             $result1 = $stmt1->get_result();
 
                                             while ($equip = $result1->fetch_assoc()) {
                                           ?>
-                                          <option value="<?= $equip['Id'] ?>"><?=$equip["Nome"]; ?></option>
+                                          <option value="<?= $equip['Id'] ?>"><?=$equip["TipoEquipamento"]; ?></option>
                                           <?php } ?>
                                         </select>
                                     </div>
@@ -156,7 +162,7 @@
 
                                     <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por Bloco</h4>
                                     <div class="form-group">
-                                      <select class="form-control" name="Bloco" onchange="getSalas(this);">
+                                      <select id="bloco" class="form-control" name="Bloco" onchange="getSalas(this);">
                                         <option selected value="">Escolha um bloco...</option>
                                         <?php
                                           $stmt1 = $con->prepare("SELECT * FROM blocos");
@@ -174,18 +180,14 @@
 
                                     <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por Sala</h4>
                                     <div class="form-group">
-                                      <select class="form-control" name="Sala">
-                                        <option selected value="">Escolha uma sala...</option>
-                                        <?php
-                                          $stmt1 = $con->prepare("SELECT * FROM salas");
+                                      <select id="sala" class="form-control" name="Sala" onchange="getEquip(this);">
+                                      </select>
+                                    </div>
+                                    <br>
 
-                                          $stmt1->execute();
-                                          $result1 = $stmt1->get_result();
-
-                                          while ($row1 = $result1->fetch_assoc()) {
-                                        ?>
-                                          <option value="<?=$row1["Id"]?>"><?=$row1["Sala"]?></option>
-                                        <?php } ?>
+                                    <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por equipamento</h4>
+                                    <div class="form-group">
+                                      <select id="equipamento" class="form-control" name="Equipamento">
                                       </select>
                                     </div>
                                     <br>
@@ -328,7 +330,6 @@
       });
     });
     </script>
-    <script type="text/javascript" src="assets/libs/template/js/registar-pedido.js"></script>
 </body>
 
 </html>

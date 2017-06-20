@@ -94,18 +94,16 @@
 
                                 <label class="col-sm-2 col-sm-2 control-label">Sala</label>
                                 <div class="col-sm-10">
-                                  <select id="sala" disabled class="form-control" name="Sala" required onchange="getEquip(this);">
-                                    <option value="0" selected disabled hidden>Escolha a Sala...</option>
+                                  <select id="sala" class="form-control" name="Sala" required onchange="getEquip(this);">
                                   </select>
                                     <br>
                                 </div>
 
                                 <label class="col-sm-2 col-sm-2 control-label">Equipamento</label>
                                 <div class="col-sm-10">
-                                    <select id="equipamento" class="form-control" name="Equipamento" required>
-                                      <option value="0" selected disabled hidden>Escolha o Equipamento...</option>
-                                    </select>
-                                    <br>
+                                  <select id="equipamento" class="form-control" name="Equipamento" required>
+                                  </select>
+                                  <br>
                                 </div>
 
                                 <label class="col-sm-2 col-sm-2 control-label">Data</label>

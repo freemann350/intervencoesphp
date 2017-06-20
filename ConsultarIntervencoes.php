@@ -26,7 +26,7 @@
   $Query = "SELECT intervencoes.Resolvido, intervencoes.Data, intervencoes.Id, salas.Sala, equipamentos.Nome, professores.Id AS IdProf, concat_ws(' ', professores.Nome, professores.Apelido) NomeTodo FROM intervencoes INNER JOIN pedidos ON intervencoes.IdPedido = pedidos.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id INNER JOIN salas ON pedidos.IdSala = salas.Id INNER JOIN professores ON intervencoes.IdProfessor = professores.Id";
   $QueryCount = "SELECT count(*) AS TotalDados FROM intervencoes INNER JOIN pedidos ON intervencoes.IdPedido = pedidos.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id INNER JOIN salas ON pedidos.IdSala = salas.Id INNER JOIN professores ON intervencoes.IdProfessor = professores.Id";
 
-  if (isset($_GET['filtros_consint_submit']) || (!empty($_GET['Data1'])) || (!empty($_GET['Data2'])) || (!empty($_GET['Equipamento'])) || (!empty($_GET['Bloco'])) || (!empty($_GET['Sala'])) || (!empty($_GET['Nome']))) {
+  if (isset($_GET['filtros_consint_submit']) || (isset($_GET['Data1'])) || (isset($_GET['Data2'])) || (isset($_GET['Equipamento'])) || (isset($_GET['Bloco'])) || (isset($_GET['Sala'])) || (isset($_GET['Nome']))) {
     $Date1 = trim(mysqli_real_escape_string($con, $_GET['Data1']));
     $Date2 = trim(mysqli_real_escape_string($con, $_GET['Data2']));
 
@@ -175,7 +175,7 @@
                                   <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por equipamento</h4>
                                   <div class="form-group">
                                       <select class="form-control" name="Equipamento">
-                                        <option selected value="">Escolha um equipamento...</option>
+                                        <option selected value="">Escolha um tipo de equipamento...</option>
                                         <?php
                                           $stmt1 = $con->prepare("SELECT * FROM equipamentos WHERE Ativo = '1'");
 
@@ -230,6 +230,24 @@
                                         <option value="<?=$row1["Id"]?>"><?=$row1["Sala"]?></option>
                                       <?php } ?>
                                     </select>
+                                  </div>
+                                  <br>
+
+                                  <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por equipamento</h4>
+                                  <div class="form-group">
+                                      <select class="form-control" name="Equipamento">
+                                        <option selected value="">Escolha um equipamento...</option>
+                                        <?php
+                                          $stmt1 = $con->prepare("SELECT * FROM equipamentos WHERE Ativo = '1'");
+
+                                          $stmt1->execute();
+                                          $result1 = $stmt1->get_result();
+
+                                          while ($equip = $result1->fetch_assoc()) {
+                                        ?>
+                                        <option value="<?= $equip['Id'] ?>"><?=$equip["Nome"]; ?></option>
+                                        <?php } ?>
+                                      </select>
                                   </div>
                                   <br>
 

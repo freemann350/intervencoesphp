@@ -39,6 +39,7 @@
     if (isset($filtrosInclude) && ($filtrosInclude)) {
   ?>
   <script type="text/javascript" src="assets\libs\template\js\filtrosanimate.js"></script>
+  <script type="text/javascript" src="assets\libs\template\js\registar-pedido.js"></script>
   <?php };?>
 
   <?php
