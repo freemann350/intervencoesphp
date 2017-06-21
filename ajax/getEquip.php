@@ -8,11 +8,11 @@
 
   $stmt->execute();
   $result = $stmt->get_result();
-  ?>
-    <option selected value="">Escolha um equipamento...</option>
+?>
+  <option selected value="">Escolha um equipamento...</option>
 
-  <?php
-    while ($row = $result->fetch_assoc()) {
-  ?>
+<?php
+  while ($row = $result->fetch_assoc()) {
+?>
   <option value="<?=$row["Id"]?>"><?=$row["Nome"]?></option>
 <?php } ?>

@@ -38,6 +38,7 @@
     $Nome = trim(mysqli_real_escape_string($con, $_GET['Nome']));
     $Bloco = trim(mysqli_real_escape_string($con, $_GET['Bloco']));
     $Sala = trim(mysqli_real_escape_string($con, $_GET['Sala']));
+    $TipoEquipamento = trim(mysqli_real_escape_string($con, $_GET['TipoEquipamento']));
 
     if ((!empty($Date1)) && (!empty($Date2)) && (isset($Date1)) && (isset($Date2))) {
       $Date1 = str_replace('/', '-', $Date1);
@@ -48,6 +49,11 @@
 
       $Query .= " AND pedidos.Data BETWEEN '". $Date1 ."' AND '". $Date2 ."'";
       $QueryCount .= " AND pedidos.Data BETWEEN '". $Date1 ."' AND '". $Date2 ."'";
+    }
+
+    if ((!empty($TipoEquipamento)) && (isset($TipoEquipamento))) {
+      $Query .= " AND equipamentos.IdTipo = " . $TipoEquipamento;
+      $QueryCount .= " AND equipamentos.IdTipo = " . $TipoEquipamento;
     }
 
     if ((!empty($Equipamento)) && (isset($Equipamento))) {
@@ -126,27 +132,9 @@
                                 <form class="style-form" method="GET">
                                   <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar entre datas</h4>
                                   <div class="input-group input-daterange">
-                                      <input type="text" class="form-control" placeholder="DD/MM/AAAA" name="Data1">
+                                      <input type="text" class="form-control" placeholder="DD/MM/AAAA" name="Data1" value="<?php if (isset($_GET['Data1'])) {echo $_GET['Data1'];} ?>">
                                       <div class="input-group-addon">Até</div>
-                                      <input type="text" class="form-control" placeholder="DD/MM/AAAA" name="Data2">
-                                  </div>
-                                  <br>
-
-                                  <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por equipamento</h4>
-                                  <div class="form-group">
-                                      <select class="form-control" name="Equipamento">
-                                        <option selected value="">Escolha um equipamento...</option>
-                                        <?php
-                                          $stmt1 = $con->prepare("SELECT * FROM equipamentos WHERE Ativo = '1'");
-
-                                          $stmt1->execute();
-                                          $result1 = $stmt1->get_result();
-
-                                          while ($equip = $result1->fetch_assoc()) {
-                                        ?>
-                                        <option value="<?= $equip['Id'] ?>"><?=$equip["Nome"]; ?></option>
-                                        <?php } ?>
-                                      </select>
+                                      <input type="text" class="form-control" placeholder="DD/MM/AAAA" name="Data2" value="<?php if (isset($_GET['Data2'])) {echo $_GET['Data2'];} ?>">
                                   </div>
                                   <br>
 
@@ -156,10 +144,28 @@
                                   </div>
                                   <br>
 
+                                  <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por equipamento</h4>
+                                  <div class="form-group">
+                                      <select class="form-control" name="TipoEquipamento">
+                                        <option selected value="">Escolha um equipamento...</option>
+                                        <?php
+                                          $stmt1 = $con->prepare("SELECT * FROM tipoequipamento WHERE Ativo = '1'");
+
+                                          $stmt1->execute();
+                                          $result1 = $stmt1->get_result();
+
+                                          while ($equip = $result1->fetch_assoc()) {
+                                        ?>
+                                        <option value="<?= $equip['Id'] ?>"><?=$equip["TipoEquipamento"]; ?></option>
+                                        <?php } ?>
+                                      </select>
+                                  </div>
+                                  <br>
+
 
                                   <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por Bloco</h4>
                                   <div class="form-group">
-                                    <select class="form-control" name="Bloco" onchange="getSalas(this);">
+                                    <select id ="bloco" class="form-control" name="Bloco" onchange="getSalas(this);">
                                       <option selected value="">Escolha um bloco...</option>
                                       <?php
                                         $stmt1 = $con->prepare("SELECT * FROM blocos");
@@ -177,20 +183,16 @@
 
                                   <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por Sala</h4>
                                   <div class="form-group">
-                                    <select class="form-control" name="Sala">
-                                      <option selected value="">Escolha uma sala...</option>
-                                      <?php
-                                        $stmt1 = $con->prepare("SELECT * FROM salas");
+                                    <select id="sala" class="form-control" name="Sala" onchange="getEquip(this);">
+                                    </select>
+                                  </div>
+                                  <br>
 
-                                        $stmt1->execute();
-                                        $result1 = $stmt1->get_result();
-
-                                        while ($row1 = $result1->fetch_assoc()) {
-                                      ?>
-                                        <option value="<?=$row1["Id"]?>"><?=$row1["Sala"]?></option>
-                                      <?php } ?>
+                                  <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por equipamento</h4>
+                                  <div class="form-group">
+                                    <select id="equipamento" class="form-control" name="Equipamento">
                                     </select><br><br>
-                                    <input type="submit" class="btn btn-primary" name="filtros_conspedidos_submit" value="Procurar">
+                                    <input type="submit" class="btn btn-primary" value="Procurar">
                                   </div>
                               </form>
                               <hr>
@@ -271,6 +273,7 @@
         ?>
     </section>
 
+    <script type="text/javascript" src="assets\libs\template\js\registar-pedido.js"></script>
     <?php #LINKS INCLUDE
           include 'Shared/Scripts.php'
     ?>

@@ -31,10 +31,11 @@
 
   $QueryCount = "SELECT count(*) TotalDados FROM intervencoes INNER JOIN pedidos ON intervencoes.IdPedido = pedidos.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id INNER JOIN salas ON pedidos.IdSala = salas.Id INNER JOIN blocos ON blocos.Id = salas.IdBloco WHERE intervencoes.IdProfessor = " . $LoggedID . " ";
 
-  if (isset($_GET['filtros_meusped_submit']) || (isset($_GET['Data1'])) || (isset($_GET['Data2'])) || (isset($_GET['Equipamento'])) || (isset($_GET['Bloco'])) || (isset($_GET['Sala'])) || (isset($_GET['Nome']))) {
+  if ((isset($_GET['Data1'])) || (isset($_GET['Data2'])) || (isset($_GET['Equipamento'])) || (isset($_GET['Bloco'])) || (isset($_GET['Sala'])) || (isset($_GET['Nome']))) {
     $Date1 = trim(mysqli_real_escape_string($con, $_GET['Data1']));
     $Date2 = trim(mysqli_real_escape_string($con, $_GET['Data2']));
 
+    $TipoEquipamento = trim(mysqli_real_escape_string($con, $_GET['TipoEquipamento']));
     $Equipamento = trim(mysqli_real_escape_string($con, $_GET['Equipamento']));
     $Bloco = trim(mysqli_real_escape_string($con, $_GET['Bloco']));
     $Sala = trim(mysqli_real_escape_string($con, $_GET['Sala']));
@@ -50,10 +51,11 @@
       $QueryCount .= " AND pedidos.Data BETWEEN '". $Date1 ."' AND '". $Date2 ."'";
     }
 
-    if ((!empty($Equipamento)) && (isset($Equipamento))) {
-      $Query .= " AND pedidos.IdEquipamento = " . $Equipamento;
-      $QueryCount .= " AND pedidos.IdEquipamento = " . $Equipamento;
+    if ((!empty($TipoEquipamento)) && (isset($TipoEquipamento))) {
+      $Query .= " AND equipamentos.IdTipo = " . $TipoEquipamento;
+      $QueryCount .= " AND equipamentos.IdTipo = " . $TipoEquipamento;
     }
+
 
     if ((!empty($Bloco)) && (isset($Bloco))) {
       $Query .= " AND salas.IdBloco = " . $Bloco;
@@ -64,6 +66,22 @@
       $Query .= " AND pedidos.IdSala = " . $Sala;
       $QueryCount .=" AND pedidos.IdSala = " . $Sala;
     }
+
+    if ((!empty($Equipamento)) && (isset($Equipamento))) {
+      $Query .= " AND pedidos.IdEquipamento = " . $Equipamento;
+      $QueryCount .= " AND pedidos.IdEquipamento = " . $Equipamento;
+    }
+
+    if ((!empty($_GET['Resolvido'])) && (isset($_GET['Resolvido'])) && (empty($_GET['NResolvido'])) && (!isset($_GET['NResolvido']))) {
+      $Query .= " AND intervencoes.Resolvido = 1 ";
+      $QueryCount .= " AND intervencoes.Resolvido = 1";
+    }
+
+    if ((!empty($_GET['NResolvido'])) && (isset($_GET['NResolvido'])) && (empty($_GET['Resolvido'])) && (!isset($_GET['Resolvido']))) {
+      $Query .= " AND intervencoes.Resolvido = 0 ";
+      $QueryCount .= " AND intervencoes.Resolvido = 0";
+    }
+
     $Query .= " LIMIT $pfunc, $per_page";
 
     $stmt = $con->prepare($Query);
@@ -133,25 +151,25 @@
                                 <form class="style-form" method="GET">
                                   <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar entre datas</h4>
                                   <div class="input-group input-daterange">
-                                      <input type="text" class="form-control" placeholder="DD/MM/AAAA" name="Data1">
+                                      <input type="text" class="form-control" placeholder="DD/MM/AAAA" name="Data1" value="<?php if (isset($_GET['Data1'])) {echo $_GET['Data1'];} ?>">
                                       <div class="input-group-addon">Até</div>
-                                      <input type="text" class="form-control" placeholder="DD/MM/AAAA" name="Data2">
+                                      <input type="text" class="form-control" placeholder="DD/MM/AAAA" name="Data2" value="<?php if (isset($_GET['Data1'])) {echo $_GET['Data1'];} ?>">
                                   </div>
                                   <br>
 
-                                  <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por equipamento</h4>
+                                  <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por tipo de equipamento</h4>
                                   <div class="form-group">
-                                      <select class="form-control" name="Equipamento">
-                                        <option selected value="">Escolha um equipamento...</option>
+                                      <select class="form-control" name="TipoEquipamento">
+                                        <option selected value="">Escolha um tipo de equipamento...</option>
                                         <?php
-                                          $stmt1 = $con->prepare("SELECT * FROM equipamentos WHERE Ativo = '1'");
+                                          $stmt1 = $con->prepare("SELECT * FROM tipoequipamento WHERE Ativo = '1'");
 
                                           $stmt1->execute();
                                           $result1 = $stmt1->get_result();
 
                                           while ($equip = $result1->fetch_assoc()) {
                                         ?>
-                                        <option value="<?= $equip['Id'] ?>"><?=$equip["Nome"]; ?></option>
+                                        <option value="<?= $equip['Id'] ?>"<?php if ((!empty($_GET['TipoEquipamento'])) && (isset($_GET['TipoEquipamento']))) {  if ($equip["Id"] == $_GET['TipoEquipamento']) { echo "Selected";}} ?>><?=$equip["TipoEquipamento"]; ?></option>
                                         <?php } ?>
                                       </select>
                                   </div>
@@ -177,38 +195,30 @@
 
                                   <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por Sala</h4>
                                   <div class="form-group">
-                                    <select class="form-control" name="Sala">
-                                      <option selected value="">Escolha uma sala...</option>
-                                      <?php
-                                        $stmt1 = $con->prepare("SELECT * FROM salas");
-
-                                        $stmt1->execute();
-                                        $result1 = $stmt1->get_result();
-
-                                        while ($row1 = $result1->fetch_assoc()) {
-                                      ?>
-                                        <option value="<?=$row1["Id"]?>"><?=$row1["Sala"]?></option>
-                                      <?php } ?>
+                                    <select id="sala" class="form-control" name="Sala" onchange="getEquip(this);">
                                     </select>
+                                    <span class="help-block">Nota: Escolha o bloco primeiro</span>
+                                  </div>
+                                  <br>
+
+                                  <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por equipamento</h4>
+                                  <div class="form-group">
+                                    <select id="equipamento" class="form-control" name="Equipamento">
+                                    </select>
+                                    <span class="help-block">Nota: Escolha a sala primeiro</span>
                                   </div>
                                   <br>
 
                                   <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por estado de resolvido</h4>
-                                  <div style="margin-left:10px;">
-                                    <label class="radio-inline">
-                                      <input type="radio" name="Ativo" class="radio-inline" value="1">
+                                    <label class="checkbox-inline">
+                                      <input type="checkbox" name="Resolvido" class="radio-inline" <?php if (isset($_GET['Resolvido'])) { echo 'Checked';}?>>
                                       <p style="cursor: pointer;" class="unselectable">Sim</p>
                                     </label>
-                                    <label class="radio-inline">
-                                      <input type="radio" name="Ativo" class="radio-inline" value="0">
+                                    <label class="checkbox-inline">
+                                      <input type="checkbox" name="NResolvido" class="radio-inline" <?php if (isset($_GET['NResolvido'])) { echo 'Checked';} ?>>
                                       <p style="cursor: pointer;" class="unselectable">Não</p>
-                                    </label>
-                                    <label class="radio-inline">
-                                      <input type="radio" name="Ativo" class="radio-inline" value="" checked>
-                                      <p style="cursor: pointer;" class="unselectable">Ambos</p>
                                     </label><br><br>
-                                    <input type="submit" class="btn btn-primary" name="filtros_meusped_submit" value="Procurar">
-                                  </div>
+                                    <input type="submit" class="btn btn-primary" value="Procurar">
                               </form>
                               <hr>
                               <br>

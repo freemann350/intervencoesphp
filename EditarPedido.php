@@ -14,7 +14,7 @@
   require 'Shared/Restrict.php';
 
   $stmt = $con->prepare(
-  "SELECT pedidos.Id, pedidos.descricao, pedidos.Data, pedidos.Hora, pedidos.Resolvido, equipamentos.Nome, salas.Sala, pedidos.IdEquipamento, concat_ws(' ', professores.Nome, professores.Apelido) NomeTodo, pedidos.Resolvido FROM pedidos INNER JOIN Salas ON pedidos.IdSala = salas.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id INNER JOIN professores ON pedidos.IdProfessor = professores.Id WHERE pedidos.Id = ? AND pedidos.IdProfessor = ?");
+  "SELECT pedidos.Id, pedidos.descricao, pedidos.IdSala, pedidos.Data, pedidos.Hora, pedidos.Resolvido, equipamentos.Nome, salas.Sala, salas.IdBloco AS BlocoID, pedidos.IdEquipamento, concat_ws(' ', professores.Nome, professores.Apelido) NomeTodo, pedidos.Resolvido FROM pedidos INNER JOIN Salas ON pedidos.IdSala = salas.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id INNER JOIN professores ON pedidos.IdProfessor = professores.Id WHERE pedidos.Id = ? AND pedidos.IdProfessor = ?");
 
   $stmt->bind_param("ii", $_GET['Id'], $LoggedID);
   $stmt->execute();
@@ -87,7 +87,7 @@
                 <h3><i class="fa fa-angle-right"></i> Registo de Pedidos - Edição</h3>
                 <div class="row mt">
                     <div class="form-panel">
-                        <form class="form-horizontal style-form" method="POST" id="EditarPedido" action="<?= $_SERVER["PHP_SELF"] ?>">
+                        <form class="form-horizontal style-form" method="POST" id="EditarPedido">
                             <div class="form-group">
                                 <br>
 
@@ -102,7 +102,7 @@
 
                                       while ($row = $result->fetch_assoc()) {
                                     ?>
-                                      <option value="<?= $row['Id'] ?>"<?=(($row["Id"] == $pedido["Id"]) ? "selected" : "")  ?>><?= $row["Bloco"] ?></option>
+                                      <option value="<?= $row['Id'] ?>" <?=(($row["Id"] == $pedido["BlocoID"]) ? "selected" : "")  ?>><?= $row["Bloco"] ?></option>
                                     <?php }; ?>
                                   </select>
                                     <br>
@@ -110,27 +110,15 @@
 
                                 <label class="col-sm-2 col-sm-2 control-label">Sala</label>
                                 <div class="col-sm-10">
-                                  <select id="sala" disabled class="form-control" name="Sala" required>
-                                    <option value="0" selected disabled hidden>Escolha a Sala...</option>
+                                  <select id="sala" class="form-control" name="Sala" onchange="getEquip(this);" required>
                                   </select>
                                     <br>
                                 </div>
 
                                 <label class="col-sm-2 col-sm-2 control-label">Equipamento</label>
                                 <div class="col-sm-10">
-                                    <select class="form-control" name="Equipamento" required>
-                                      <option value="0" selected disabled hidden>Escolha o Equipamento...</option>
-                                      <?php
-                                        $stmt = $con->prepare("SELECT * FROM equipamentos WHERE Ativo = '1'");
-
-                                        $stmt->execute();
-                                        $result = $stmt->get_result();
-
-                                        while ($row = $result->fetch_assoc()) {
-                                      ?>
-                                      <option value="<?= $row['Id'] ?>" <?=(($row["Id"] == $pedido["IdEquipamento"]) ? "selected" : "")  ?>><?=$row["Nome"] ?></option>
-                                      <?php }; ?>
-                                    </select>
+                                  <select id="equipamento" class="form-control" name="Sala" onchange="getEquip(this);" required>
+                                  </select>
                                     <br>
                                 </div>
 

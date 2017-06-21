@@ -123,7 +123,7 @@
                                     <span class="input-group-addon time-get-color">
                                         <span class="glyphicon glyphicon-time"></span>
                                     </span>
-                                  <input type="text" class="form-control" placeholder="HH:MM" value="<?php if (isset($_POST['Hora'])) { echo $_POST['Hora']; } else { echo (date('H:i', strtotime('-1 hour'))); }; ?>" name="Hora"
+                                  <input type="text" class="form-control" placeholder="HH:MM" name="Hora"
                                   readonly required>
                                   </div>
                                     <br>
@@ -131,7 +131,7 @@
 
                                 <label class="col-sm-2 col-sm-2 control-label">Descrição</label>
                                 <div class="col-sm-10">
-                                    <textarea type="text" class="form-control" rows="7" name="Descricao" required placeholder="Descreva aqui o problema..."><?php if (isset($_POST['Descricao'])) { echo $_POST['Descricao']; } else { echo ''; };?></textarea>
+                                    <textarea type="text" class="form-control" rows="7" name="Descricao" required placeholder="Descreva aqui o problema..."></textarea>
                                     <span class="help-block">Tente ser o mais breve possível.</span>
                                     <br>
                                     <input type="submit" class="btn btn-primary" value="Submeter" name="pedido_submit">

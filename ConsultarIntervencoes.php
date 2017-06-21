@@ -112,6 +112,32 @@
       $Query .= " pedidos.IdSala = " . $Sala;
       $QueryCount .= " pedidos.IdSala = " . $Sala;
     }
+
+    if ((!empty($_GET['Resolvido'])) && (isset($_GET['Resolvido'])) && (empty($_GET['NResolvido'])) && (!isset($_GET['NResolvido']))) {
+      if ($switch){
+        $Query .= " WHERE ";
+        $QueryCount .= " WHERE ";
+        $switch = false;
+      } else {
+        $Query .= " AND ";
+        $QueryCount .= " AND ";
+      }
+      $Query .= " intervencoes.Resolvido = 1 ";
+      $QueryCount .= " intervencoes.Resolvido = 1";
+    }
+
+    if ((!empty($_GET['NResolvido'])) && (isset($_GET['NResolvido'])) && (empty($_GET['Resolvido'])) && (!isset($_GET['Resolvido']))) {
+      if ($switch){
+        $Query .= " WHERE ";
+        $QueryCount .= " WHERE ";
+        $switch = false;
+      } else {
+        $Query .= " AND ";
+        $QueryCount .= " AND ";
+      }
+      $Query .= " intervencoes.Resolvido = 0 ";
+      $QueryCount .= " intervencoes.Resolvido = 0";
+    }
     $Query .= " LIMIT $pfunc, $per_page";
 
     $stmt = $con->prepare($Query);
@@ -253,19 +279,15 @@
 
                                   <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por estado de resolvido</h4>
                                   <div style="margin-left:10px;">
-                                    <label class="radio-inline">
-                                      <input type="radio" name="Ativo" class="radio-inline" value="1">
+                                    <label class="checkbox-inline">
+                                      <input type="checkbox" name="Resolvido" class="radio-inline" <?php if (isset($_GET['Ativo'])) { echo 'Checked';}?>>
                                       <p style="cursor: pointer;" class="unselectable">Sim</p>
                                     </label>
-                                    <label class="radio-inline">
-                                      <input type="radio" name="Ativo" class="radio-inline" value="0">
+                                    <label class="checkbox-inline">
+                                      <input type="checkbox" name="NResolvido" class="radio-inline" <?php if (isset($_GET['Inativo'])) { echo 'Checked';} ?>>
                                       <p style="cursor: pointer;" class="unselectable">Não</p>
-                                    </label>
-                                    <label class="radio-inline">
-                                      <input type="radio" name="Ativo" class="radio-inline" value="" checked>
-                                      <p style="cursor: pointer;" class="unselectable">Ambos</p>
                                     </label><br><br>
-                                    <input type="submit" class="btn btn-primary" name="filtros_consint_submit" value="Procurar">
+                                    <input type="submit" class="btn btn-primary" value="Procurar">
                                   </div>
                               </form>
                               <hr>

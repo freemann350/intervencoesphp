@@ -17,7 +17,7 @@
     $Observacoes = trim(mysqli_real_escape_string($con, $_POST['Observacoes']));
     $Observacoes = stripslashes(str_replace('\r\n',PHP_EOL,$Observacoes));
 
-    $stmt = $con->prepare("INSERT INTO equipamentos (Nome, IdTipo, IdSala, Observacoes, NrSerie) VALUES (?, ?, ?, ?, ?)");
+    $stmt = $con->prepare("INSERT INTO equipamentos (Nome, IdTipo, IdSala, Observacoes, NrSerie, Ativo) VALUES (?, ?, ?, ?, ?, '1')");
 
     $stmt->bind_param("siiss", $Nome, $Tipo, $Sala, $Observacoes, $NSerie);
 

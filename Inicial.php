@@ -59,7 +59,7 @@
     $rowBlE = $resultBlE->fetch_assoc();
 
     #Computador - Total de intervenções
-    $stmtPC = $con->prepare("SELECT count(*) AS Total FROM intervencoes INNER JOIN pedidos ON intervencoes.IdPedido = pedidos.Id WHERE pedidos.IdEquipamento = 1");
+    $stmtPC = $con->prepare("SELECT count(*) AS Total FROM intervencoes INNER JOIN pedidos ON intervencoes.IdPedido = pedidos.Id INNER JOIN equipamentos ON equipamentos.Id = pedidos.IdEquipamento WHERE equipamentos.IdTipo = 1");
 
     $stmtPC->execute();
 
@@ -68,7 +68,7 @@
     $rowPC = $resultPC->fetch_assoc();
 
     #Projetor - Total de intervenções
-    $stmtPJ = $con->prepare("SELECT count(*) AS Total FROM intervencoes INNER JOIN pedidos ON intervencoes.IdPedido = pedidos.Id WHERE pedidos.IdEquipamento = 2");
+    $stmtPJ = $con->prepare("SELECT count(*) AS Total FROM intervencoes INNER JOIN pedidos ON intervencoes.IdPedido = pedidos.Id INNER JOIN equipamentos ON equipamentos.Id = pedidos.IdEquipamento WHERE equipamentos.IdTipo = 2");
 
     $stmtPJ->execute();
 
@@ -77,7 +77,7 @@
     $rowPJ = $resultPJ->fetch_assoc();
 
     #Quadro interativo - Total de intervenções
-    $stmtQI = $con->prepare("SELECT count(*) AS Total FROM intervencoes INNER JOIN pedidos ON intervencoes.IdPedido = pedidos.Id WHERE pedidos.IdEquipamento = 3");
+    $stmtQI = $con->prepare("SELECT count(*) AS Total FROM intervencoes INNER JOIN pedidos ON intervencoes.IdPedido = pedidos.Id INNER JOIN equipamentos ON equipamentos.Id = pedidos.IdEquipamento WHERE equipamentos.IdTipo = 3");
 
     $stmtQI->execute();
 

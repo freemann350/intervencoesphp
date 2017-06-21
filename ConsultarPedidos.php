@@ -26,7 +26,7 @@
   $Query = "SELECT pedidos.Id, equipamentos.Nome AS NomeEquip, salas.Sala, pedidos.Data, concat_ws(' ', professores.Nome, professores.Apelido) NomeTodo, professores.Id AS IdProf, pedidos.Resolvido FROM pedidos INNER JOIN professores ON pedidos.IdProfessor = professores.Id INNER JOIN Salas ON pedidos.IdSala = salas.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id";
   $QueryCount = "SELECT count(*) AS TotalDados FROM pedidos INNER JOIN professores ON pedidos.IdProfessor = professores.Id INNER JOIN Salas ON pedidos.IdSala = salas.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id";
 
-  if (isset($_GET['filtros_conspedidos_submit']) || (isset($_GET['Data1'])) || (isset($_GET['Data2'])) || (isset($_GET['Equipamento'])) || (isset($_GET['Bloco'])) || (isset($_GET['Sala'])) || (isset($_GET['Nome']))) {
+  if ((isset($_GET['Data1'])) || (isset($_GET['Data2'])) || (isset($_GET['Equipamento'])) || (isset($_GET['Bloco'])) || (isset($_GET['Sala'])) || (isset($_GET['Nome']))) {
     $Date1 = trim(mysqli_real_escape_string($con, $_GET['Data1']));
     $Date2 = trim(mysqli_real_escape_string($con, $_GET['Data2']));
 
@@ -100,7 +100,7 @@
       $QueryCount .= " concat_ws(' ', professores.Nome, professores.Apelido) LIKE " . $Nome;
     }
 
-    if ((!empty($Sala)) && (isset($Sala))) {
+    if ((!empty($_GET['Resolvido'])) && (isset($_GET['Resolvido'])) && (empty($_GET['NResolvido'])) && (!isset($_GET['NResolvido']))) {
       if ($switch){
         $Query .= " WHERE ";
         $QueryCount .= " WHERE ";
@@ -109,9 +109,21 @@
         $Query .= " AND ";
         $QueryCount .= " AND ";
       }
+      $Query .= " pedidos.Resolvido = 1";
+      $QueryCount .= " pedidos.Resolvido = 1";
+    }
 
-      $Query .= " pedidos.IdSala = " . $Sala;
-      $QueryCount .= " pedidos.IdSala = " . $Sala;
+    if ((!empty($_GET['Resolvido'])) && (isset($_GET['Resolvido'])) && (empty($_GET['NResolvido'])) && (!isset($_GET['NResolvido']))) {
+      if ($switch){
+        $Query .= " WHERE ";
+        $QueryCount .= " WHERE ";
+        $switch = false;
+      } else {
+        $Query .= " AND ";
+        $QueryCount .= " AND ";
+      }
+      $Query .= " pedidos.Resolvido = 0 ";
+      $QueryCount .= " pedidos.Resolvido = 0";
     }
     $Query .= " LIMIT $pfunc, $per_page";
 
@@ -234,26 +246,22 @@
 
                                   <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por estado de resolvido</h4>
                                   <div style="margin-left:10px;">
-                                    <label class="radio-inline">
-                                      <input type="radio" name="Ativo" class="radio-inline" value="1">
+                                    <label class="checkbox-inline">
+                                      <input type="checkbox" name="Resolvido" class="radio-inline" <?php if (isset($_GET['Ativo'])) { echo 'Checked';}?>>
                                       <p style="cursor: pointer;" class="unselectable">Sim</p>
                                     </label>
-                                    <label class="radio-inline">
-                                      <input type="radio" name="Ativo" class="radio-inline" value="0">
+                                    <label class="checkbox-inline">
+                                      <input type="checkbox" name="NResolvido" class="radio-inline" <?php if (isset($_GET['Inativo'])) { echo 'Checked';} ?>>
                                       <p style="cursor: pointer;" class="unselectable">Não</p>
-                                    </label>
-                                    <label class="radio-inline">
-                                      <input type="radio" name="Ativo" class="radio-inline" value="" checked>
-                                      <p style="cursor: pointer;" class="unselectable">Ambos</p>
                                     </label><br><br>
+                                    <input type="submit" class="btn btn-primary" value="Procurar">
                                   </div>
-                                    <input type="submit" class="btn btn-primary" name="filtros_conspedidos_submit" value="Procurar">
                               </form>
                               <hr>
                               <br>
                           </div>
 
-                              <table class="table table-hover" style="min-width: 600px; table-layout:fixed; overflow: auto;" id="OrderTableToggle">
+                              <table class="table table-hover" style="min-width: 600px; table-layout:fixed; overflow: auto;">
                                 <thead>
                                   <tr>
                                     <th>Resolvido</th>
