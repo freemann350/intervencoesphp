@@ -24,7 +24,7 @@
     header("Location: MinhasIntervencoes");
   }
 
-  $per_page = 15;
+  $per_page = 20;
   $pfunc = ceil($pg*$per_page) - $per_page;
 
   $Query = "SELECT intervencoes.Resolvido, intervencoes.Id, salas.Sala, equipamentos.Nome, intervencoes.Data FROM intervencoes INNER JOIN pedidos ON intervencoes.IdPedido = pedidos.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id INNER JOIN salas ON pedidos.IdSala = salas.Id INNER JOIN blocos ON blocos.Id = salas.IdBloco WHERE intervencoes.IdProfessor = " . $LoggedID . " ";
@@ -153,7 +153,7 @@
                                   <div class="input-group input-daterange">
                                       <input type="text" class="form-control" placeholder="DD/MM/AAAA" name="Data1" value="<?php if (isset($_GET['Data1'])) {echo $_GET['Data1'];} ?>">
                                       <div class="input-group-addon">Até</div>
-                                      <input type="text" class="form-control" placeholder="DD/MM/AAAA" name="Data2" value="<?php if (isset($_GET['Data1'])) {echo $_GET['Data1'];} ?>">
+                                      <input type="text" class="form-control" placeholder="DD/MM/AAAA" name="Data2" value="<?php if (isset($_GET['Data2'])) {echo $_GET['Data2'];} ?>">
                                   </div>
                                   <br>
 
@@ -177,7 +177,7 @@
 
                                   <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por Bloco</h4>
                                   <div class="form-group">
-                                    <select class="form-control" name="Bloco" onchange="getSalas(this);">
+                                    <select id="bloco" class="form-control" name="Bloco" onchange="getSalas(this);">
                                       <option selected value="">Escolha um bloco...</option>
                                       <?php
                                         $stmt1 = $con->prepare("SELECT * FROM blocos");
@@ -187,7 +187,7 @@
 
                                         while ($row1 = $result1->fetch_assoc()) {
                                       ?>
-                                        <option value="<?= $row1['Id'] ?>"><?= $row1["Bloco"] ?></option>
+                                        <option value="<?= $row1['Id'] ?>" <?php if ((!empty($_GET['Bloco'])) && (isset($_GET['Bloco']))) {  if ($row1["Id"] == $_GET['Bloco']) { echo "Selected";}} ?>><?= $row1["Bloco"] ?></option>
                                       <?php }; ?>
                                     </select>
                                   </div>

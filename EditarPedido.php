@@ -6,7 +6,6 @@
   $titulo = "Editar pedido";
   $datepickerInclude = true;
   $removeInclude =  true;
-  $filtrosInclude =  true;
   $timepickerInclude =  true;
   $validatejs = true;
 
@@ -14,7 +13,7 @@
   require 'Shared/Restrict.php';
 
   $stmt = $con->prepare(
-  "SELECT pedidos.Id, pedidos.descricao, pedidos.IdSala, pedidos.Data, pedidos.Hora, pedidos.Resolvido, equipamentos.Nome, salas.Sala, salas.IdBloco AS BlocoID, pedidos.IdEquipamento, concat_ws(' ', professores.Nome, professores.Apelido) NomeTodo, pedidos.Resolvido FROM pedidos INNER JOIN Salas ON pedidos.IdSala = salas.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id INNER JOIN professores ON pedidos.IdProfessor = professores.Id WHERE pedidos.Id = ? AND pedidos.IdProfessor = ?");
+  "SELECT pedidos.Id, pedidos.descricao, pedidos.IdSala, pedidos.Data, pedidos.Hora, pedidos.Resolvido, equipamentos.Nome, salas.IdBloco AS BlocoID, pedidos.IdEquipamento, concat_ws(' ', professores.Nome, professores.Apelido) NomeTodo, pedidos.Resolvido FROM pedidos INNER JOIN Salas ON pedidos.IdSala = salas.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id INNER JOIN professores ON pedidos.IdProfessor = professores.Id WHERE pedidos.Id = ? AND pedidos.IdProfessor = ?");
 
   $stmt->bind_param("ii", $_GET['Id'], $LoggedID);
   $stmt->execute();
@@ -83,7 +82,7 @@
 
         <!--MAIN CONTENT-->
         <section id="main-content">
-            <section class="wrapper"><br>
+            <section class="wrapper">
                 <h3><i class="fa fa-angle-right"></i> Registo de Pedidos - Edição</h3>
                 <div class="row mt">
                     <div class="form-panel">
@@ -110,14 +109,15 @@
 
                                 <label class="col-sm-2 col-sm-2 control-label">Sala</label>
                                 <div class="col-sm-10">
-                                  <select id="sala" class="form-control" name="Sala" onchange="getEquip(this);" required>
+                                  <select id="sala" class="form-control" name="Sala" required onchange="getEquip(this);">
+                                   <option value="" selected hidden>Escolha a Sala...</option>
                                   </select>
                                     <br>
                                 </div>
 
                                 <label class="col-sm-2 col-sm-2 control-label">Equipamento</label>
                                 <div class="col-sm-10">
-                                  <select id="equipamento" class="form-control" name="Sala" onchange="getEquip(this);" required>
+                                  <select id="equipamento" class="form-control" name="Equipamento" required>
                                   </select>
                                     <br>
                                 </div>

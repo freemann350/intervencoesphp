@@ -144,7 +144,13 @@
     <script type="text/javascript">
       $("#intervencaoform").validate({
          errorClass: "my-error-class",
-         validClass: "my-valid-class"
+         validClass: "my-valid-class",
+
+         messages: {
+           'Data': "Tem de selecionar a data da intervenção",
+           'Hora': "Tem de selecionar a hora da intervenção",
+           'Descricao': "Tem de descrever o que foi feito na intervenção"
+         }
       });
     </script>
 </body>

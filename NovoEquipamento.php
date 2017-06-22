@@ -1,5 +1,6 @@
 <?php
   $titulo = "Novo Equipamento";
+  $validatejs = true;
 
   require 'Shared/conn.php';
   require 'Shared/Restrict.php';
@@ -49,7 +50,7 @@
                 <h3><i class="fa fa-angle-right"></i> Novo Equipamento</h3>
                 <div class="row mt">
                     <div class="form-panel">
-                        <form class="form-horizontal style-form" method="POST">
+                        <form class="form-horizontal style-form" method="POST" id="NovoEquipamentoForm">
                             <div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">Nome</label>
                               <div class="col-sm-10">
@@ -61,8 +62,9 @@
                               <label class="col-sm-2 col-sm-2 control-label">Tipo de Equipamento</label>
                               <div class="col-sm-10">
                                 <select class="form-control" name="Tipo" required>
+                                  <option value="" selected hidden>Escolha o tipo de equipamento...</option>
                                   <?php
-                                    $stmt1 = $con->prepare("SELECT * FROM tipoequipamento");
+                                    $stmt1 = $con->prepare("SELECT * FROM tipoequipamento WHERE Ativo = '1'");
 
                                     $stmt1->execute();
                                     $result1 = $stmt1->get_result();
@@ -80,6 +82,7 @@
                               <label class="col-sm-2 col-sm-2 control-label">Sala</label>
                               <div class="col-sm-10">
                                 <select class="form-control" name="Sala" required>
+                                  <option value="" selected hidden>Escolha a sala do equipamento...</option>
                                   <?php
                                     $stmt1 = $con->prepare("SELECT * FROM salas");
 
@@ -124,6 +127,18 @@
           include 'Shared/Scripts.php'
     ?>
 
+    <script type="text/javascript">
+      $("#NovoEquipamentoForm").validate({
+         errorClass: "my-error-class",
+         validClass: "my-valid-class",
+
+         messages: {
+          'Nome': "Tem de escrever o nome do equipamento",
+          'Tipo': "Tem de escolher que tipo de equipamento é este",
+          'Sala': "Tem de escolher a sala deste equipamento"
+         }
+      });
+    </script>
 </body>
 
 </html>

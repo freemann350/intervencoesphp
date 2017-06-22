@@ -8,6 +8,10 @@
   require_once 'Shared/conn.php';
   require_once 'Shared/Restrict.php';
 
+  if ($LoggedID == $_GET['Id']) {
+    $PPActive =  true;
+  }
+
   #verifica se o utilizador existe
   $stmt = $con->prepare("SELECT * FROM professores WHERE Id = ?");
 
@@ -20,7 +24,7 @@
   }
 
   $stmt = $con->prepare(
-  "SELECT concat_ws(' ', nome, apelido) Nome, Email, Imagem FROM professores WHERE  Id = ?
+  "SELECT concat_ws(' ', nome, apelido) NomeTodo, Nome, Descricao, roles.Role, Apelido, Email FROM professores INNER JOIN roles ON roles.Id = professores.IdRole WHERE professores.Id = ?
   ");
 
   $stmt->bind_param("i", $_GET['Id']);
@@ -63,16 +67,33 @@
                         <div class="form-panel">
                           <form class="form-horizontal style-form" method="get">
                               <div class="form-group">
+                                <label class="col-sm-2 col-sm-2 control-label"><b>Tipo de utilizador</b></label>
+                                <div class="col-sm-10">
+                                  <p class="form-control-static"><?=$row['Role']?></p>
                                   <br>
-                                  <label class="col-sm-2 col-sm-2 control-label"><b>Imagem</b></label>
-                                  <div class="col-sm-10">
-                                    <img src="assets\img\User\profile_img.png" style="width:20%; height:20%;"><br><br>
-                                  </div>
-                                  <br>
+                                </div>
 
-                                  <label class="col-sm-2 col-sm-2 control-label"><b>Email</b></label>
+                                <label class="col-sm-2 col-sm-2 control-label"><b>Nome</b></label>
+                                <div class="col-sm-10">
+                                  <p class="form-control-static"><?=$row['Nome']?></p>
+                                  <br>
+                                </div>
+
+                                <label class="col-sm-2 col-sm-2 control-label"><b>Apelido</b></label>
+                                <div class="col-sm-10">
+                                  <p class="form-control-static"><?=$row['Apelido']?></p>
+                                  <br>
+                                </div>
+
+                                <label class="col-sm-2 col-sm-2 control-label"><b>Email</b></label>
+                                <div class="col-sm-10">
+                                  <p class="form-control-static"><?=$row['Email']?></p>
+                                  <br>
+                                </div>
+
+                                  <label class="col-sm-2 col-sm-2 control-label"><b>Descrição</b></label>
                                   <div class="col-sm-10">
-                                    <p class="form-control-static"><?=$row['Email']?></p>
+                                    <p class="form-control-static"><?php if (empty($row['Descricao'])) {echo 'N/D';} else {echo $row['Descricao'];}?></p>
                                     <br>
                                     <?php if ($LoggedID == $_GET['Id']) {?>
                                     <a href="EditarPerfil"><input type="button" class="btn btn-primary" value="Editar Perfil"></a>

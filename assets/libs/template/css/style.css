@@ -278,30 +278,6 @@ ul.top-menu>li>.logout {
     padding-bottom: 10px;
 }
 
-
-/*LEFT NAVIGATION ICON*/
-
-.dcjq-icon {
-    height: 17px;
-    width: 17px;
-    display: inline-block;
-    background: url("../img/favicon.ico") no-repeat top;
-    */ border-radius: 3px;
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
-    position: absolute;
-    right: 10px;
-    top: 15px;
-}
-
-.active .dcjq-icon {
-    background: url("../img/favicon.ico") no-repeat bottom;
-    */ border-radius: 3px;
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
-}
-
-
 /*---*/
 
 .nav-collapse.collapse {
@@ -2433,7 +2409,7 @@ label {
     padding: 10px 0;
     padding-bottom: 4px;
     padding-top: 5px;
-    height: 50px;
+    height: 36px;
     right: 0;
     bottom: 0;
     left: 0;
@@ -2448,16 +2424,15 @@ label {
     margin-right: 3%;
     float: right;
     background: rgba(255, 255, 255, .5);
-    width: 30px;
-    height: 30px;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
     -webkit-border-radius: 50%;
-    margin-top: 3px;
 }
 
 .go-top i {
     color: #2A3542;
-    margin-top: 6px
+    margin-top: 3px
 }
 
 /* TAMANHO MÍNIMO DE PÁGINA
@@ -2558,4 +2533,14 @@ th, td {
 
 .whitespace {
     white-space: pre-wrap;
+}
+
+@media screen and (max-width:259px) {
+    .logo { display:none }
+
+}
+
+.form-group {
+  min-width: 300px;
+  overflow: auto;
 }

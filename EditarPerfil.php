@@ -11,14 +11,16 @@
     $Nome = trim(mysqli_real_escape_string($con, $_POST['Nome']));
     $Apelido = trim(mysqli_real_escape_string($con, $_POST['Apelido']));
     $Email = trim(mysqli_real_escape_string($con, $_POST['Email']));
+    $Descricao = trim(mysqli_real_escape_string($con, $_POST['Descricao']));
+    $Descricao = stripslashes(str_replace('\r\n',PHP_EOL,$Descricao));
 
     $stmt = $con->prepare(
     "UPDATE professores
-     SET Nome = ?, Apelido = ?, Email = ?
+     SET Nome = ?, Apelido = ?, Email = ?, Descricao = ?
      WHERE Id = ?
     ");
 
-    $stmt->bind_param("sssi", $Nome, $Apelido, $Email, $Id);
+    $stmt->bind_param("ssssi", $Nome, $Apelido, $Email, $Descricao, $Id);
 
     $stmt->execute();
 
@@ -54,20 +56,8 @@
                     <div class="col-lg-12">
                         <div class="form-panel">
                             <br>
-                            <form class="form-horizontal style-form" method="post" action="<?=$_SERVER["PHP_SELF"] ?>">
+                            <form class="form-horizontal style-form" method="post">
                                 <div class="form-group">
-                                  <label class="col-sm-2 col-sm-2 control-label">Imagem</label>
-                                  <div class="col-sm-10">
-                                    <img src="assets\img\User\profile_img.png" style="width:20%; height:20%;"><br><br>
-                                    <div class="input-group">
-                                      <span class="input-group-btn">
-                                      <span class="btn btn-default btn-file">
-                                          Procurar… <input type="file" id="imgInp">
-                                      </span>
-                                    </span>
-                                        <input type="text" class="form-control" readonly>
-                                    </div><br>
-                                  </div>
 
                                   <label class="col-sm-2 col-sm-2 control-label">Nome</label>
                                   <div class="col-sm-10">
@@ -87,9 +77,14 @@
                                   <div class="col-sm-10">
                                     <input type="email" class="form-control" value="<?=$email?>" name="Email">
                                     <br>
-                                    <input type="submit" class="btn btn-primary" value="Submeter" name="editar_perfil_submit">
                                   </div>
-                                    <br>
+                                  <br>
+                                  <label class="col-sm-2 col-sm-2 control-label">Descrição (Opcional)</label>
+                                  <div class="col-sm-10">
+                                      <textarea type="text" class="form-control" rows="7" name="Descricao" placeholder="Faça uma breve descrição de si..."><?=$Desc?></textarea>
+                                      <br>
+                                      <input type="submit" class="btn btn-primary" value="Submeter" name="editar_perfil_submit">
+                                  </div>
                             </form>
                           </div>
                     </div>

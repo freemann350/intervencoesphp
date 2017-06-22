@@ -20,7 +20,7 @@
     header("Location: ConsultarPedidos");
   }
 
-  $per_page = 15;
+  $per_page = 20;
   $pfunc = ceil($pg*$per_page) - $per_page;
 
   $Query = "SELECT pedidos.Id, equipamentos.Nome AS NomeEquip, salas.Sala, pedidos.Data, concat_ws(' ', professores.Nome, professores.Apelido) NomeTodo, professores.Id AS IdProf, pedidos.Resolvido FROM pedidos INNER JOIN professores ON pedidos.IdProfessor = professores.Id INNER JOIN Salas ON pedidos.IdSala = salas.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id";
@@ -34,6 +34,7 @@
     $Nome = trim(mysqli_real_escape_string($con, $_GET['Nome']));
     $Bloco = trim(mysqli_real_escape_string($con, $_GET['Bloco']));
     $Sala = trim(mysqli_real_escape_string($con, $_GET['Sala']));
+    $TipoEquipamento = trim(mysqli_real_escape_string($con, $_GET['TipoEquipamento']));
 
     $switch = true;
 
@@ -55,6 +56,19 @@
 
       $Query .= " pedidos.Data BETWEEN '". $Date1 ."' AND '". $Date2 ."'";
       $QueryCount .= " pedidos.Data BETWEEN '". $Date1 ."' AND '". $Date2 ."'";
+    }
+
+    if ((!empty($TipoEquipamento)) && (isset($TipoEquipamento))) {
+      if ($switch){
+        $Query .= " WHERE ";
+        $QueryCount .= " WHERE ";
+        $switch = false;
+      } else {
+        $Query .= " AND ";
+        $QueryCount .= " AND ";
+      }
+      $Query .= " equipamentos.IdTipo = " . $TipoEquipamento;
+      $QueryCount .= " equipamentos.IdTipo = " . $TipoEquipamento;
     }
 
     if ((!empty($Equipamento)) && (isset($Equipamento))) {
@@ -182,9 +196,9 @@
                                 <form class="style-form" method="GET">
                                   <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar entre datas</h4>
                                   <div class="input-group input-daterange">
-                                      <input type="text" class="form-control" placeholder="DD/MM/AAAA" name="Data1">
+                                      <input type="text" class="form-control" placeholder="DD/MM/AAAA" name="Data1" value="<?php if (isset($_GET['Data1'])) { echo $_GET['Data1'];}?>">
                                       <div class="input-group-addon">Até</div>
-                                      <input type="text" class="form-control" placeholder="DD/MM/AAAA" name="Data2">
+                                      <input type="text" class="form-control" placeholder="DD/MM/AAAA" name="Data2" value="<?php if (isset($_GET['Data2'])) { echo $_GET['Data2'];}?>">
                                   </div>
                                   <br>
 
@@ -206,7 +220,7 @@
 
                                           while ($equip = $result1->fetch_assoc()) {
                                         ?>
-                                        <option value="<?= $equip['Id'] ?>"><?=$equip["TipoEquipamento"]; ?></option>
+                                        <option value="<?= $equip['Id'] ?>" <?php if ((!empty($_GET['TipoEquipamento'])) && (isset($_GET['TipoEquipamento']))) {  if ($equip["Id"] == $_GET['TipoEquipamento']) { echo "Selected";}} ?>><?=$equip["TipoEquipamento"]; ?></option>
                                         <?php } ?>
                                       </select>
                                   </div>
@@ -224,7 +238,7 @@
 
                                         while ($row1 = $result1->fetch_assoc()) {
                                       ?>
-                                        <option value="<?= $row1['Id'] ?>"><?= $row1["Bloco"] ?></option>
+                                        <option value="<?= $row1['Id'] ?>" <?php if ((!empty($_GET['Bloco'])) && (isset($_GET['Bloco']))) {  if ($row1["Id"] == $_GET['Bloco']) { echo "Selected";}} ?>><?= $row1["Bloco"] ?></option>
                                       <?php }; ?>
                                     </select>
                                   </div>
@@ -234,6 +248,7 @@
                                   <div class="form-group">
                                     <select id="sala" class="form-control" name="Sala" onchange="getEquip(this);">
                                     </select>
+                                    <span class="help-block">Nota: Escolha o bloco primeiro</span>
                                   </div>
                                   <br>
 
@@ -241,17 +256,18 @@
                                   <div class="form-group">
                                     <select id="equipamento" class="form-control" name="Equipamento">
                                     </select>
+                                    <span class="help-block">Nota: Escolha a sala primeiro</span>
                                   </div>
                                   <br>
 
                                   <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por estado de resolvido</h4>
                                   <div style="margin-left:10px;">
                                     <label class="checkbox-inline">
-                                      <input type="checkbox" name="Resolvido" class="radio-inline" <?php if (isset($_GET['Ativo'])) { echo 'Checked';}?>>
+                                      <input type="checkbox" name="Resolvido" class="radio-inline" <?php if (isset($_GET['Resolvido'])) { echo 'Checked';}?>>
                                       <p style="cursor: pointer;" class="unselectable">Sim</p>
                                     </label>
                                     <label class="checkbox-inline">
-                                      <input type="checkbox" name="NResolvido" class="radio-inline" <?php if (isset($_GET['Inativo'])) { echo 'Checked';} ?>>
+                                      <input type="checkbox" name="NResolvido" class="radio-inline" <?php if (isset($_GET['NResolvido'])) { echo 'Checked';} ?>>
                                       <p style="cursor: pointer;" class="unselectable">Não</p>
                                     </label><br><br>
                                     <input type="submit" class="btn btn-primary" value="Procurar">
@@ -332,7 +348,8 @@
           include 'Shared/Footer.php';
         ?>
     </section>
-    <?php #LINKS INCLUDE
+
+    <?php #SCRIPTS INCLUDE
           include 'Shared/Scripts.php'
     ?>
 </body>

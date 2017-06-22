@@ -1,5 +1,6 @@
 <?php
   $titulo = "Novo tipo de Equipamento";
+  $validatejs = true;
 
   require 'Shared/conn.php';
   require 'Shared/Restrict.php';
@@ -8,7 +9,7 @@
     header("Location: 403");
   }
 
-  if (isset($_POST["novo_equip_submit"])) {
+  if (isset($_POST["novo_equip_submit"]) && (isset($_POST['Nome']))) {
     // Escape user inputs for security
     $Nome = trim(mysqli_real_escape_string($con, $_POST['Nome']));
 
@@ -44,7 +45,7 @@
                 <h3><i class="fa fa-angle-right"></i> Novo tipo de Equipamento</h3>
                 <div class="row mt">
                     <div class="form-panel">
-                        <form class="form-horizontal style-form" method="POST" action="<?= $_SERVER["PHP_SELF"] ?>">
+                        <form class="form-horizontal style-form" method="POST" id="NovoTipoEquipamentoForm">
                             <div class="form-group">
                                 <br>
                                 <label class="col-sm-2 col-sm-2 control-label">Nome</label>
@@ -69,6 +70,17 @@
     <?php #HEADER INCLUDE
           include 'Shared/Scripts.php'
     ?>
+
+    <script type="text/javascript">
+      $("#NovoTipoEquipamentoForm").validate({
+         errorClass: "my-error-class",
+         validClass: "my-valid-class",
+
+         messages: {
+          'Nome': "Tem de escrever o nome do tipo de equipamento"
+         }
+      });
+    </script>
 
 </body>
 

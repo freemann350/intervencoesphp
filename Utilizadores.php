@@ -23,7 +23,7 @@
     header("Location: Utilizadores");
   }
 
-  $per_page = 15;
+  $per_page = 20;
   $pfunc = ceil($pg*$per_page) - $per_page;
 
   $Query = "SELECT concat_ws(' ', nome, apelido) NomeTodo, email, Ativo, professores.Id, professores.IdRole, roles.role FROM professores inner join roles on professores.idrole = roles.id WHERE Not professores.Id = " . $LoggedID . " ";
@@ -57,6 +57,10 @@
       $QueryCount .= " AND professores.Ativo = 0";
     }
 
+    if ((empty($_GET['Inativo'])) && (!isset($_GET['Inativo'])) && (empty($_GET['Ativo'])) && (!isset($_GET['Ativo']))) {
+      $Query .= " professores.Ativo = '1' ";
+      $QueryCount .= " professores.Ativo = '1'";
+    }
     $Query .= " LIMIT $pfunc, $per_page";
     $stmt = $con->prepare($Query);
 
@@ -65,6 +69,7 @@
     $result = $stmt->get_result();
 
   } else {
+    $QueryCount .= " AND Ativo = '1'";
     $Query .= " AND Ativo = '1' LIMIT $pfunc, $per_page";
     $stmt = $con->prepare($Query);
 
@@ -141,14 +146,12 @@
                                     </div>
                                     <br>
 
-                                    <br>
                                     <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por professor</h4>
                                     <div style="margin-left:10px;">
                                       <input type="text" class="form-control" name="Nome" placeholder="Escreva aqui o nome do professor..." value="<?php if(isset($_GET['Nome'])) { echo $_GET['Nome'];}?>">
                                     </div>
                                     <br>
 
-                                    <br>
                                     <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por estado de ativo</h4>
                                     <div style="margin-left:10px;">
                                       <label class="checkbox-inline">

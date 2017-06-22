@@ -24,7 +24,7 @@
     header("Location: ResolverPedidos");
   }
 
-  $per_page = 15;
+  $per_page = 20;
   $pfunc = ceil($pg*$per_page) - $per_page;
 
   $Query = "SELECT pedidos.Id, equipamentos.Nome, salas.Sala, professores.Id AS IdProf, pedidos.Data, concat_ws(' ', professores.Nome, professores.Apelido) NomeTodo, pedidos.Resolvido FROM pedidos INNER JOIN Salas ON pedidos.IdSala = salas.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id INNER JOIN professores ON professores.Id = pedidos.IdProfessor WHERE Resolvido = '0'";
@@ -144,10 +144,10 @@
                                   </div>
                                   <br>
 
-                                  <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por equipamento</h4>
+                                  <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por tipo de equipamento</h4>
                                   <div class="form-group">
                                       <select class="form-control" name="TipoEquipamento">
-                                        <option selected value="">Escolha um equipamento...</option>
+                                        <option selected value="">Escolha um tipo de equipamento...</option>
                                         <?php
                                           $stmt1 = $con->prepare("SELECT * FROM tipoequipamento WHERE Ativo = '1'");
 
@@ -156,7 +156,7 @@
 
                                           while ($equip = $result1->fetch_assoc()) {
                                         ?>
-                                        <option value="<?= $equip['Id'] ?>"><?=$equip["TipoEquipamento"]; ?></option>
+                                        <option value="<?= $equip['Id'] ?>" <?php if ((!empty($_GET['TipoEquipamento'])) && (isset($_GET['TipoEquipamento']))) {  if ($equip["Id"] == $_GET['TipoEquipamento']) { echo "Selected";}} ?>><?=$equip["TipoEquipamento"]; ?></option>
                                         <?php } ?>
                                       </select>
                                   </div>
@@ -175,7 +175,7 @@
 
                                         while ($row1 = $result1->fetch_assoc()) {
                                       ?>
-                                        <option value="<?= $row1['Id'] ?>"><?= $row1["Bloco"] ?></option>
+                                        <option value="<?= $row1['Id'] ?>"<?php if ((!empty($_GET['Bloco'])) && (isset($_GET['Bloco']))) {  if ($row1["Id"] == $_GET['Bloco']) { echo "Selected";}} ?>><?= $row1["Bloco"] ?></option>
                                       <?php }; ?>
                                     </select>
                                   </div>
@@ -273,7 +273,6 @@
         ?>
     </section>
 
-    <script type="text/javascript" src="assets\libs\template\js\registar-pedido.js"></script>
     <?php #LINKS INCLUDE
           include 'Shared/Scripts.php'
     ?>

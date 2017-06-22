@@ -23,7 +23,7 @@
     header("Location: Equipamentos");
   }
 
-  $per_page = 15;
+  $per_page = 20;
   $pfunc = ceil($pg*$per_page) - $per_page;
 
   $Query = "SELECT equipamentos.Id, equipamentos.Nome, equipamentos.Ativo, salas.Sala, tipoequipamento.TipoEquipamento FROM equipamentos INNER JOIN salas ON salas.Id = equipamentos.IdSala INNER JOIN tipoequipamento ON equipamentos.IdTipo = tipoequipamento.Id";
@@ -31,7 +31,7 @@
 
   if ((isset($_GET['filtros_equipamentos_submit'])) || (isset($_GET['Equipamento'])) || (isset($_GET['Tipo'])) || (isset($_GET['Bloco'])) || (isset($_GET['Sala']))) {
 
-    $Tipo = trim(mysqli_real_escape_string($con, $_GET['Tipo']));
+    $Tipo = trim(mysqli_real_escape_string($con, $_GET['TipoEquipamento']));
     $Bloco = trim(mysqli_real_escape_string($con, $_GET['Bloco']));
     $Sala = trim(mysqli_real_escape_string($con, $_GET['Sala']));
     $Equipamento = trim(mysqli_real_escape_string($con, $_GET['Equipamento']));
@@ -91,7 +91,46 @@
       $Query .= " Nome LIKE " . $Equipamento;
       $QueryCount .= " Nome LIKE " . $Equipamento;
     }
-    echo $Query;
+
+    if ((!empty($_GET['Ativo'])) && (isset($_GET['Ativo'])) && (empty($_GET['Inativo'])) && (!isset($_GET['Inativo']))) {
+      if ($switch){
+        $Query .= " WHERE ";
+        $QueryCount .= " WHERE ";
+        $switch = false;
+      } else {
+        $Query .= " AND ";
+        $QueryCount .= " AND ";
+      }
+      $Query .= " equipamentos.Ativo = '1' ";
+      $QueryCount .= " equipamentos.Ativo = '1'";
+    }
+
+    if ((!empty($_GET['Inativo'])) && (isset($_GET['Inativo'])) && (empty($_GET['Ativo'])) && (!isset($_GET['Ativo']))) {
+      if ($switch){
+        $Query .= " WHERE ";
+        $QueryCount .= " WHERE ";
+        $switch = false;
+      } else {
+        $Query .= " AND ";
+        $QueryCount .= " AND ";
+      }
+      $Query .= " equipamentos.Ativo = '0' ";
+      $QueryCount .= " equipamentos.Ativo = '0'";
+    }
+
+    if ((empty($_GET['Inativo'])) && (!isset($_GET['Inativo'])) && (empty($_GET['Ativo'])) && (!isset($_GET['Ativo']))) {
+      if ($switch){
+        $Query .= " WHERE ";
+        $QueryCount .= " WHERE ";
+        $switch = false;
+      } else {
+        $Query .= " AND ";
+        $QueryCount .= " AND ";
+      }
+      $Query .= " equipamentos.Ativo = '1' ";
+      $QueryCount .= " equipamentos.Ativo = '1'";
+    }
+    
     $Query .= " LIMIT $pfunc, $per_page";
     $stmt = $con->prepare($Query);
 
@@ -99,7 +138,9 @@
 
     $result = $stmt->get_result();
   } else {
-    $Query .= " LIMIT $pfunc, $per_page";
+    $QueryCount .= " WHERE equipamentos.Ativo = '1'";
+
+    $Query .= " WHERE equipamentos.Ativo = '1' LIMIT $pfunc, $per_page";
 
     $stmt = $con->prepare($Query);
 
@@ -156,14 +197,14 @@
                             </div>
 
                             <div class="col-lg-12" id="filtrosdiv" style="display: none; min-width: 620px;">
-                              <form class="form-horizontal style-form" method="GET">
+                              <form class="style-form" method="GET">
                                 <br>
                                 <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por tipo de equipamento</h4>
-                                <div style="margin-left:10px;">
-                                  <select class="form-control" name="Tipo">
+                                <div style="form-group">
+                                  <select class="form-control" name="TipoEquipamento">
                                     <option selected value="">Escolha um tipo de equipamento...</option>
                                     <?php
-                                      $stmt1 = $con->prepare("SELECT * FROM tipoequipamento");
+                                      $stmt1 = $con->prepare("SELECT * FROM tipoequipamento WHERE Ativo = '1'");
 
                                       $stmt1->execute();
                                       $result1 = $stmt1->get_result();
@@ -171,15 +212,15 @@
                                       while ($tipo = $result1->fetch_assoc()) {
                                     ?>
 
-                                    <option value="<?= $tipo['Id'] ?>"><?=$tipo["TipoEquipamento"]; ?></option>
+                                    <option value="<?= $tipo['Id'] ?>" <?php if ((!empty($_GET['TipoEquipamento'])) && (isset($_GET['TipoEquipamento']))) {  if ($tipo["Id"] == $_GET['TipoEquipamento']) { echo "Selected";}} ?>><?=$tipo["TipoEquipamento"]; ?></option>
                                     <?php } ?>
                                   </select>
                                 </div>
                                 <br>
 
                                 <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por Bloco</h4>
-                                <div style="margin-left:10px;">
-                                  <select class="form-control" name="Bloco">
+                                <div class="form-group">
+                                  <select id="bloco" class="form-control" name="Bloco" onchange="getSalas(this);">
                                     <option selected value="">Escolha um bloco...</option>
                                     <?php
                                       $stmt1 = $con->prepare("SELECT * FROM blocos");
@@ -187,39 +228,39 @@
                                       $stmt1->execute();
                                       $result1 = $stmt1->get_result();
 
-                                      while ($sala = $result1->fetch_assoc()) {
+                                      while ($row1 = $result1->fetch_assoc()) {
                                     ?>
-
-                                    <option value="<?= $sala['Id'] ?>"><?=$sala['Bloco']; ?></option>
-                                    <?php } ?>
+                                      <option value="<?= $row1['Id'] ?>" <?php if ((!empty($_GET['Bloco'])) && (isset($_GET['Bloco']))) {  if ($row1["Id"] == $_GET['Bloco']) { echo "Selected";}} ?>><?= $row1["Bloco"] ?></option>
+                                    <?php }; ?>
                                   </select>
                                 </div>
                                 <br>
 
                                 <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por Sala</h4>
-                                <div style="margin-left:10px;">
-                                  <select class="form-control" name="Sala">
-                                    <option selected value="">Escolha uma sala...</option>
-                                    <?php
-                                      $stmt1 = $con->prepare("SELECT * FROM salas");
-
-                                      $stmt1->execute();
-                                      $result1 = $stmt1->get_result();
-
-                                      while ($sala = $result1->fetch_assoc()) {
-                                    ?>
-
-                                    <option value="<?= $sala['Id'] ?>"><?=$sala['Sala']; ?></option>
-                                    <?php } ?>
+                                <div class="form-group">
+                                  <select id="sala" class="form-control" name="Sala">
                                   </select>
+                                  <span class="help-block">Nota: Escolha o bloco primeiro</span>
                                 </div>
                                 <br>
 
                                 <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por nome do equipamento</h4>
-                                <div style="margin-left:10px;">
+                                <div style="form-group">
                                   <input type="text" class="form-control" name="Equipamento" placeholder="Escreva aqui o nome do equipamento..." value="<?php if (Isset($_GET['Equipamento'])) { echo $_GET['Equipamento'];};?>">
                                   <br>
-                                  <input type="submit" class="btn btn-primary" name="filtros_equipamentos_submit" value="Procurar">
+                                </div>
+
+                                <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por estado de ativo</h4>
+                                <div style="margin-left:10px;">
+                                  <label class="checkbox-inline">
+                                    <input type="checkbox" name="Ativo" class="radio-inline" <?php if (isset($_GET['Ativo'])) { echo 'Checked';}?>>
+                                    <p style="cursor: pointer;" class="unselectable">Sim</p>
+                                  </label>
+                                  <label class="checkbox-inline">
+                                    <input type="checkbox" name="Inativo" class="radio-inline" <?php if (isset($_GET['Inativo'])) { echo 'Checked';} ?>>
+                                    <p style="cursor: pointer;" class="unselectable">Não</p>
+                                  </label><br><br>
+                                  <input type="submit" class="btn btn-primary" value="Procurar">
                                 </div>
                               </form>
                               <hr>
@@ -290,6 +331,7 @@
                                 echo "Total de dados: " . $row['TotalDados']."<br><br>";
 
                               } else {
+
                                 $stmt = $con->prepare($QueryCount);
 
                                 $stmt->execute();

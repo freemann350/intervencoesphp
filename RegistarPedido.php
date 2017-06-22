@@ -78,6 +78,7 @@
                                 <label class="col-sm-2 col-sm-2 control-label">Bloco</label>
                                 <div class="col-sm-10">
                                   <select id="bloco" class="form-control" name="Bloco" required onchange="getSalas(this);">
+                                    <option selected hidden value="">Escolha um bloco...</option>
                                     <?php
                                       $stmt = $con->prepare("SELECT * FROM blocos");
 
@@ -95,6 +96,7 @@
                                 <label class="col-sm-2 col-sm-2 control-label">Sala</label>
                                 <div class="col-sm-10">
                                   <select id="sala" class="form-control" name="Sala" required onchange="getEquip(this);">
+-                                   <option value="" selected hidden>Escolha a Sala...</option>
                                   </select>
                                     <br>
                                 </div>
@@ -102,6 +104,7 @@
                                 <label class="col-sm-2 col-sm-2 control-label">Equipamento</label>
                                 <div class="col-sm-10">
                                   <select id="equipamento" class="form-control" name="Equipamento" required>
+-                                   <option value="" selected hidden>Escolha o equipamento...</option>
                                   </select>
                                   <br>
                                 </div>
@@ -129,9 +132,9 @@
                                     <br>
                                 </div>
 
-                                <label class="col-sm-2 col-sm-2 control-label">Descrição</label>
+                                <label class="col-sm-2 col-sm-2 control-label">Descrição (Opcional)</label>
                                 <div class="col-sm-10">
-                                    <textarea type="text" class="form-control" rows="7" name="Descricao" required placeholder="Descreva aqui o problema..."></textarea>
+                                    <textarea type="text" class="form-control" rows="7" name="Descricao" required placeholder="Faça uma breve descrição sua"></textarea>
                                     <span class="help-block">Tente ser o mais breve possível.</span>
                                     <br>
                                     <input type="submit" class="btn btn-primary" value="Submeter" name="pedido_submit">
@@ -148,11 +151,12 @@
             ?>
         </section>
     </section>
+
+    <script type="text/javascript" src="assets\libs\template\js\registar-pedido.js"></script>
     <?php
       include 'Shared/Scripts.php';
     ?>
 
-    <script type="text/javascript" src="assets/libs/template/js/registar-pedido.js"></script>
     <script type="text/javascript">
       $("#RegistarPedido").validate({
          errorClass: "my-error-class",

@@ -4,6 +4,7 @@
   }
 
   $titulo = "Editar tipo de equipamento";
+  $validatejs = true;
 
   require 'Shared/conn.php';
   require 'Shared/Restrict.php';
@@ -22,7 +23,7 @@
   $result = $stmt->get_result();
   $TipoEq = $result->fetch_assoc();
 
-  if (isset($_POST["editar_equip_submit"])) {
+  if (isset($_POST["editar_equip_submit"]) && (isset($_POST["Nome"]))) {
     // Escape user inputs for security
     $Nome = trim(mysqli_real_escape_string($con, $_POST['Nome']));
     $Id = trim(mysqli_real_escape_string($con, $_GET['Id']));
@@ -55,10 +56,10 @@
         <!--MAIN CONTENT-->
         <section id="main-content">
             <section class="wrapper">
-                <h3><i class="fa fa-angle-right"></i> Novo Equipamento</h3>
+                <h3><i class="fa fa-angle-right"></i> Editar tipo de equipamento</h3>
                 <div class="row mt">
                     <div class="form-panel">
-                        <form class="form-horizontal style-form" method="POST">
+                        <form class="form-horizontal style-form" method="POST" id="EditarTipoEquipamento">
                             <div class="form-group">
                                 <br>
                                 <label class="col-sm-2 col-sm-2 control-label">Nome</label>
@@ -84,6 +85,16 @@
           include 'Shared/Scripts.php'
     ?>
 
+    <script type="text/javascript">
+      $("#EditarTipoEquipamento").validate({
+         errorClass: "my-error-class",
+         validClass: "my-valid-class",
+
+         messages: {
+          'Nome': "Tem de escrever o nome do tipo de equipamento"
+         }
+      });
+    </script>
 </body>
 
 </html>

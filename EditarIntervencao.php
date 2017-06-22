@@ -8,6 +8,7 @@
   $removeInclude =  true;
   $filtrosInclude =  true;
   $timepickerInclude =  true;
+  $validatejs = true;
 
   require 'Shared/conn.php';
   require 'Shared/Restrict.php';
@@ -87,8 +88,7 @@
                 <h3><i class="fa fa-angle-right"></i> Registo de intervenções - Edição</h3>
                 <div class="row mt">
                     <div class="form-panel">
-
-                      <form class="form-horizontal style-form" method="post">
+                      <form class="form-horizontal style-form" method="post" id="intervencaoform">
                           <div class="form-group">
                               <br>
 
@@ -151,6 +151,19 @@
           <?php #HEADER INCLUDE
                 include 'Shared/Scripts.php'
           ?>
+
+          <script type="text/javascript">
+            $("#intervencaoform").validate({
+               errorClass: "my-error-class",
+               validClass: "my-valid-class",
+
+               messages: {
+                 'Data': "Tem de selecionar a data da intervenção",
+                 'Hora': "Tem de selecionar a hora da intervenção",
+                 'Descricao': "Tem de descrever o que foi feito na intervenção"
+               }
+            });
+          </script>
 </body>
 
 </html>

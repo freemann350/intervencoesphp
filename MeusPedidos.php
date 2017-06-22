@@ -20,7 +20,7 @@
     header("Location: MeusPedidos");
   }
 
-  $per_page = 15;
+  $per_page = 20;
   $pfunc = ceil($pg*$per_page) - $per_page;
 
   $Query = "SELECT pedidos.Id, equipamentos.IdTipo, equipamentos.Nome AS NomeEquip, pedidos.Data, salas.Sala, pedidos.Resolvido FROM pedidos INNER JOIN Salas ON pedidos.IdSala = salas.Id INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id INNER JOIN Blocos ON salas.IdBloco = Blocos.Id WHERE pedidos.IdProfessor = " . $LoggedID;
@@ -183,7 +183,7 @@
 
                                           while ($row1 = $result1->fetch_assoc()) {
                                         ?>
-                                          <option value="<?= $row1['Id'] ?>"><?=$row1['Bloco']?></option>
+                                          <option value="<?= $row1['Id'] ?>" <?php if ((!empty($_GET['Bloco'])) && (isset($_GET['Bloco']))) {  if ($row1["Id"] == $_GET['Bloco']) { echo "Selected";}} ?>><?=$row1['Bloco']?></option>
                                         <?php }; ?>
                                       </select>
                                     </div>
@@ -193,6 +193,7 @@
                                     <div class="form-group">
                                       <select id="sala" class="form-control" name="Sala" onchange="getEquip(this);">
                                       </select>
+                                      <span class="help-block">Nota: Escolha o bloco primeiro</span>
                                     </div>
                                     <br>
 
@@ -200,6 +201,7 @@
                                     <div class="form-group">
                                       <select id="equipamento" class="form-control" name="Equipamento">
                                       </select>
+                                      <span class="help-block">Nota: Escolha a sala primeiro</span>
                                     </div>
                                     <br>
 

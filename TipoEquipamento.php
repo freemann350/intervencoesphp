@@ -23,30 +23,78 @@
     header("Location: TipoEquipamento");
   }
 
-  $per_page = 15;
+  $per_page = 20;
   $pfunc = ceil($pg*$per_page) - $per_page;
 
   $Query = "SELECT * FROM tipoequipamento";
   $QueryCount = "SELECT count(*) TotalDados FROM tipoequipamento";
 
-  if (isset($_GET['filtros_equipamentos_submit']) && (isset($_GET['Equipamento']))) {
-
+  if ((isset($_GET['Equipamento'])) || (isset($_GET['Ativo'])) || (isset($_GET['Inativo']))) {
+    $switch = true;
     $Equipamento = trim(mysqli_real_escape_string($con, $_GET['Equipamento']));
 
     if ((!empty($Equipamento)) && (isset($Equipamento))) {
+      if ($switch){
+        $Query .= " WHERE ";
+        $QueryCount .= " WHERE ";
+        $switch = false;
+      } else {
+        $Query .= " AND ";
+        $QueryCount .= " AND ";
+      }
       $Equipamento = "'%" . $Equipamento . "%'";
-      $Query .= " WHERE TipoEquipamento LIKE " . $Equipamento;
-      $QueryCount .= " WHERE TipoEquipamento LIKE " . $Equipamento;
+      $Query .= " tipoequipamento.TipoEquipamento LIKE " . $Equipamento;
+      $QueryCount .= " tipoequipamento.TipoEquipamento LIKE " . $Equipamento;
+    }
+
+    if ((!empty($_GET['Ativo'])) && (isset($_GET['Ativo'])) && (empty($_GET['Inativo'])) && (!isset($_GET['Inativo']))) {
+      if ($switch){
+        $Query .= " WHERE ";
+        $QueryCount .= " WHERE ";
+        $switch = false;
+      } else {
+        $Query .= " AND ";
+        $QueryCount .= " AND ";
+      }
+      $Query .= " tipoequipamento.Ativo = '1'";
+      $QueryCount .= " tipoequipamento.Ativo = '1'";
+    }
+
+    if ((!empty($_GET['Inativo'])) && (isset($_GET['Inativo'])) && (empty($_GET['Ativo'])) && (!isset($_GET['Ativo']))) {
+      if ($switch){
+        $Query .= " WHERE ";
+        $QueryCount .= " WHERE ";
+        $switch = false;
+      } else {
+        $Query .= " AND ";
+        $QueryCount .= " AND ";
+      }
+      $Query .= " tipoequipamento.Ativo = '0'";
+      $QueryCount .= " tipoequipamento.Ativo = '0'";
+    }
+
+    if ((empty($_GET['Inativo'])) && (!isset($_GET['Inativo'])) && (empty($_GET['Ativo'])) && (!isset($_GET['Ativo']))) {
+      if ($switch){
+        $Query .= " WHERE ";
+        $QueryCount .= " WHERE ";
+        $switch = false;
+      } else {
+        $Query .= " AND ";
+        $QueryCount .= " AND ";
+      }
+      $Query .= " tipoequipamento.Ativo = '1' ";
+      $QueryCount .= " tipoequipamento.Ativo = '1'";
     }
     $Query .= " LIMIT $pfunc, $per_page";
-
     $stmt = $con->prepare($Query);
 
     $stmt->execute();
 
     $result = $stmt->get_result();
   } else {
-    $Query .= " LIMIT $pfunc, $per_page";
+    $QueryCount .= " WHERE Ativo = '1'";
+
+    $Query .= " WHERE Ativo = '1' LIMIT $pfunc, $per_page";
 
     $stmt = $con->prepare($Query);
 
@@ -109,7 +157,19 @@
                                 <div style="margin-left:10px;">
                                   <input type="text" class="form-control" name="Equipamento" placeholder="Escreva aqui o nome do equipamento..." value="<?php if (Isset($_GET['Equipamento'])) { echo $_GET['Equipamento'];};?>">
                                   <br>
-                                  <input type="submit" class="btn btn-primary" name="filtros_equipamentos_submit" value="Procurar">
+                                </div>
+
+                                <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por estado de ativo</h4>
+                                <div style="margin-left:10px;">
+                                  <label class="checkbox-inline">
+                                    <input type="checkbox" name="Ativo" class="radio-inline" <?php if (isset($_GET['Ativo'])) { echo 'Checked';}?>>
+                                    <p style="cursor: pointer;" class="unselectable">Sim</p>
+                                  </label>
+                                  <label class="checkbox-inline">
+                                    <input type="checkbox" name="Inativo" class="radio-inline" <?php if (isset($_GET['Inativo'])) { echo 'Checked';} ?>>
+                                    <p style="cursor: pointer;" class="unselectable">Não</p>
+                                  </label><br><br>
+                                  <input type="submit" class="btn btn-primary" value="Procurar">
                                 </div>
                               </form>
                               <hr>

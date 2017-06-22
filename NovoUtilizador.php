@@ -20,15 +20,9 @@
     $Username = trim(mysqli_real_escape_string($con, $_POST['Username']));
     $Tipo = trim(mysqli_real_escape_string($con, $_POST['Tipo']));
 
-    $options = [
-        'cost' => 11,
-    ];
-
-    $hash = password_hash($Password, PASSWORD_BCRYPT, $options);
-
     $stmt = $con->prepare("INSERT INTO professores (Nome, Apelido, Username, Email, Password, IdRole, Ativo) VALUES (?, ?, ?, ?, ?, ?, '1')");
 
-    $stmt->bind_param("sssssi", $Nome, $Apelido, $Username, $Email, $hash, $Tipo);
+    $stmt->bind_param("sssssi", $Nome, $Apelido, $Username, $Email, $Password, $Tipo);
 
     $stmt->execute();
     header("Location: Utilizadores");
@@ -57,33 +51,33 @@
                 <h3><i class="fa fa-angle-right"></i> Novo Utilizador</h3>
                 <div class="row mt">
                     <div class="form-panel">
-                        <form class="form-horizontal style-form" id="NovoUtilizador" method="POST" action="<?= $_SERVER["PHP_SELF"] ?>">
+                        <form class="form-horizontal style-form" id="NovoUtilizador" method="POST" action="<?php $_SERVER['PHP_SELF']?>">
                             <div class="form-group">
                                 <br>
                                 <label class="col-sm-2 col-sm-2 control-label">Nome</label>
                                 <div class="col-sm-10">
-                                  <input type="text" class="form-control" name="Nome" required>
+                                  <input type="text" class="form-control" name="Nome" value="<?php if (isset($_POST['Nome'])) {echo $_POST['Nome'];} ?>" required>
                                   <br>
                                 </div>
                                 <br>
 
                                 <label class="col-sm-2 col-sm-2 control-label">Apelido</label>
                                 <div class="col-sm-10">
-                                  <input type="text" class="form-control" name="Apelido" required>
+                                  <input type="text" class="form-control" name="Apelido" value="<?php if (isset($_POST['Apelido'])) {echo $_POST['Apelido'];} ?>" required>
                                   <br>
                                 </div>
                                 <br>
 
                                 <label class="col-sm-2 col-sm-2 control-label">Email</label>
                                 <div class="col-sm-10">
-                                  <input type="email" class="form-control" name="Email" required>
+                                  <input type="email" class="form-control" name="Email" value="<?php if (isset($_POST['Email'])) {echo $_POST['Email'];} ?>" required>
                                   <br>
                                 </div>
                                 <br>
 
                                 <label class="col-sm-2 col-sm-2 control-label">Nome de utilizador</label>
                                 <div class="col-sm-10">
-                                  <input type="text" class="form-control" name="Username" required>
+                                  <input type="text" class="form-control" name="Username" value="<?php if (isset($_POST['Username'])) {echo $_POST['Username'];} ?>" required>
                                   <br>
                                 </div>
                                 <br>
@@ -105,6 +99,7 @@
                                 <label class="col-sm-2 col-sm-2 control-label">Tipo de utilizador</label>
                                 <div class="col-sm-10">
                                     <select class="form-control" name="Tipo" required>
+                                      <option value="" selected hidden>Escolha um tipo de utilizador</option>
                                       <?php
                                         $stmt = $con->prepare("SELECT * FROM roles");
 
@@ -113,7 +108,7 @@
 
                                         while ($row = $result->fetch_assoc()) {
                                       ?>
-                                        <option value="<?= $row['Id'] ?>"><?= $row["Role"] ?></option>
+                                        <option value="<?= $row['Id'] ?>"<?php if ((!empty($_POST['Tipo'])) && (isset($_POST['Tipo']))) {  if ($row["Id"] == $_POST['Tipo']) { echo "Selected";}} ?>><?= $row["Role"] ?></option>
                                       <?php } ?>
                                     </select>
                                     <br>

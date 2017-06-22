@@ -2,20 +2,24 @@
     <div id="sidebar" class="nav-collapse">
         <ul class="sidebar-menu" id="nav-accordion">
 
-          <a href="Perfil?Id=<?=$LoggedID?>" title="Ver o meu perfil"><p class="centered"><img src="assets/img/user/ui-sam.jpg" class="img-circle" width="60"></p>
-          <h5 class="centered"><?= $LoggedNome ?></h5></a>
-
-          <li class="mt">
+          <li class="sub-menu">
               <a <?php if (isset($PiActive) && ($PiActive)){?> class="active" <?php };?>href="Inicial">
                   <i class="fa fa-home"></i>
                   <span>Página inicial</span>
               </a>
           </li>
 
+          <li class="sub-menu">
+              <a <?php if (isset($PPActive) && ($PPActive)){?> class="active" <?php };?>href="Perfil?Id=<?=$LoggedRole?>">
+                  <i class="fa fa-user-circle"></i>
+                  <span>O meu perfil</span>
+              </a>
+          </li>
+
           <?php if ($LoggedRole == "1") { ?>
           <li class="sub-menu">
               <a <?php if ((isset($PuActive) && ($PuActive))){?> class="active" <?php };?>  href="javascript:;">
-                  <i class="fa fa-user"></i>
+                  <i class="fa fa-users"></i>
                   <span>Administração</span>
               </a>
               <ul class="sub">
