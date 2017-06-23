@@ -20,6 +20,12 @@
     $Username = trim(mysqli_real_escape_string($con, $_POST['Username']));
     $Tipo = trim(mysqli_real_escape_string($con, $_POST['Tipo']));
 
+    $options = [
+        'cost' => 11,
+    ];
+
+    $Password = password_hash($Password, PASSWORD_BCRYPT, $options);
+
     $stmt = $con->prepare("INSERT INTO professores (Nome, Apelido, Username, Email, Password, IdRole, Ativo) VALUES (?, ?, ?, ?, ?, ?, '1')");
 
     $stmt->bind_param("sssssi", $Nome, $Apelido, $Username, $Email, $Password, $Tipo);

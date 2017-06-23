@@ -13,7 +13,7 @@
   }
 
   #PAGINAÇÃO
-  if (isset($_GET['p'])) {
+  if (isset($_GET['p']) && (trim($_GET['p']) <> "") && (is_numeric($_GET['p']))) {
     $pg = $_GET['p'];
   } else {
     $pg = 1;

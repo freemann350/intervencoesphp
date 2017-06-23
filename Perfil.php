@@ -34,7 +34,7 @@
 
   $row = $result->fetch_assoc();
 
-  $titulo = "Perfil de "  . $row['Nome'] ;
+  $titulo = "Perfil de "  . $row['NomeTodo'] ;
 
 ?>
 <!DOCTYPE html>
@@ -60,30 +60,13 @@
         <section id="main-content">
             <section class="wrapper" id="wrapping">
 
-                <h3><i class="fa fa-angle-right"></i> <?=$row['Nome']?></h3>
+                <h3><i class="fa fa-angle-right"></i> <?=$row['NomeTodo']?> (<?=$row['Role']?>)</h3>
 
                 <div class="row mt">
                     <div class="col-lg-12">
                         <div class="form-panel">
                           <form class="form-horizontal style-form" method="get">
                               <div class="form-group">
-                                <label class="col-sm-2 col-sm-2 control-label"><b>Tipo de utilizador</b></label>
-                                <div class="col-sm-10">
-                                  <p class="form-control-static"><?=$row['Role']?></p>
-                                  <br>
-                                </div>
-
-                                <label class="col-sm-2 col-sm-2 control-label"><b>Nome</b></label>
-                                <div class="col-sm-10">
-                                  <p class="form-control-static"><?=$row['Nome']?></p>
-                                  <br>
-                                </div>
-
-                                <label class="col-sm-2 col-sm-2 control-label"><b>Apelido</b></label>
-                                <div class="col-sm-10">
-                                  <p class="form-control-static"><?=$row['Apelido']?></p>
-                                  <br>
-                                </div>
 
                                 <label class="col-sm-2 col-sm-2 control-label"><b>Email</b></label>
                                 <div class="col-sm-10">

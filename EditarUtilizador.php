@@ -53,6 +53,12 @@
     $Id = trim(mysqli_real_escape_string($con, $_GET["Id"]));
     $Password = trim(mysqli_real_escape_string($con,$_POST['Password']));
 
+    $options = [
+        'cost' => 11,
+    ];
+
+    $Password = password_hash($Password, PASSWORD_BCRYPT, $options);
+
     $stmt = $con->prepare(
     "UPDATE professores SET Password = ? WHERE Id = ?");
 

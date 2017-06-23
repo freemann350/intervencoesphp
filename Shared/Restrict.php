@@ -19,7 +19,7 @@ $stmt->execute();
 $result = $stmt->get_result();
 $query = $result->fetch_assoc();
 
-$LoggedID = $query["Id"];
+$LoggedID = $query['Id'];
 $LoggedNome = $query["nome"];
 $LoggedRole = $query["IdRole"];
 $email = $query["email"];

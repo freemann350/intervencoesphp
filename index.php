@@ -11,23 +11,20 @@
   if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // username and password sent from form
     $usr = mysqli_real_escape_string($con, $_POST['username']);
-    $pwd = mysqli_real_escape_string($con, $_POST['password']);
+    $pwd = trim($_POST['password']);
 
-		$stmt = $con->prepare("SELECT * FROM professores");
-		$stmt->execute();
-		$result = $stmt->get_result();
-
-		$stmt = $con->prepare("SELECT * FROM professores WHERE Username = BINARY ? and Password = BINARY ? AND Ativo = '1'");
-		$stmt->bind_param("ss", $usr, $pwd);
+		$stmt = $con->prepare("SELECT * FROM professores WHERE Username = BINARY ? AND Ativo = '1' LIMIT 1");
+		$stmt->bind_param("s", $usr);
 
 		$stmt->execute();
 
 		$result = $stmt->get_result();
+		$rowCheck = $result->fetch_assoc();
 
     $count = $result->num_rows;
 
     // If result matched $usr and $pwd, table row must be 1 row
-    if($count == 1) {
+    if(($count == 1) && (password_verify($pwd, $rowCheck['Password']))) {
 				if (!session_id())
 					session_start();
 					$_SESSION['usr'] = $usr;

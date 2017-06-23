@@ -56,7 +56,6 @@
     if (isset($timepickerInclude) && ($timepickerInclude)) {
   ?>
   <script src="assets\libs\clockpicker\dist\jquery-clockpicker.min.js"></script>
-  <script src="assets\libs\clockpicker\dist\bootstrap-clockpicker.js"></script>
   <script type="text/javascript">
     $('.clockpicker').clockpicker({
       default: 'now',

@@ -14,7 +14,7 @@
   }
 
   #PAGINAÇÃO
-  if (isset($_GET['p'])) {
+  if (isset($_GET['p']) && (trim($_GET['p']) <> "") && (is_numeric($_GET['p']))) {
     $pg = $_GET['p'];
   } else {
     $pg = 1;
@@ -149,7 +149,7 @@
                                       <select class="form-control" name="TipoEquipamento">
                                         <option selected value="">Escolha um tipo de equipamento...</option>
                                         <?php
-                                          $stmt1 = $con->prepare("SELECT * FROM tipoequipamento WHERE Ativo = '1'");
+                                          $stmt1 = $con->prepare("SELECT * FROM tipoequipamento");
 
                                           $stmt1->execute();
                                           $result1 = $stmt1->get_result();

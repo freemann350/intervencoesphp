@@ -13,7 +13,7 @@
   }
 
   #PAGINAÇÃO
-  if (isset($_GET['p'])) {
+  if (isset($_GET['p']) && (trim($_GET['p']) <> "") && (is_numeric($_GET['p']))) {
     $pg = $_GET['p'];
   } else {
     $pg = 1;
@@ -58,8 +58,8 @@
     }
 
     if ((empty($_GET['Inativo'])) && (!isset($_GET['Inativo'])) && (empty($_GET['Ativo'])) && (!isset($_GET['Ativo']))) {
-      $Query .= " professores.Ativo = '1' ";
-      $QueryCount .= " professores.Ativo = '1'";
+      $Query .= " AND professores.Ativo = '1' ";
+      $QueryCount .= " AND professores.Ativo = '1'";
     }
     $Query .= " LIMIT $pfunc, $per_page";
     $stmt = $con->prepare($Query);
@@ -199,11 +199,12 @@
                                         <a href="javascript:;" class="deleteRecord" data-id="<?=$row['Id'];?>">
                                           <i style="color: #E8434E" title="Inativar Utilizador" class="fa fa-times fa-lg" aria-hidden="true"></i>
                                         </a>
-                                      <?php } else {?>
+                                        <?php } else {?>
                                         <a href="javascript:;" class="activateRecord" data-id="<?=$row['Id'];?>">
                                           <i style="color: #60D439" title="Ativar Utilizador" class="fa fa-check fa-lg" aria-hidden="true"></i>
                                         </a>
-                                      <?php };?>
+                                        <?php };?>
+                                      </td>
                                     </tr>
                                   <?php }} else { ?>
                                     <tr>

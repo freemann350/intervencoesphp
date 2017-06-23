@@ -13,7 +13,7 @@
   }
 
   #PAGINAÇÃO
-  if (isset($_GET['p'])) {
+  if (isset($_GET['p']) && (trim($_GET['p']) <> "") && (is_numeric($_GET['p']))) {
     $pg = $_GET['p'];
   } else {
     $pg = 1;
@@ -73,8 +73,8 @@
         $Query .= " AND ";
         $QueryCount .= " AND ";
       }
-      $Query .= " salas.Id = " . $Sala;
-      $QueryCount .= " salas.Id = " . $Sala;
+      $Query .= " equipamentos.IdSala = " . $Sala;
+      $QueryCount .= " equipamentos.IdSala = " . $Sala;
     }
 
 
@@ -130,7 +130,6 @@
       $Query .= " equipamentos.Ativo = '1' ";
       $QueryCount .= " equipamentos.Ativo = '1'";
     }
-    
     $Query .= " LIMIT $pfunc, $per_page";
     $stmt = $con->prepare($Query);
 
@@ -204,7 +203,7 @@
                                   <select class="form-control" name="TipoEquipamento">
                                     <option selected value="">Escolha um tipo de equipamento...</option>
                                     <?php
-                                      $stmt1 = $con->prepare("SELECT * FROM tipoequipamento WHERE Ativo = '1'");
+                                      $stmt1 = $con->prepare("SELECT * FROM tipoequipamento");
 
                                       $stmt1->execute();
                                       $result1 = $stmt1->get_result();
