@@ -2534,13 +2534,3 @@ th, td {
 .whitespace {
     white-space: pre-wrap;
 }
-
-@media screen and (max-width:259px) {
-    .logo { display:none }
-
-}
-
-.form-group {
-  min-width: 300px;
-  overflow: auto;
-}

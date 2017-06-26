@@ -55,7 +55,7 @@ if (!(isset($_GET["Id"])) || (trim($_GET["Id"]) == "") || !(is_numeric($_GET["Id
 
                         <form class="form-horizontal style-form" method="get">
                             <div class="form-group">
-                                <br><br>
+                                <br>
                                 <label class="col-sm-2 col-sm-2 control-label">Nome</label>
                                 <div class="col-sm-10">
                                     <p class="form-control-static"><?=$row['Nome']?></p>

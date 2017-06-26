@@ -130,16 +130,16 @@
       $Query .= " equipamentos.Ativo = '1' ";
       $QueryCount .= " equipamentos.Ativo = '1'";
     }
-    $Query .= " LIMIT $pfunc, $per_page";
+    $Query .= " ORDER BY Nome LIMIT $pfunc, $per_page";
     $stmt = $con->prepare($Query);
 
     $stmt->execute();
 
     $result = $stmt->get_result();
   } else {
-    $QueryCount .= " WHERE equipamentos.Ativo = '1'";
+    $QueryCount .= " WHERE equipamentos.Ativo = '1' ORDER BY Nome";
 
-    $Query .= " WHERE equipamentos.Ativo = '1' LIMIT $pfunc, $per_page";
+    $Query .= " WHERE equipamentos.Ativo = '1' ORDER BY Nome LIMIT $pfunc, $per_page";
 
     $stmt = $con->prepare($Query);
 

@@ -83,12 +83,11 @@
         <!--MAIN CONTENT-->
         <section id="main-content">
             <section class="wrapper">
-                <h3><i class="fa fa-angle-right"></i> Registo de Pedidos - Edição</h3>
+                <h3><i class="fa fa-angle-right"></i> Pedidos - Edição</h3>
                 <div class="row mt">
                     <div class="form-panel">
                         <form class="form-horizontal style-form" method="POST" id="EditarPedido">
                             <div class="form-group">
-                                <br>
 
                                 <label class="col-sm-2 col-sm-2 control-label">Bloco</label>
                                 <div class="col-sm-10">

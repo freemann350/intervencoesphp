@@ -85,8 +85,8 @@
 
     $rowQI = $resultQI->fetch_assoc();
 
-    #Equipamento com mais pedidos
-    $stmtEP = $con->prepare("SELECT equipamentos.Id, equipamentos.Nome, count(IdEquipamento) AS TotalEquip FROM pedidos INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id GROUP BY IdEquipamento ORDER BY count(IdEquipamento) DESC LIMIT 1");
+    #Tipo de equipamento com mais pedidos
+    $stmtEP = $con->prepare("SELECT tipoequipamento.TipoEquipamento, count(IdTipo) AS TotalEquip FROM pedidos INNER JOIN equipamentos ON pedidos.IdEquipamento = equipamentos.Id INNER JOIN tipoequipamento ON equipamentos.IdTipo = tipoequipamento.Id GROUP BY IdTipo ORDER BY count(IdTipo) DESC LIMIT 1");
 
     $stmtEP->execute();
 
@@ -94,15 +94,23 @@
 
     $rowEP = $resultEP->fetch_assoc();
 
-    #Utilizador com mais intervenções
-    $stmtUI = $con->prepare("SELECT concat_ws(' ', professores.Nome, professores.Apelido) NomeTodo, IdProfessor, count(IdProfessor) AS TotalProf FROM intervencoes INNER JOIN professores ON intervencoes.IdProfessor = professores.Id GROUP BY IdProfessor ORDER BY count(IdProfessor) DESC LIMIT 1");
+    #Sala com mais pedidos
+    $stmtSP = $con->prepare("SELECT salas.Sala, salas.Id, count(IdSala) AS TotalSala FROM pedidos INNER JOIN salas ON pedidos.IdSala = salas.Id GROUP BY IdSala ORDER BY count(IdSala) DESC LIMIT 1");
 
-    $stmtUI->execute();
+    $stmtSP->execute();
 
-    $resultUI = $stmtUI->get_result();
+    $resultSP = $stmtSP->get_result();
 
-    $rowUI = $resultUI->fetch_assoc();
+    $rowSP = $resultSP->fetch_assoc();
 
+    #Bloco com mais pedidos
+    $stmtBP = $con->prepare("SELECT blocos.Bloco, count(IdBloco) AS TotalBloco FROM pedidos INNER JOIN salas ON pedidos.IdSala = salas.Id INNER JOIN blocos ON salas.IdBloco = blocos.Id GROUP BY IdBloco ORDER BY count(IdBloco) DESC LIMIT 1");
+
+    $stmtBP->execute();
+
+    $resultBP = $stmtBP->get_result();
+
+    $rowBP = $resultBP->fetch_assoc();
 
     #Utilizador com mais pedidos
     $stmtUP = $con->prepare("SELECT concat_ws(' ', professores.Nome, professores.Apelido) NomeTodo, IdProfessor, count(IdProfessor) AS TotalProf FROM pedidos INNER JOIN professores ON pedidos.IdProfessor = professores.Id GROUP BY IdProfessor ORDER BY count(IdProfessor) DESC LIMIT 1");
@@ -113,14 +121,6 @@
 
     $rowUP = $resultUP->fetch_assoc();
 
-    #Bloco com mais pedidos
-    $stmtBP = $con->prepare("SELECT blocos.Bloco, count(IdBloco) AS TotalBloco FROM pedidos INNER JOIN salas ON pedidos.IdSala = salas.Id INNER JOIN blocos ON salas.IdBloco = blocos.Id GROUP BY IdBloco ORDER BY count(IdBloco) DESC LIMIT 1");
-
-    $stmtBP->execute();
-
-    $resultBP = $stmtBP->get_result();
-
-    $rowBP = $resultBP->fetch_assoc();
 
 ?>
 
@@ -218,18 +218,18 @@
                   <div class="col-sm-3" style="margin-bottom: 2%">
                 		<div class="darkblue-panel pn">
                 			<div class="darkblue-header">
-						  		      <h5>Equipamento com mais pedidos</h5>
+						  		      <h5>Tipo de eq. com mais pedidos</h5>
                 			</div>
                       <div class="centered">
-                        <?php if (!empty($rowEP['Id']) && (!empty($rowEP['Nome'])) && ($rowEP['TotalEquip'] !== '0')) {?>
-                        <h4 class="darkblue-panel-p" title="Ver dados do equipamento <?=$rowEP['Nome']?>"><a class="darkblue-panel-link" href="VerificarEquipamento?Id=<?=$rowEP['Id']?>"><?=$rowEP['Nome']?></a></h4>
+                        <?php if ((!empty($rowEP['TipoEquipamento'])) && ($rowEP['TotalEquip'] !== '0')) {?>
+                        <h4 class="darkblue-panel-p"><?=$rowEP['TipoEquipamento']?></h4>
                       </div>
-                        <p title="Quantidade de pedidos feitos neste equipamento" class="darkblue-panel-p hoverhelp"><i class="fa fa-pencil"></i> <?=$rowEP['TotalEquip']?></p>
+                        <p title="Quantidade de pedidos feitos para este equipamento" class="darkblue-panel-p hoverhelp"><i class="fa fa-pencil"></i> <?=$rowEP['TotalEquip']?></p>
                       </div>
                         <?php } else { ?>
-                          <h4 class="darkblue-panel-p">N/D</a></h4>
+                          <h4 class="darkblue-panel-p">N/D</h4>
                         </div>
-                          <p title="Quantidade de pedidos feitos neste equipamento" class="darkblue-panel-p hoverhelp"><i class="fa fa-pencil"></i> 0</p>
+                          <p title="Quantidade de pedidos feitos para este tipo de equipamento" class="darkblue-panel-p hoverhelp"><i class="fa fa-pencil"></i> 0</p>
                         </div>
                         <?php } ?>
                 		</div>
@@ -237,18 +237,18 @@
                 <div class="col-sm-3" style="margin-bottom: 2%">
               		<div class="darkblue-panel pn">
               			<div class="darkblue-header">
-					  		      <h5>Utilizador com mais intervenções</h5>
+					  		      <h5>Sala com mais pedidos</h5>
               			</div>
                     <div class="centered">
-                      <?php if (!empty($rowUI['IdProfessor']) && (!empty($rowUI['NomeTodo'])) && ($rowUI['TotalProf'] !== '0')) {?>
-                      <h4 class="darkblue-panel-p" title="Ver perfil de <?=$rowUI['NomeTodo']?>"><a class="darkblue-panel-link" href="Perfil?Id=<?=$rowUI['IdProfessor']?>"><?=$rowUI['NomeTodo']?></a></h4>
+                      <?php if (!empty($rowSP['Id']) && (!empty($rowSP['Sala'])) && ($rowSP['TotalSala'] !== '0')) {?>
+                      <h4 class="darkblue-panel-p" ><?=$rowSP['Sala']?></h4>
                     </div>
-                      <p class="darkblue-panel-p hoverhelp" title="Quantidade de intervenções feitas por este utilizador" ><i class="fa fa-wrench"></i> <?=$rowUI['TotalProf']?></p>
+                      <p class="darkblue-panel-p hoverhelp" title="Quantidade de pedidos feitos para esta sala"><i class="fa fa-pencil"></i> <?=$rowSP['TotalSala']?></p>
                     </div>
                     <?php } else { ?>
                       <h4 class="darkblue-panel-p">N/D</h4>
                     </div>
-                      <p class="darkblue-panel-p hoverhelp" title="Quantidade de intervenções feitas por este utilizador" ><i class="fa fa-wrench"></i> 0</p>
+                      <p class="darkblue-panel-p hoverhelp" title="Quantidade de pedidos feitos para esta sala"><i class="fa fa-wrench"></i> 0</p>
                     </div>
                     <?php } ?>
               		</div>
@@ -277,7 +277,7 @@
   						  		      <h5>Utilizador com mais pedidos</h5>
                   			</div>
                         <div class="centered">
-                        <?php if ((!empty($rowUP['NomeTodo'])) && (!empty($rowUP['IdProfessor'])) && ($rowUI['TotalProf'] !== '0')) {?>
+                        <?php if ((!empty($rowUP['NomeTodo'])) && (!empty($rowUP['IdProfessor'])) && ($rowUP['TotalProf'] !== '0')) {?>
                         <h4 class="darkblue-panel-p"><a class="darkblue-panel-link" title="Ver perfil de <?=$rowUP['NomeTodo']?>" href="Perfil?Id=<?=$rowUP['IdProfessor']?>"><?=$rowUP['NomeTodo']?></a></h4>
                       </div>
                         <p class="darkblue-panel-p hoverhelp" title="Quantidade de pedidos feitos por este utilizador"><i class="fa fa-pencil"></i> <?=$rowUP['TotalProf']?></p>

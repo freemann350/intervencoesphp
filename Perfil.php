@@ -60,7 +60,7 @@
         <section id="main-content">
             <section class="wrapper" id="wrapping">
 
-                <h3><i class="fa fa-angle-right"></i> <?=$row['NomeTodo']?> (<?=$row['Role']?>)</h3>
+                <h3><i class="fa fa-angle-right"></i> <?=$row['NomeTodo']?></h3>
 
                 <div class="row mt">
                     <div class="col-lg-12">

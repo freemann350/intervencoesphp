@@ -127,7 +127,7 @@
       $QueryCount .= " pedidos.Resolvido = 1";
     }
 
-    if ((!empty($_GET['Resolvido'])) && (isset($_GET['Resolvido'])) && (empty($_GET['NResolvido'])) && (!isset($_GET['NResolvido']))) {
+    if ((!empty($_GET['NResolvido'])) && (isset($_GET['NResolvido'])) && (empty($_GET['Resolvido'])) && (!isset($_GET['Resolvido']))) {
       if ($switch){
         $Query .= " WHERE ";
         $QueryCount .= " WHERE ";

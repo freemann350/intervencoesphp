@@ -2,7 +2,7 @@
   require_once 'Shared/conn.php';
   require_once 'Shared/Restrict.php';
 
-  if (!(isset($_GET["Id"])) || (trim($_GET["Id"]) == "") || (!is_numeric($_GET["Id"])) || ($_GET['Id']==$LoggedID)) {
+  if (!(isset($_GET["Id"])) || (trim($_GET["Id"]) == "") || (!is_numeric($_GET["Id"]))) {
     header("Location: 404");
   }
 

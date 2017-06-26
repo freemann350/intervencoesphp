@@ -26,8 +26,8 @@
   $per_page = 20;
   $pfunc = ceil($pg*$per_page) - $per_page;
 
-  $Query = "SELECT concat_ws(' ', nome, apelido) NomeTodo, email, Ativo, professores.Id, professores.IdRole, roles.role FROM professores inner join roles on professores.idrole = roles.id WHERE Not professores.Id = " . $LoggedID . " ";
-  $QueryCount = "SELECT count(*) AS TotalDados FROM professores WHERE Not professores.Id = " . $LoggedID . " ";
+  $Query = "SELECT concat_ws(' ', nome, apelido) NomeTodo, email, Ativo, professores.Id, professores.IdRole, roles.role FROM professores inner join roles on professores.idrole = roles.id WHERE professores.Id >= 1 ";
+  $QueryCount = "SELECT count(*) AS TotalDados FROM professores WHERE professores.Id >= 1";
 
 
   #FILTROS (VALIDAÇÃO E SELEÇÃO)
@@ -61,7 +61,7 @@
       $Query .= " AND professores.Ativo = '1' ";
       $QueryCount .= " AND professores.Ativo = '1'";
     }
-    $Query .= " LIMIT $pfunc, $per_page";
+    $Query .= " ORDER BY concat_ws(' ', nome, apelido) LIMIT $pfunc, $per_page";
     $stmt = $con->prepare($Query);
 
     $stmt->execute();
@@ -69,8 +69,8 @@
     $result = $stmt->get_result();
 
   } else {
-    $QueryCount .= " AND Ativo = '1'";
-    $Query .= " AND Ativo = '1' LIMIT $pfunc, $per_page";
+    $QueryCount .= " AND Ativo = '1' ORDER BY concat_ws(' ', nome, apelido)";
+    $Query .= " AND Ativo = '1' ORDER BY concat_ws(' ', nome, apelido) LIMIT $pfunc, $per_page";
     $stmt = $con->prepare($Query);
 
     $stmt->execute();
@@ -196,12 +196,15 @@
                                           <i title="Ver Perfil de Utilizador" class="fa fa-eye fa-lg" aria-hidden="true"></i>
                                         </a>
                                         <?php if ($row['Ativo'] == '1') {?>
+                                          <?php if ($row['Id'] !== $LoggedID) {?>
                                         <a href="javascript:;" class="deleteRecord" data-id="<?=$row['Id'];?>">
                                           <i style="color: #E8434E" title="Inativar Utilizador" class="fa fa-times fa-lg" aria-hidden="true"></i>
                                         </a>
                                         <?php } else {?>
+                                          <i title="Você não pode inativar-se a si mesmo" class="fa fa-times fa-lg" id="disabledDelete" aria-hidden="true"></i>
+                                        <?php }} else {?>
                                         <a href="javascript:;" class="activateRecord" data-id="<?=$row['Id'];?>">
-                                          <i style="color: #60D439" title="Ativar Utilizador" class="fa fa-check fa-lg" aria-hidden="true"></i>
+                                          <i style="color: #60D439" title="Ativar utilizador" class="fa fa-check fa-lg" aria-hidden="true"></i>
                                         </a>
                                         <?php };?>
                                       </td>

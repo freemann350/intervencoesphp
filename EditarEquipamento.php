@@ -71,29 +71,12 @@
                     <div class="form-panel">
                       <form class="form-horizontal style-form" method="POST" id="EquipamentoForm">
                           <div class="form-group">
+
                             <label class="col-sm-2 col-sm-2 control-label">Nome</label>
                             <div class="col-sm-10">
                               <input type="text" class="form-control" name="Nome" required value="<?=$equipamento['Nome']?>">
                               <br>
                             </div>
-
-                            <label class="col-sm-2 col-sm-2 control-label">Sala</label>
-                            <div class="col-sm-10">
-                              <select class="form-control" name="Sala" required>
-                                <?php
-                                $stmt1 = $con->prepare("SELECT * FROM salas");
-
-                                $stmt1->execute();
-                                $result1 = $stmt1->get_result();
-
-                                while ($salas = $result1->fetch_assoc()) {
-                                  ?>
-                                  <option value="<?= $salas['Id'] ?>" <?=(($salas["Id"] == $equipamento["IdSala"]) ? "selected" : "")  ?>><?=$salas["Sala"]; ?></option>
-                                  <?php } ?>
-                                </select>
-                                <br>
-                              </div>
-                            <br>
 
                             <label class="col-sm-2 col-sm-2 control-label">Tipo de Equipamento</label>
                             <div class="col-sm-10">
@@ -113,10 +96,34 @@
                               <br>
                             </div>
 
+                            <label class="col-sm-2 col-sm-2 control-label">Bloco</label>
+                            <div class="col-sm-10">
+                              <select id="bloco" class="form-control" name="Bloco" required onchange="getSalas(this);">
+                                <?php
+                                  $stmt = $con->prepare("SELECT * FROM blocos");
+
+                                  $stmt->execute();
+                                  $result = $stmt->get_result();
+
+                                  while ($row = $result->fetch_assoc()) {
+                                ?>
+                                  <option value="<?= $row['Id'] ?>" <?=(($row["Id"] == $equipamento["BlocoID"]) ? "selected" : "")  ?>><?= $row["Bloco"] ?></option>
+                                <?php }; ?>
+                              </select>
+                                <br>
+                            </div>
+
+                            <label class="col-sm-2 col-sm-2 control-label">Sala</label>
+                            <div class="col-sm-10">
+                              <select id="sala" class="form-control" name="Sala" required onchange="getEquip(this);">
+                              </select>
+                                <br>
+                            </div>
 
                             <label class="col-sm-2 col-sm-2 control-label">Número de série (Opcional)</label>
                             <div class="col-sm-10">
                               <input type="text" class="form-control" name="NrSerie" value="<?=$equipamento['NrSerie']?>">
+                              <span class="help-block"></span>
                               <br>
                             </div>
 
@@ -138,10 +145,10 @@
             ?>
         </section>
     </section>
-    <script type="text/javascript" src="assets/libs/template/js/editar-pedido.js"></script>
     <?php #HEADER INCLUDE
           include 'Shared/Scripts.php'
     ?>
+    <script type="text/javascript" src="assets/libs/template/js/editar-pedido.js"></script>
 
     <script type="text/javascript">
       $("#EquipamentoForm").validate({

@@ -135,14 +135,12 @@
                                       <input type="text" class="form-control" placeholder="DD/MM/AAAA" name="Data1" value="<?php if (isset($_GET['Data1'])) {echo $_GET['Data1'];} ?>">
                                       <div class="input-group-addon">Até</div>
                                       <input type="text" class="form-control" placeholder="DD/MM/AAAA" name="Data2" value="<?php if (isset($_GET['Data2'])) {echo $_GET['Data2'];} ?>">
-                                  </div>
-                                  <br>
+                                  </div><br>
 
                                   <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por professor</h4>
                                   <div class="form-group">
                                     <input type="text" class="form-control" name="Nome" placeholder="Escreva aqui o nome do professor..." value="<?php if(isset($_GET['Nome'])) { echo $_GET['Nome'];}?>">
-                                  </div>
-                                  <br>
+                                  </div><br>
 
                                   <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por tipo de equipamento</h4>
                                   <div class="form-group">
@@ -159,9 +157,7 @@
                                         <option value="<?= $equip['Id'] ?>" <?php if ((!empty($_GET['TipoEquipamento'])) && (isset($_GET['TipoEquipamento']))) {  if ($equip["Id"] == $_GET['TipoEquipamento']) { echo "Selected";}} ?>><?=$equip["TipoEquipamento"]; ?></option>
                                         <?php } ?>
                                       </select>
-                                  </div>
-                                  <br>
-
+                                  </div><br>
 
                                   <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por Bloco</h4>
                                   <div class="form-group">
@@ -178,20 +174,20 @@
                                         <option value="<?= $row1['Id'] ?>"<?php if ((!empty($_GET['Bloco'])) && (isset($_GET['Bloco']))) {  if ($row1["Id"] == $_GET['Bloco']) { echo "Selected";}} ?>><?= $row1["Bloco"] ?></option>
                                       <?php }; ?>
                                     </select>
-                                  </div>
-                                  <br>
+                                  </div><br>
 
                                   <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por Sala</h4>
                                   <div class="form-group">
                                     <select id="sala" class="form-control" name="Sala" onchange="getEquip(this);">
                                     </select>
-                                  </div>
-                                  <br>
+                                    <span class="help-block">Nota: Escolha o bloco primeiro</span>
+                                  </div><br>
 
                                   <h4 class="mb"><i class="fa fa-angle-right"></i> Consultar por equipamento</h4>
                                   <div class="form-group">
                                     <select id="equipamento" class="form-control" name="Equipamento">
-                                    </select><br><br>
+                                    </select>
+                                    <span class="help-block">Nota: Escolha a sala primeiro</span>
                                     <input type="submit" class="btn btn-primary" value="Procurar">
                                   </div>
                               </form>

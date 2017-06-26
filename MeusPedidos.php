@@ -248,7 +248,7 @@
                                           <i title="Editar" class="fa fa-pencil fa-lg" aria-hidden="true"></i>
                                         </a>
                                       <?php } else { ?>
-                                        <i title="O pedido já foi resolvido." class="fa fa-pencil fa-lg" id="disabledDelete" aria-hidden="true"></i>
+                                        <i title="O pedido já foi resolvido" class="fa fa-pencil fa-lg" id="disabledDelete" aria-hidden="true"></i>
                                       <?php };?>
                                         <a href="VerificarPedido?Id=<?=$row["Id"];?>">
                                           <i title="Ver todas as informações" class="fa fa-eye fa-lg" aria-hidden="true"></i>
@@ -258,7 +258,7 @@
                                           <i title="Eliminar" class="fa fa-times fa-lg" aria-hidden="true"></i>
                                         </a>
                                         <?php } else { ?>
-                                          <i title="O pedido já foi resolvido." class="fa fa-times fa-lg" id="disabledDelete" aria-hidden="true"></i>
+                                          <i title="O pedido já foi resolvido" class="fa fa-times fa-lg" id="disabledDelete" aria-hidden="true"></i>
                                         <?php };?>
                                       </td>
                                     </tr>

@@ -73,72 +73,71 @@
                     <div class="form-panel">
                         <form class="form-horizontal style-form" id="RegistarPedido" method="POST">
                             <div class="form-group">
+
+                              <label class="col-sm-2 col-sm-2 control-label">Bloco</label>
+                              <div class="col-sm-10">
+                                <select id="bloco" class="form-control" name="Bloco" required onchange="getSalas(this);">
+                                  <option selected hidden value="">Escolha um bloco...</option>
+                                  <?php
+                                    $stmt = $con->prepare("SELECT * FROM blocos");
+
+                                    $stmt->execute();
+                                    $result = $stmt->get_result();
+
+                                    while ($row = $result->fetch_assoc()) {
+                                  ?>
+                                    <option value="<?= $row['Id']?>"<?php echo ($row["Bloco"] == "A" ? "selected" : "") ?>><?= $row["Bloco"] ?></option>
+                                  <?php }; ?>
+                                </select>
+                                  <br>
+                              </div>
+
+                              <label class="col-sm-2 col-sm-2 control-label">Sala</label>
+                              <div class="col-sm-10">
+                                <select id="sala" class="form-control" name="Sala" required onchange="getEquip(this);">
+-                                   <option value="" selected hidden>Escolha uma Sala...</option>
+                                </select>
+                                  <br>
+                              </div>
+
+                              <label class="col-sm-2 col-sm-2 control-label">Equipamento</label>
+                              <div class="col-sm-10">
+                                <select id="equipamento" class="form-control" name="Equipamento" required>
+-                                   <option value="" selected hidden>Escolha um equipamento...</option>
+                                </select>
                                 <br>
+                              </div>
 
-                                <label class="col-sm-2 col-sm-2 control-label">Bloco</label>
-                                <div class="col-sm-10">
-                                  <select id="bloco" class="form-control" name="Bloco" required onchange="getSalas(this);">
-                                    <option selected hidden value="">Escolha um bloco...</option>
-                                    <?php
-                                      $stmt = $con->prepare("SELECT * FROM blocos");
-
-                                      $stmt->execute();
-                                      $result = $stmt->get_result();
-
-                                      while ($row = $result->fetch_assoc()) {
-                                    ?>
-                                      <option value="<?= $row['Id']?>"<?php echo ($row["Bloco"] == "A" ? "selected" : "") ?>><?= $row["Bloco"] ?></option>
-                                    <?php }; ?>
-                                  </select>
-                                    <br>
+                              <label class="col-sm-2 col-sm-2 control-label">Data</label>
+                              <div class="col-sm-10" id="datepicker-registos">
+                                <div class="input-group date">
+                                  <span class="input-group-addon time-get-color">
+                                    <i class="glyphicon glyphicon-th"></i>
+                                  </span>
+                                  <input type="text" class="form-control" placeholder="DD/MM/AAAA" name="Data" readonly required>
                                 </div>
+                                <br>
+                              </div>
 
-                                <label class="col-sm-2 col-sm-2 control-label">Sala</label>
-                                <div class="col-sm-10">
-                                  <select id="sala" class="form-control" name="Sala" required onchange="getEquip(this);">
--                                   <option value="" selected hidden>Escolha a Sala...</option>
-                                  </select>
-                                    <br>
+                              <label class="col-sm-2 col-sm-2 control-label">Hora</label>
+                              <div class="col-sm-10">
+                                <div class="input-group clockpicker">
+                                  <span class="input-group-addon time-get-color">
+                                      <span class="glyphicon glyphicon-time"></span>
+                                  </span>
+                                <input type="text" class="form-control" placeholder="HH:MM" name="Hora"
+                                readonly required>
                                 </div>
-
-                                <label class="col-sm-2 col-sm-2 control-label">Equipamento</label>
-                                <div class="col-sm-10">
-                                  <select id="equipamento" class="form-control" name="Equipamento" required>
--                                   <option value="" selected hidden>Escolha o equipamento...</option>
-                                  </select>
                                   <br>
-                                </div>
+                              </div>
 
-                                <label class="col-sm-2 col-sm-2 control-label">Data</label>
-                                <div class="col-sm-10" id="datepicker-registos">
-                                  <div class="input-group date">
-                                    <span class="input-group-addon time-get-color">
-                                      <i class="glyphicon glyphicon-th"></i>
-                                    </span>
-                                    <input type="text" class="form-control" placeholder="DD/MM/AAAA" value="<?php if (isset($_POST['Data'])) { echo $_POST['Data']; } else { echo date("d/m/Y"); }; ?>" name="Data" readonly required>
-                                  </div>
-                                  <br>
-                                </div>
-
-                                <label class="col-sm-2 col-sm-2 control-label">Hora</label>
-                                <div class="col-sm-10">
-                                  <div class="input-group clockpicker">
-                                    <span class="input-group-addon time-get-color">
-                                        <span class="glyphicon glyphicon-time"></span>
-                                    </span>
-                                  <input type="text" class="form-control" placeholder="HH:MM" name="Hora"
-                                  readonly required>
-                                  </div>
-                                    <br>
-                                </div>
-
-                                <label class="col-sm-2 col-sm-2 control-label">Descrição (Opcional)</label>
-                                <div class="col-sm-10">
-                                    <textarea type="text" class="form-control" rows="7" name="Descricao" required placeholder="Faça uma breve descrição sua"></textarea>
-                                    <span class="help-block">Tente ser o mais breve possível.</span>
-                                    <br>
-                                    <input type="submit" class="btn btn-primary" value="Submeter" name="pedido_submit">
-                                </div>
+                              <label class="col-sm-2 col-sm-2 control-label">Descrição</label>
+                              <div class="col-sm-10">
+                                <textarea type="text" class="form-control" rows="7" name="Descricao" required></textarea>
+                                <span class="help-block">Tente ser o mais breve possível.</span>
+                                <br>
+                                <input type="submit" class="btn btn-primary" value="Submeter" name="pedido_submit">
+                              </div>
                         </form>
                         </div>
                     </div>

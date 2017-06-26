@@ -20,7 +20,7 @@ if (!(isset($_GET["Id"])) || (trim($_GET["Id"]) == "") || !(is_numeric($_GET["Id
   }
 
   $stmt = $con->prepare(
-  "SELECT IdPedido, Data, Hora, Descricao, Resolvido, concat_ws(' ', professores.Nome, professores.Apelido) NomeTodo FROM intervencoes INNER JOIN professores ON intervencoes.IdProfessor = professores.Id WHERE intervencoes.Id = ?
+  "SELECT IdPedido, Data, Hora, intervencoes.Descricao, Resolvido, concat_ws(' ', professores.Nome, professores.Apelido) NomeTodo FROM intervencoes INNER JOIN professores ON intervencoes.IdProfessor = professores.Id WHERE intervencoes.Id = ?
   ");
 
   $stmt->bind_param("i", $_GET['Id']);
@@ -62,7 +62,7 @@ if (!(isset($_GET["Id"])) || (trim($_GET["Id"]) == "") || !(is_numeric($_GET["Id
 
                         <form class="form-horizontal style-form" method="get">
                             <div class="form-group">
-                                <br><br>
+                                <br>
                                 <label class="col-sm-2 col-sm-2 control-label">Pedido</label>
                                 <div class="col-sm-10">
                                     <p class="form-control-static"><u><a href="VerificarPedido?Id=<?=$row['IdPedido']?>">Ver pedido original</u></a></p>
