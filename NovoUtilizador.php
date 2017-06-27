@@ -57,7 +57,7 @@
                 <h3><i class="fa fa-angle-right"></i> Novo Utilizador</h3>
                 <div class="row mt">
                     <div class="form-panel">
-                        <form class="form-horizontal style-form" id="NovoUtilizador" method="POST" action="<?php $_SERVER['PHP_SELF']?>">
+                        <form class="form-horizontal style-form" id="NovoUtilizador" method="POST">
                             <div class="form-group">
                                 <label class="col-sm-2 col-sm-2 control-label">Nome</label>
                                 <div class="col-sm-10">
