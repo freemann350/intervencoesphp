@@ -196,13 +196,10 @@
                                           <i title="Ver Perfil de Utilizador" class="fa fa-eye fa-lg" aria-hidden="true"></i>
                                         </a>
                                         <?php if ($row['Ativo'] == '1') {?>
-                                          <?php if ($row['Id'] !== $LoggedID) {?>
                                         <a href="javascript:;" class="deleteRecord" data-id="<?=$row['Id'];?>">
                                           <i style="color: #E8434E" title="Inativar Utilizador" class="fa fa-times fa-lg" aria-hidden="true"></i>
                                         </a>
-                                        <?php } else {?>
-                                          <i title="Você não pode inativar-se a si mesmo" class="fa fa-times fa-lg" id="disabledDelete" aria-hidden="true"></i>
-                                        <?php }} else {?>
+                                        <?php } else { ?>
                                         <a href="javascript:;" class="activateRecord" data-id="<?=$row['Id'];?>">
                                           <i style="color: #60D439" title="Ativar utilizador" class="fa fa-check fa-lg" aria-hidden="true"></i>
                                         </a>
