@@ -3,7 +3,7 @@
 
   $id = $_GET["id"];
 
-  $stmt = $con->prepare("SELECT * FROM equipamentos WHERE IdSala = ? ORDER BY Nome ASC");
+  $stmt = $con->prepare("SELECT * FROM equipamentos WHERE IdSala = ? ORDER BY Id ASC");
   $stmt->bind_param("i", $id);
 
   $stmt->execute();
