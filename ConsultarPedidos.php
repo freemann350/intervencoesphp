@@ -277,7 +277,7 @@
                               <br>
                           </div>
 
-                              <table class="table table-hover" style="min-width: 600px; table-layout:fixed; overflow: auto;">
+                              <table class="table table-striped table-hover" style="min-width: 600px; table-layout:fixed; overflow: auto;">
                                 <thead>
                                   <tr>
                                     <th>Resolvido</th>

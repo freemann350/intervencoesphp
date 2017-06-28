@@ -2534,3 +2534,11 @@ th, td {
 .whitespace {
     white-space: pre-wrap;
 }
+
+.table-striped {
+  background-color: #E3E3E3;
+}
+
+.table-hover:hover > tbody > tr:hover {
+  background-color: #D9D9D9;
+}

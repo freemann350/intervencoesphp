@@ -267,7 +267,7 @@
 
                           <br><br><br>
                           <a href="NovoEquipamento"  title="Adicionar um novo equipamento">+ Registar novo equipamento</a>
-                            <table class="table table-hover nav-collapse" style="min-width: 600px; table-layout:fixed; overflow: auto;">
+                            <table class="table table-striped table-hover nav-collapse" style="min-width: 600px; table-layout:fixed; overflow: auto;">
                                 <thead>
                                     <tr>
                                       <th>Ativo</th>

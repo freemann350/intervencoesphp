@@ -224,7 +224,7 @@
                               <br>
                           </div>
 
-                          <table class="table table-hover" style="min-width: 600px; table-layout:fixed; overflow: auto;" id="OrderTableToggle">
+                          <table class="table table-striped table-hover" style="min-width: 600px; table-layout:fixed; overflow: auto;" id="OrderTableToggle">
                               <thead>
                                   <tr>
                                     <th>Resolvido</th>

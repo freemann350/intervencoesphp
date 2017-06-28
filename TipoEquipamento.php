@@ -176,7 +176,7 @@
                             </div>
                           <br><br><br>
                           <a href="NovoTipoEquipamento"  title="Adicionar um novo tipo de equipamento">+ Registar novo tipo de equipamento</a>
-                            <table class="table table-hover nav-collapse" style="min-width: 600px; table-layout:fixed; overflow: auto;">
+                            <table class="table table-striped table-hover nav-collapse" style="min-width: 600px; table-layout:fixed; overflow: auto;">
                                 <thead>
                                     <tr>
                                       <th>Ativo</th>
