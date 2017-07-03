@@ -217,7 +217,6 @@
                                 </tbody>
                             </table>
                             <?php
-                              if (isset($_GET['filtros_utilizadores_submit'])) {
 
                                 $stmt = $con->prepare($QueryCount);
 
@@ -229,16 +228,6 @@
 
                                 echo "Total de dados: " . $row['TotalDados']."<br><br>";
 
-                              } else {
-                                $stmt = $con->prepare($QueryCount);
-
-                                $stmt->execute();
-
-                                $result = $stmt->get_result();
-
-                                $row = $result->fetch_assoc();
-                                echo "Total de dados: " . $row['TotalDados'] ."<br><br>";
-                              }
                             ?>
                             <a href="NovoUtilizador" title="Adicionar um novo utilizador">+ Registar novo Utilizador</a>
                             <br>

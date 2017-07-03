@@ -57,10 +57,10 @@
                     <div class="login-wrap">
 											<?php if (isset($error) && ($error=true)) {?>
 											  <div class="form-group form-group has-error has-feedback">
-													<input type="text" value="<?php if (isset($_POST['username'])) { echo $_POST['username']; } else { echo '';} ?>" class="form-control" placeholder="Utilizador" name="username" autofocus required>
+													<input type="text" style="text-align: center;" value="<?php if (isset($_POST['username'])) { echo $_POST['username']; } else { echo '';} ?>" class="form-control" placeholder="Utilizador" name="username" autofocus required>
 													<br>
 
-                      		<input type="password" class="form-control" placeholder="Palavra-passe" name="password" required>
+                      		<input type="password" style="text-align: center;" class="form-control" placeholder="Palavra-passe" name="password" required>
 													<input type="hidden" name="redirurl" value="<? echo $_SERVER['HTTP_REFERER']; ?>">
                             <br>
                             <button class="btn btn-theme btn-block" href="Inicial" type="submit"><i class="fa fa-lock"></i> Entrar</button>
@@ -68,10 +68,10 @@
                         <hr>
                         <p style="text-align: center; color: #FF0000"> Utilizador/Palavra-Passe Inválida</p>
 											<?php } else {?>
-                        <input type="text" class="form-control" placeholder="Utilizador" name="username" autofocus required>
+                        <input type="text" style="text-align: center;" class="form-control" placeholder="Utilizador" name="username" autofocus required>
                         <br>
                         <div class="form-group">
-                      		<input type="password" class="form-control" placeholder="Palavra-passe" name="password" required>
+                      		<input type="password" style="text-align: center;" class="form-control" placeholder="Palavra-passe" name="password" required>
 													<input type="hidden" name="redirurl" value="<? echo $_SERVER['HTTP_REFERER']; ?>">
                             <br>
                             <button class="btn btn-theme btn-block" href="Inicial" type="submit"><i class="fa fa-lock"></i> Entrar</button>

@@ -6,6 +6,7 @@ function getSalas(option) {
     url: "ajax/getSalas.php?id=" + id,
     success: function(data) {
       $("#sala").html(data).removeAttr("disabled");
+      $("#equipamento").html('<option value="" selected hidden>Escolha um equipamento...</option>');
     }
   })
 }

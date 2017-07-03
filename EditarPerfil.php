@@ -5,7 +5,7 @@
   require 'Shared/conn.php';
   require 'Shared/Restrict.php';
 
-  if (isset($_POST["editar_perfil_submit"])) {
+  if ((isset($_POST["editar_perfil_submit"])) && (isset($_POST["Nome"])) && (isset($_POST["Apelido"])) && (isset($_POST["Email"]))) {
     // Escape strings para prevenção de MySQL injection
     $Id = $LoggedID;
     $Nome = trim(mysqli_real_escape_string($con, $_POST['Nome']));
@@ -61,21 +61,21 @@
 
                                   <label class="col-sm-2 col-sm-2 control-label">Nome</label>
                                   <div class="col-sm-10">
-                                    <input type="text" class="form-control" value="<?=$primeiroNome?>" name="Nome">
+                                    <input type="text" class="form-control" value="<?=$primeiroNome?>" name="Nome" required>
                                     <br>
                                   </div>
                                   <br>
 
                                   <label class="col-sm-2 col-sm-2 control-label">Apelido</label>
                                   <div class="col-sm-10">
-                                    <input type="text" class="form-control" value="<?=$apelido?>" name="Apelido">
+                                    <input type="text" class="form-control" value="<?=$apelido?>" name="Apelido" required>
                                     <br>
                                   </div>
                                   <br>
 
                                   <label class="col-sm-2 col-sm-2 control-label">Email</label>
                                   <div class="col-sm-10">
-                                    <input type="email" class="form-control" value="<?=$email?>" name="Email">
+                                    <input type="email" class="form-control" value="<?=$email?>" name="Email" required>
                                     <br>
                                   </div>
                                   <br>

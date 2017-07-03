@@ -30,7 +30,7 @@
     Header("Location: ResolverPedidos");
   }
 
-  if (isset($_POST["registar_interv_submit"])) {
+  if ((isset($_POST["registar_interv_submit"])) && (isset($_POST["Data"])) && (isset($_POST["Hora"])) && (isset($_POST["Descricao"]))) {
     // Escape strings para prevenção de MySQL injection
     $Id = trim(mysqli_real_escape_string($con, $_GET['Id']));
     $Data = trim(mysqli_real_escape_string($con, $_POST['Data']));

@@ -317,20 +317,6 @@
                                 </tbody>
                             </table>
                             <?php
-                              if (isset($_GET['filtros_equipamentos_submit'])) {
-
-                                $stmt = $con->prepare($QueryCount);
-
-                                $stmt->execute();
-
-                                $result = $stmt->get_result();
-
-                                $row = $result->fetch_assoc();
-
-                                echo "Total de dados: " . $row['TotalDados']."<br><br>";
-
-                              } else {
-
                                 $stmt = $con->prepare($QueryCount);
 
                                 $stmt->execute();
@@ -339,7 +325,6 @@
 
                                 $row = $result->fetch_assoc();
                                 echo "Total de dados: " . $row['TotalDados'] ."<br><br>";
-                              }
                             ?>
                             <a href="NovoEquipamento" title="Adicionar um novo equipamento">+ Registar novo equipamento</a>
                             <br>

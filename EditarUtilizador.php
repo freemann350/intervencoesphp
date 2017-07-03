@@ -27,7 +27,7 @@
     header("Location: 404");
   }
 
-  if (isset($_POST["editar_util_submit"])) {
+  if ((isset($_POST["editar_util_submit"])) && (isset($_POST["Nome"])) && (isset($_POST["Apelido"])) && (isset($_POST["Email"])) && (isset($_POST["Username"])) && (isset($_POST["Username"]))) {
     // Escape user inputs for security
     $Nome = trim(mysqli_real_escape_string($con, $_POST['Nome']));
     $Apelido = trim(mysqli_real_escape_string($con, $_POST['Apelido']));
