@@ -356,7 +356,7 @@
     $('.deleteRecord').click(function() {
       let id = $(this).attr("data-id");
       $.confirm({
-          title: 'Sair',
+          title: 'Inativação',
           content: 'Tem a certeza que pretende inativar este equipamento?',
           buttons: {
               Sim: function() {
@@ -383,7 +383,7 @@
     $('.activateRecord').click(function() {
       let id = $(this).attr("data-id");
       $.confirm({
-          title: 'Sair',
+          title: 'Ativação',
           content: 'Tem a certeza que pretende ativar este equipamento?',
           buttons: {
               Sim: function() {

@@ -259,7 +259,7 @@
     $('.deleteRecord').click(function() {
       let id = $(this).attr("data-id");
       $.confirm({
-          title: 'Sair',
+          title: 'Inativação',
           content: 'Tem a certeza que pretende inativar este utilizador?<br><br> Poderá voltar a ativá-lo ao editar o utilizador.',
           buttons: {
               Sim: function() {
@@ -288,7 +288,7 @@
     $('.activateRecord').click(function() {
       let id = $(this).attr("data-id");
       $.confirm({
-          title: 'Sair',
+          title: 'Ativação',
           content: 'Tem a certeza que pretende ativar este utilizador?<br><br> Poderá voltar a ativá-lo ao editar o utilizador.',
           buttons: {
               Sim: function() {

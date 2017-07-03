@@ -12,7 +12,7 @@
           <li class="sub-menu">
               <a <?php if (isset($PPActive) && ($PPActive)){?> class="active" <?php };?>href="Perfil?Id=<?=$LoggedID?>">
                   <i class="fa fa-user-circle"></i>
-                  <span>O meu perfil</span>
+                  <span>O Meu Perfil</span>
               </a>
           </li>
 

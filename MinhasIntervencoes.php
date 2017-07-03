@@ -305,7 +305,7 @@
     $('.deleteRecord').click(function() {
       let id = $(this).attr("data-id");
       $.confirm({
-          title: 'Sair',
+          title: 'Eliminação',
           content: 'Tem a certeza que pretende eliminar este registo?',
           buttons: {
               Sim: function() {
