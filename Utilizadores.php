@@ -26,16 +26,16 @@
   $per_page = 20;
   $pfunc = ceil($pg*$per_page) - $per_page;
 
-  $Query = "SELECT concat_ws(' ', nome, apelido) NomeTodo, email, Ativo, professores.Id, professores.IdRole, roles.role FROM professores inner join roles on professores.idrole = roles.id WHERE professores.Id >= 1 ";
+  $Query = "SELECT concat_ws(' ', nome, apelido) NomeTodo, email, Ativo, professores.Id, professores.IdRole, roles.role FROM professores inner join roles on professores.idrole = roles.id ";
   $QueryCount = "SELECT count(*) AS TotalDados FROM professores";
 
 
   #FILTROS (VALIDAÇÃO E SELEÇÃO)
   if (isset($_GET['Nome']) || isset($_GET['Tipo'])) {
-    
+
     $Nome = trim(mysqli_real_escape_string($con, $_GET['Nome']));
     $Tipo = trim(mysqli_real_escape_string($con, $_GET['Tipo']));
-    
+
      $switch = true;
 
     if ((!empty($Nome)) && (isset($Nome))) {
@@ -47,7 +47,7 @@
         $Query .= " AND ";
         $QueryCount .= " AND ";
       }
-      
+
       $Nome = "'%" . $Nome . "%'";
       $Query .= "concat_ws(' ', nome, apelido) LIKE " . $Nome ;
       $QueryCount .= "concat_ws(' ', nome, apelido) LIKE " . $Nome;
@@ -80,15 +80,33 @@
     }
 
     if ((!empty($_GET['Inativo'])) && (isset($_GET['Inativo'])) && (empty($_GET['Ativo'])) && (!isset($_GET['Ativo']))) {
+        if ($switch){
+          $Query .= " WHERE ";
+          $QueryCount .= " WHERE ";
+          $switch = false;
+        } else {
+          $Query .= " AND ";
+          $QueryCount .= " AND ";
+        }
       $Query .= " professores.Ativo = 0 ";
       $QueryCount .= " professores.Ativo = 0";
     }
 
     if ((empty($_GET['Inativo'])) && (!isset($_GET['Inativo'])) && (empty($_GET['Ativo'])) && (!isset($_GET['Ativo']))) {
+      if ($switch){
+        $Query .= " WHERE ";
+        $QueryCount .= " WHERE ";
+        $switch = false;
+      } else {
+        $Query .= " AND ";
+        $QueryCount .= " AND ";
+      }
       $Query .= " professores.Ativo = '1' ";
       $QueryCount .= " professores.Ativo = '1'";
     }
+
     $Query .= " ORDER BY concat_ws(' ', nome, apelido) LIMIT $pfunc, $per_page";
+    echo $Query;
     $stmt = $con->prepare($Query);
 
     $stmt->execute();
@@ -96,8 +114,8 @@
     $result = $stmt->get_result();
 
   } else {
-    $QueryCount .= " AND Ativo = '1' ORDER BY concat_ws(' ', nome, apelido)";
-    $Query .= " AND Ativo = '1' ORDER BY concat_ws(' ', nome, apelido) LIMIT $pfunc, $per_page";
+    $QueryCount .= " WHERE Ativo = '1' ORDER BY concat_ws(' ', nome, apelido)";
+    $Query .= " WHERE Ativo = '1' ORDER BY concat_ws(' ', nome, apelido) LIMIT $pfunc, $per_page";
     $stmt = $con->prepare($Query);
 
     $stmt->execute();
