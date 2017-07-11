@@ -27,39 +27,66 @@
   $pfunc = ceil($pg*$per_page) - $per_page;
 
   $Query = "SELECT concat_ws(' ', nome, apelido) NomeTodo, email, Ativo, professores.Id, professores.IdRole, roles.role FROM professores inner join roles on professores.idrole = roles.id WHERE professores.Id >= 1 ";
-  $QueryCount = "SELECT count(*) AS TotalDados FROM professores WHERE professores.Id >= 1";
+  $QueryCount = "SELECT count(*) AS TotalDados FROM professores";
 
 
   #FILTROS (VALIDAÇÃO E SELEÇÃO)
   if (isset($_GET['Nome']) || isset($_GET['Tipo'])) {
-
+    
     $Nome = trim(mysqli_real_escape_string($con, $_GET['Nome']));
     $Tipo = trim(mysqli_real_escape_string($con, $_GET['Tipo']));
+    
+     $switch = true;
 
     if ((!empty($Nome)) && (isset($Nome))) {
+      if ($switch){
+        $Query .= " WHERE ";
+        $QueryCount .= " WHERE ";
+        $switch = false;
+      } else {
+        $Query .= " AND ";
+        $QueryCount .= " AND ";
+      }
+      
       $Nome = "'%" . $Nome . "%'";
-      $Query .= "AND concat_ws(' ', nome, apelido) LIKE " . $Nome ;
-      $QueryCount .= "AND concat_ws(' ', nome, apelido) LIKE " . $Nome;
+      $Query .= "concat_ws(' ', nome, apelido) LIKE " . $Nome ;
+      $QueryCount .= "concat_ws(' ', nome, apelido) LIKE " . $Nome;
     }
 
     if ((!empty($Tipo)) && (isset($Tipo))) {
-      $Query .= " AND professores.IdRole = " . $Tipo;
-      $QueryCount .= " AND professores.IdRole = " . $Tipo;
+      if ($switch){
+        $Query .= " WHERE ";
+        $QueryCount .= " WHERE ";
+        $switch = false;
+      } else {
+        $Query .= " AND ";
+        $QueryCount .= " AND ";
+      }
+      $Query .= " professores.IdRole = " . $Tipo;
+      $QueryCount .= " professores.IdRole = " . $Tipo;
     }
 
     if ((!empty($_GET['Ativo'])) && (isset($_GET['Ativo'])) && (empty($_GET['Inativo'])) && (!isset($_GET['Inativo']))) {
-      $Query .= " AND professores.Ativo = 1 ";
-      $QueryCount .= " AND professores.Ativo = 1";
+      if ($switch){
+        $Query .= " WHERE ";
+        $QueryCount .= " WHERE ";
+        $switch = false;
+      } else {
+        $Query .= " AND ";
+        $QueryCount .= " AND ";
+      }
+      $Query .= " professores.Ativo = 1 ";
+      $QueryCount .= " professores.Ativo = 1";
     }
 
     if ((!empty($_GET['Inativo'])) && (isset($_GET['Inativo'])) && (empty($_GET['Ativo'])) && (!isset($_GET['Ativo']))) {
-      $Query .= " AND professores.Ativo = 0 ";
-      $QueryCount .= " AND professores.Ativo = 0";
+      $Query .= " professores.Ativo = 0 ";
+      $QueryCount .= " professores.Ativo = 0";
     }
 
     if ((empty($_GET['Inativo'])) && (!isset($_GET['Inativo'])) && (empty($_GET['Ativo'])) && (!isset($_GET['Ativo']))) {
-      $Query .= " AND professores.Ativo = '1' ";
-      $QueryCount .= " AND professores.Ativo = '1'";
+      $Query .= " professores.Ativo = '1' ";
+      $QueryCount .= " professores.Ativo = '1'";
     }
     $Query .= " ORDER BY concat_ws(' ', nome, apelido) LIMIT $pfunc, $per_page";
     $stmt = $con->prepare($Query);
