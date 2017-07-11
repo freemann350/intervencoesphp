@@ -106,7 +106,6 @@
     }
 
     $Query .= " ORDER BY concat_ws(' ', nome, apelido) LIMIT $pfunc, $per_page";
-    echo $Query;
     $stmt = $con->prepare($Query);
 
     $stmt->execute();
